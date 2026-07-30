@@ -116,7 +116,7 @@ button {
 
 /* Arabic wordmark spans — always rendered whole (never char-split) */
 .wordmark-ar {
-  font-family: var(--font-display);
+  font-family: var(--font-arabic);
   color: var(--color-brand);
   direction: rtl;
 }

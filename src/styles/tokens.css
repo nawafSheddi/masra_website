@@ -35,6 +35,8 @@
   --font-display: "Ambit", system-ui, sans-serif;
   --font-body: "Ambit", system-ui, sans-serif;
   --font-mono: "Space Mono", monospace;
+  /* Arabic text always renders in the brand's Arabic face */
+  --font-arabic: "TheYearofHandicrafts", "Geeza Pro", "Noto Naskh Arabic", serif;
 
   --weight-light: 300;
   --weight-regular: 400;

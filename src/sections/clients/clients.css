@@ -43,9 +43,9 @@
   padding-inline: 0.45em;
 }
 
-/* Arabic client names render in a system Arabic face, never transformed */
+/* Arabic client names render in the brand's Arabic face, never transformed */
 .clients__name[lang="ar"] {
-  font-family: "Geeza Pro", "Noto Naskh Arabic", var(--font-display);
+  font-family: var(--font-arabic);
   text-transform: none;
 }
 

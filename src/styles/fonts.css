@@ -29,6 +29,16 @@
   font-display: swap;
 }
 
+/* Arabic brand face — TheYearofHandicrafts SemiBold (brand kit).
+   Used for every [lang="ar"] element (client names, Arabic accents). */
+@font-face {
+  font-family: "TheYearofHandicrafts";
+  src: url("/fonts/TheYearofHandicrafts-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Display utility — Ambit Bold, set tight and huge. The rounded geometry
    of Ambit at massive sizes is the site's typographic signature (and it is
    exactly how the brand guidelines set their own section headlines). */
