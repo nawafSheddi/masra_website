@@ -2,6 +2,7 @@ import { animate, spring } from "motion";
 import type { MotionContext } from "../motion/motion-context";
 import { springs } from "../../config/motion.config";
 import { strings } from "../../config/strings";
+import "./cursor.css";
 
 /**
  * Custom cursor — desktop-pointer sessions only, pure enhancement.

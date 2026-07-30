@@ -1,0 +1,56 @@
+/* Custom cursor layers — desktop-pointer sessions only (mounted by
+   cursor.ts, which gates on pointer type and reduced motion).
+   Both layers ignore pointer events and ride the highest z tier. */
+
+.cursor-dot {
+  position: fixed;
+  top: -3px;   /* offsets center the shapes on the pointer position */
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+}
+
+.cursor-ring {
+  position: fixed;
+  top: -18px;
+  left: -18px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-ink-dim);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transition:
+    width var(--dur-fast) var(--ease-out-expo),
+    height var(--dur-fast) var(--ease-out-expo),
+    margin var(--dur-fast) var(--ease-out-expo),
+    background-color var(--dur-fast);
+}
+
+.cursor-ring__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: var(--color-bg);
+  opacity: 0;
+  transition: opacity var(--dur-fast);
+}
+
+/* Over case imagery: ring inflates into a filled "VIEW" pill */
+.cursor-ring--view {
+  width: 72px;
+  height: 72px;
+  margin: -18px; /* keep centered as it grows */
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+}
+
+.cursor-ring--view .cursor-ring__label {
+  opacity: 1;
+}

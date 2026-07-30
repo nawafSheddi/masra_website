@@ -5,6 +5,10 @@ dist/
 # Raw photography sources (1GB) — optimized derivatives live in public/images
 assets/
 
+# Brand kit sources (PDFs, OTFs, logo masters) — web derivatives live in
+# public/fonts and public/images/brand
+brand_assets/
+
 # OS noise
 .DS_Store
 

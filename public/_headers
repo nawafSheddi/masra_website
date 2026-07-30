@@ -1,0 +1,9 @@
+# Cloudflare Pages cache policy.
+# Optimized images and hashed build assets never change at their URL —
+# cache them immutable for a year. HTML falls back to default (revalidate).
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -52,14 +52,14 @@ export function initManifesto(root: HTMLElement, ctx: MotionContext): void {
   // and the scrub runs in both directions for free.
   const words = splitWords(statement);
   for (const word of words) {
-    word.style.opacity = "0.2";
+    word.style.opacity = "0.3";
     word.style.transition = "opacity 0.25s linear";
   }
   scroll(
     (progress: number) => {
       const lit = Math.floor(progress * words.length);
       words.forEach((word, i) => {
-        word.style.opacity = i <= lit ? "1" : "0.2";
+        word.style.opacity = i <= lit ? "1" : "0.3";
       });
     },
     // The highlight plays out across the section's middle passage.

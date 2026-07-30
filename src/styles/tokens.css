@@ -7,7 +7,7 @@
  * custom properties (user rule: design tokens only).
  *
  * Palette comes straight from the official MASRA brand guidelines
- * (brand_assetes/Identity): vermilion #F9512C, mint #66EDA6 (sampled from
+ * (brand_assets/Identity): vermilion #F9512C, mint #66EDA6 (sampled from
  * the master logo art), gray #BCBCBC, black/white. The canvas is a warm
  * near-black ("darkroom" black) rather than pure #000 so the photography
  * reads like projected film stills; the brand's pure black stays available
@@ -22,7 +22,7 @@
   --color-bg: #0b0a09;            /* darkroom black — page canvas            */
   --color-bg-elevated: #161311;   /* raised panels / image placeholders      */
   --color-ink: #f2ece3;           /* warm off-white — primary text           */
-  --color-ink-dim: #8d857b;       /* secondary text, captions                */
+  --color-ink-dim: #a89f94;       /* secondary text, captions (AA on bg)     */
   --color-ink-faint: #3d3833;     /* hairlines, borders, resting word state  */
   --color-brand: #f9512c;         /* MASRA vermilion — official brand color  */
   --color-brand-deep: #7e2416;    /* ember variant — selection, hover fills  */

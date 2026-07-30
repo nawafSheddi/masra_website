@@ -7,9 +7,10 @@
  *   - char split → spring-staggered type entrances inside overflow masks
  *   - word split → the manifesto scroll-highlight
  *
- * Accessibility: the original text is preserved on the parent as aria-label
- * and the generated spans are aria-hidden, so screen readers hear one clean
- * string, not letter soup.
+ * Accessibility: the original text is preserved in a visually-hidden
+ * .sr-only span (aria-label is prohibited on generic span/p roles) and the
+ * generated animation spans are aria-hidden, so screen readers hear one
+ * clean string, not letter soup.
  *
  * HARD RULE: Arabic (or any RTL/ligature script) must never be split —
  * separating Arabic characters breaks their joined forms. splitChars()
@@ -17,6 +18,14 @@
  */
 
 const RTL_CHARS = /[֐-ࣿיִ-﷿ﹰ-﻿]/;
+
+/** Visually-hidden copy of the original text for assistive tech. */
+function srOnlyText(text: string): HTMLSpanElement {
+  const span = document.createElement("span");
+  span.className = "sr-only";
+  span.textContent = text;
+  return span;
+}
 
 /** Wrap each character in a masked line: outer span clips, inner span moves. */
 export interface CharSplit {
@@ -30,8 +39,8 @@ export function splitChars(el: HTMLElement): CharSplit {
   // Refuse to split RTL scripts — animate the block as one piece instead.
   if (RTL_CHARS.test(text)) return { chars: [] };
 
-  el.setAttribute("aria-label", text);
   el.textContent = "";
+  el.appendChild(srOnlyText(text));
 
   const chars: HTMLSpanElement[] = [];
   for (const ch of text) {
@@ -57,8 +66,8 @@ export function splitChars(el: HTMLElement): CharSplit {
 /** Wrap each word in a span (no masks — used for opacity effects). */
 export function splitWords(el: HTMLElement): HTMLSpanElement[] {
   const text = el.textContent ?? "";
-  el.setAttribute("aria-label", text);
   el.textContent = "";
+  el.appendChild(srOnlyText(text));
 
   const words: HTMLSpanElement[] = [];
   for (const word of text.split(/\s+/)) {
