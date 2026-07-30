@@ -1,0 +1,13 @@
+# Dependencies / build output
+node_modules/
+dist/
+
+# Raw photography sources (1GB) — optimized derivatives live in public/images
+assetes/
+
+# OS noise
+.DS_Store
+
+# Local env
+.env
+.env.*

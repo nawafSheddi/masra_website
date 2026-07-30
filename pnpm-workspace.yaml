@@ -1,0 +1,6 @@
+# Dependency build-script approvals (pnpm 11 format).
+# esbuild (Vite's bundler) and sharp (image pipeline) ship native binaries
+# installed by postinstall scripts — both are trusted, widely-used packages.
+allowBuilds:
+  esbuild: true
+  sharp: true

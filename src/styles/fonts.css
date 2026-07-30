@@ -1,0 +1,49 @@
+/**
+ * Brand typography — Ambit, the studio's licensed typeface, self-hosted
+ * as woff2 (converted from the OTFs in brand_assetes/Identity/Fonts).
+ * Space Mono (npm @fontsource/space-mono, imported in main.ts) is the
+ * utility voice for camera-metadata labels.
+ */
+
+@font-face {
+  font-family: "Ambit";
+  src: url("/fonts/Ambit-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ambit";
+  src: url("/fonts/Ambit-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ambit";
+  src: url("/fonts/Ambit-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Display utility — Ambit Bold, set tight and huge. The rounded geometry
+   of Ambit at massive sizes is the site's typographic signature (and it is
+   exactly how the brand guidelines set their own section headlines). */
+.display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  line-height: 0.94;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Light editorial voice — manifesto statement, long-form accents */
+.display-light {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}

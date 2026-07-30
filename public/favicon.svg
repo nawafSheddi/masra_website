@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- MASRA favicon: brand red-orange "م" on darkroom black -->
+  <rect width="64" height="64" rx="12" fill="#0b0a09"/>
+  <text x="32" y="46" text-anchor="middle" font-family="Geeza Pro, Noto Naskh Arabic, serif" font-size="38" fill="#f9512c">م</text>
+</svg>

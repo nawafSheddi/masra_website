@@ -1,0 +1,103 @@
+/* Hero — full-viewport opening frame.
+   Layout: two enormous display lines ("MASRA" / "STUDIO®") with a portrait
+   film-still panel z-sandwiched between them: the back line sits behind the
+   image, the front line paints over it. */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: clip;
+  padding-inline: var(--gutter);
+  /* Clear the absolutely-positioned eyebrow at the top */
+  padding-top: clamp(3rem, 8svh, 5rem);
+}
+
+.hero__eyebrow {
+  position: absolute;
+  top: calc(var(--gutter) * 0.75);
+  left: var(--gutter);
+}
+
+/* Type block: two lines; second line indents right for editorial offset.
+   NOTE: no z-index here — a stacking context on the parent would trap the
+   front line below the image panel and break the z-sandwich. */
+.hero__type {
+  position: relative;
+}
+
+.hero__line {
+  /* Cap by viewport height too, so short/wide windows never overflow */
+  font-size: min(var(--text-hero), 26svh);
+  color: var(--color-ink);
+  display: block;
+  white-space: nowrap;
+  position: relative;
+  z-index: var(--z-content); /* back line: behind the image panel */
+}
+
+.hero__line--front {
+  position: relative;
+  z-index: var(--z-type-front);
+  margin-left: clamp(2rem, 14vw, 16rem); /* staggered second line */
+}
+
+/* The film-still panel: portrait PETI shot occupying the right third,
+   sandwiched between the two type lines */
+.hero__panel {
+  position: absolute;
+  z-index: var(--z-image-panel);
+  right: var(--gutter);
+  top: 50%;
+  translate: 0 -50%;
+  width: min(38vw, 30rem);
+  /* Keep the film still portrait and inside the frame on any viewport */
+  aspect-ratio: 3 / 4;
+  max-height: 76svh;
+  overflow: hidden; /* clips the inner zoom */
+}
+
+.hero__panel .pic {
+  position: absolute;
+  inset: 0;
+}
+
+.hero__panel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__tagline {
+  margin-top: var(--space-3);
+  max-width: 28ch;
+  color: var(--color-ink-dim);
+  font-size: var(--text-body);
+  position: relative;
+  z-index: var(--z-type-front);
+}
+
+.hero__scroll-cue {
+  position: absolute;
+  bottom: calc(var(--gutter) * 0.75);
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+/* Mobile: panel drops behind the type entirely, type stays readable */
+@media (max-width: 47.9rem) {
+  .hero__panel {
+    width: 70vw;
+    opacity: 0.55; /* type must win on small screens */
+  }
+  .hero__line--front {
+    margin-left: clamp(1rem, 8vw, 4rem);
+  }
+}

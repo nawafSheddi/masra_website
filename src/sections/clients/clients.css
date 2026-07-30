@@ -1,0 +1,68 @@
+/* Client wall — three infinite marquee rows of client names.
+   Middle row runs reversed and outlined in brand vermilion. */
+.clients {
+  padding-block: var(--space-7);
+  overflow: clip; /* marquee rows bleed past the viewport */
+}
+
+.clients__header {
+  margin-bottom: var(--space-5);
+}
+
+.clients__count {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-case);
+  text-transform: uppercase;
+  margin-top: var(--space-2);
+}
+
+.clients__count-number {
+  color: var(--color-mint); /* live counter = interactive highlight color */
+}
+
+.clients__row {
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+  margin-block: var(--space-2);
+}
+
+.clients__row-inner {
+  display: flex;
+  align-items: baseline;
+  flex-shrink: 0;
+}
+
+.clients__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  font-size: var(--text-row);
+  line-height: 1.15;
+  padding-inline: 0.45em;
+}
+
+/* Arabic client names render in a system Arabic face, never transformed */
+.clients__name[lang="ar"] {
+  font-family: "Geeza Pro", "Noto Naskh Arabic", var(--font-display);
+  text-transform: none;
+}
+
+.clients__sep {
+  color: var(--color-brand);
+  font-size: var(--text-row);
+}
+
+/* Middle row: vermilion outline voice, reversed direction (JS) */
+.clients__row--outline .clients__name {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-brand);
+}
+
+/* Reduced motion / no-JS fallback: rows wrap as a static grid */
+.clients--static .clients__row {
+  white-space: normal;
+  flex-wrap: wrap;
+  will-change: auto;
+}

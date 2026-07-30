@@ -1,0 +1,45 @@
+/* Manifesto — one-breath studio statement with scroll-highlighted words. */
+.manifesto {
+  padding-block: var(--space-7);
+}
+
+.manifesto__statement {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light); /* Ambit Light — the quiet editorial voice */
+  font-size: var(--text-manifesto);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  max-width: 24ch;
+  margin-top: var(--space-4);
+}
+
+/* Stat row — camera-metadata register */
+.manifesto__stats {
+  display: flex;
+  gap: var(--space-5);
+  margin-top: var(--space-6);
+  list-style: none;
+}
+
+.manifesto__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--text-case);
+  line-height: 1;
+  color: var(--color-brand);
+}
+
+.manifesto__stat-label {
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+@media (max-width: 47.9rem) {
+  .manifesto__stats {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+}

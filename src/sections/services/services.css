@@ -1,0 +1,75 @@
+/* Services — six full-width rows in the brand's index style.
+   Desktop hover: a floating image thumbnail spring-follows the cursor. */
+.services {
+  padding-block: var(--space-7);
+}
+
+.services__title {
+  font-size: var(--text-giant);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.services__list {
+  list-style: none;
+}
+
+.services__row {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  border-top: 1px solid var(--color-ink-faint);
+  cursor: pointer;
+}
+
+.services__list .services__row:last-child {
+  border-bottom: 1px solid var(--color-ink-faint);
+}
+
+.services__index {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--color-ink-dim);
+  min-width: 3ch;
+  transition: color var(--dur-fast);
+}
+
+.services__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-size: var(--text-row);
+  line-height: 1.05;
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+
+/* Hover state: name slides right, index lights up in mint (the brand's
+   interactive-highlight color) */
+.services__row:hover .services__name {
+  transform: translateX(0.35em);
+}
+.services__row:hover .services__index {
+  color: var(--color-mint);
+}
+
+/* Floating hover thumbnail — fixed, driven by JS spring */
+.services__thumb {
+  position: fixed;
+  z-index: var(--z-hover-thumb);
+  top: 0;
+  left: 0;
+  width: 17.5rem;
+  aspect-ratio: 3 / 4;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.services__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

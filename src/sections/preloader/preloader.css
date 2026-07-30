@@ -1,0 +1,28 @@
+/* Preloader — fixed darkroom curtain over everything until assets are ready.
+   Injected and removed by preloader.ts; under reduced motion it fades in
+   300ms and never blocks. */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+}
+
+/* Calligraphic wordmark art, centered — revealed with a clip wipe as one block */
+.preloader__wordmark {
+  width: clamp(12rem, 34vw, 24rem);
+  height: auto;
+}
+
+/* 000 → 100 counter, camera-frame corner */
+.preloader__counter {
+  position: absolute;
+  bottom: var(--gutter);
+  left: var(--gutter);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  color: var(--color-ink-dim);
+}

@@ -1,0 +1,115 @@
+/**
+ * Base styles — reset, document defaults, shared primitives.
+ * Everything here derives from tokens.css; no raw values.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Lenis drives window scroll; native fallback stays smooth-less (instant)
+     so reduced-motion users get the browser default. */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip; /* horizontal choreography must never create a scrollbar */
+}
+
+/* Brand-colored selection — small detail, on-brand */
+::selection {
+  background: var(--color-brand-deep);
+  color: var(--color-ink);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Every generated <picture> renders as a block. CRITICAL: <picture> is
+   display:inline by default, and clip-path on an inline element resolves
+   against its (near-zero) line box — clipping the image away entirely,
+   even with a fully-open inset(). Block display gives clip-path the real
+   box. (Found the hard way.) */
+.pic {
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Visible keyboard focus — accessibility floor */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+/* Skip link: visually hidden until focused */
+.skip-link {
+  position: fixed;
+  top: var(--space-1);
+  left: var(--space-1);
+  z-index: var(--z-preloader);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-bg-elevated);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Shared layout primitive: page-width container */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Shared primitive: mono eyebrow label ("SELECTED WORK", "CASE 01 — PETI") */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-dim);
+}
+
+/* Arabic wordmark spans — always rendered whole (never char-split) */
+.wordmark-ar {
+  font-family: var(--font-display);
+  color: var(--color-brand);
+  direction: rtl;
+}
+
+/*
+ * IMPORTANT anti-FOUC rule: no section stylesheet may hide content by
+ * default. Elements begin fully visible; the JS choreography applies the
+ * hidden "from" state via inline styles immediately before animating.
+ * With JS disabled or reduced motion active, the full site is readable.
+ */
