@@ -3,7 +3,7 @@ node_modules/
 dist/
 
 # Raw photography sources (1GB) — optimized derivatives live in public/images
-assetes/
+assets/
 
 # OS noise
 .DS_Store

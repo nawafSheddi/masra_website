@@ -36,12 +36,12 @@ clients, contact.
 
 ### Image pipeline
 - `scripts/optimize-images.mjs` — sharp-based pipeline that reads the 1 GB raw
-  originals from `assetes/` (gitignored) and emits AVIF + WebP derivatives at
+  originals from `assets/` (gitignored) and emits AVIF + WebP derivatives at
   480/960/1600/2400 widths into `public/images`, plus a manifest at
   `src/generated/image-manifest.json`. Output is 5.5 MB total.
 
 ### Brand source material
-- `brand_assetes/` — brand guidelines, stylescape, company profile, moodboard and
+- `brand_assets/` — brand guidelines, stylescape, company profile, moodboard and
   post templates, logos, and original font files, committed as the reference
   source of truth.
 
@@ -55,8 +55,8 @@ clients, contact.
   the clip a real box to work with.
 
 ## Notes
-- `.gitignore` covers `node_modules/`, `dist/`, the raw `assetes/` originals,
+- `.gitignore` covers `node_modules/`, `dist/`, the raw `assets/` originals,
   `.DS_Store`, and `.env*`.
-- `brand_assetes/` adds ~142 MB of binary design sources to history. This was a
+- `brand_assets/` adds ~142 MB of binary design sources to history. This was a
   deliberate choice to keep the originals versioned alongside the site; shrinking
   the repo later would require rewriting history.

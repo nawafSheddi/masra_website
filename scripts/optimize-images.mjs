@@ -1,7 +1,7 @@
 /**
  * MASRA image pipeline.
  *
- * Reads the curated raw photographs from ./assetes (1GB originals, gitignored),
+ * Reads the curated raw photographs from ./assets (1GB originals, gitignored),
  * and emits web-optimized derivatives into ./public/images plus a manifest at
  * ./src/generated/image-manifest.json that the site consumes at build time.
  *
@@ -20,7 +20,7 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC_DIR = join(ROOT, "assetes"); // sic — the source folder's real name
+const SRC_DIR = join(ROOT, "assets"); // sic — the source folder's real name
 const OUT_DIR = join(ROOT, "public", "images");
 const MANIFEST_PATH = join(ROOT, "src", "generated", "image-manifest.json");
 const FORCE = process.argv.includes("--force");
@@ -123,7 +123,7 @@ async function processImage(entry) {
  * beautifully). The white variant is generated from the orange one's
  * alpha channel — the brand kit ships no white logo.
  */
-const LOGO_SRC = join(ROOT, "brand_assetes", "Identity", "Logo");
+const LOGO_SRC = join(ROOT, "brand_assets", "Identity", "Logo");
 
 async function writeLogos() {
   const outDir = join(OUT_DIR, "brand");
