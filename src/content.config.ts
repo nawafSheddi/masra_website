@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { parse as parseYaml } from "yaml";
 import { hasImage } from "./shared/media/media";
 import videoManifest from "./generated/video-manifest.json";
 
@@ -168,13 +169,29 @@ const clients = defineCollection({
     }),
 });
 
+// ------------------------------------------------------------- list files
+
+/**
+ * Read a YAML list file and remember each entry's position, so the page
+ * shows entries in the same order as the file (Astro otherwise sorts
+ * entries by id). `position` is added automatically — never write it.
+ */
+function orderedList(path: string) {
+  return file(path, {
+    parser: (text) =>
+      (parseYaml(text) as Record<string, unknown>[]).map((entry, position) => ({ ...entry, position })),
+  });
+}
+
 // ------------------------------------------------------------------ services
 
 const services = defineCollection({
   // A list in one file; each entry needs a unique `id`. Order on the page
   // = order in the file.
-  loader: file("src/content/services.yaml"),
+  loader: orderedList("src/content/services.yaml"),
   schema: z.object({
+    /** Added by the loader (file order). */
+    position: z.number(),
     name: z.string().min(1),
     /** One line: what the service includes. */
     description: z.string().min(10),
@@ -188,8 +205,10 @@ const services = defineCollection({
 const featuredClients = defineCollection({
   // The logo wall. Must stay exactly 24 entries (fills every row at 6, 4
   // and 3 columns) — enforced where the wall renders.
-  loader: file("src/content/featured-clients.yaml"),
+  loader: orderedList("src/content/featured-clients.yaml"),
   schema: z.object({
+    /** Added by the loader (file order). */
+    position: z.number(),
     /** Brand name: shown as text until a logo exists; logo alt text. */
     name: z.string().min(1),
     /** Logo file under public/images/clients/ (SVG preferred), or omit. */

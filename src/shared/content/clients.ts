@@ -42,13 +42,13 @@ export function clientPaletteCss(client: Client): string {
 
 /** Services, in file order. */
 export async function getServices() {
-  return getCollection("services");
+  return (await getCollection("services")).sort((a, b) => a.data.position - b.data.position);
 }
 
 /** The logo wall. Fails the build with a clear message if it isn't
  *  exactly LOGO_WALL_SIZE entries (rows would be left half-empty). */
 export async function getFeaturedClients() {
-  const wall = await getCollection("featuredClients");
+  const wall = (await getCollection("featuredClients")).sort((a, b) => a.data.position - b.data.position);
   if (wall.length !== LOGO_WALL_SIZE) {
     throw new Error(
       `src/content/featured-clients.yaml has ${wall.length} entries; it must have exactly ` +

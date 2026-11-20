@@ -24,3 +24,6 @@ assets/
 # Local-only notes and dev history (kept on the developer's machine)
 .local/
 *.local.md
+
+# Astro generated types (recreated by `astro sync` / dev / build)
+.astro/

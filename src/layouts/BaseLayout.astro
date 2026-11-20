@@ -60,7 +60,9 @@ const {
 // Absolute URLs for crawlers (share cards need them). `site` is set in
 // astro.config.mjs. A media base URL (R2) is already absolute.
 const site = Astro.site ?? new URL("https://masra.sa");
-const canonical = new URL(Astro.url.pathname, site).href;
+// build.format "file" makes Astro.url end in ".html"; the public URL doesn't.
+const cleanPath = Astro.url.pathname.replace(/(\/index)?\.html$/, "") || "/";
+const canonical = new URL(cleanPath, site).href;
 const ogImageUrl = new URL(mediaUrl(ogImage), site).href;
 ---
 
