@@ -61,13 +61,13 @@ const sceneHeight = z.number().min(1).max(2.5);
  * bespoke layouts (the look + motion). `type` picks the layout; some
  * layouts take extra settings. Photo-count rules are checked below.
  *
- *   theatrical   spotlight stage: lead + 3 photos drifting around it
- *   strip        horizontal film strip that scrolls sideways
- *   stilllife    lead zooms like a painting, then a row of details rises
- *   picnic       scattered photos drifting at different speeds (light look)
- *   scrub        stop-motion canvas scrubbed by scroll + 2 video loops
- *   gift         quiet, centered, lots of space (light look)
- *   documentary  flowing photo essay with Arabic + English captions
+ *   theatrical   spotlight stage: lead + 3 photos drifting around it      (3 frames)
+ *   strip        horizontal film strip that scrolls sideways               (3–8)
+ *   stilllife    lead zooms like a painting, then a row of details rises   (2–4)
+ *   picnic       scattered photos drifting at different speeds (light)     (3–8)
+ *   scrub        stop-motion canvas + 2 video loops + 2 photos             (2)
+ *   gift         quiet, centered, lots of space (light look)               (2–8)
+ *   documentary  flowing photo essay with Arabic + English captions        (2–30)
  */
 const layout = z.discriminatedUnion("type", [
   z.object({ type: z.literal("theatrical"), sceneHeight: sceneHeight.default(2) }),
@@ -100,15 +100,17 @@ const layout = z.discriminatedUnion("type", [
   z.object({ type: z.literal("documentary") }),
 ]);
 
-/** Minimum number of `frames` each layout needs to look right. */
-export const MIN_FRAMES: Record<z.infer<typeof layout>["type"], number> = {
-  theatrical: 3,
-  strip: 3,
-  stilllife: 2,
-  picnic: 3,
-  scrub: 3,
-  gift: 2,
-  documentary: 2,
+/** How many `frames` each layout shows. Below the minimum it looks empty;
+ *  above the maximum the extra photos wouldn't fit the pinned screen (the
+ *  maximums were measured at desktop and phone sizes). */
+export const FRAME_LIMITS: Record<z.infer<typeof layout>["type"], { min: number; max: number }> = {
+  theatrical: { min: 3, max: 3 },
+  strip: { min: 3, max: 8 },
+  stilllife: { min: 2, max: 4 },
+  picnic: { min: 3, max: 8 },
+  scrub: { min: 2, max: 2 },
+  gift: { min: 2, max: 8 },
+  documentary: { min: 2, max: 30 },
 };
 
 // ------------------------------------------------------------------- clients
@@ -161,12 +163,17 @@ const clients = defineCollection({
           });
         }
       }
-      const min = MIN_FRAMES[client.layout.type];
-      if (client.frames.length < min) {
+      const { min, max } = FRAME_LIMITS[client.layout.type];
+      const n = client.frames.length;
+      if (n < min || n > max) {
         ctx.addIssue({
           code: "custom",
           path: ["frames"],
-          message: `The "${client.layout.type}" layout needs at least ${min} frames (has ${client.frames.length}).`,
+          message:
+            min === max
+              ? `The "${client.layout.type}" layout shows exactly ${min} frames (this file has ${n}).`
+              : `The "${client.layout.type}" layout shows ${min}–${max} frames (this file has ${n}). ` +
+                (n > max ? "Remove some, or pick a layout that shows more (see AGENTS.md)." : "Add more photos."),
         });
       }
       if (client.layout.type === "documentary") {

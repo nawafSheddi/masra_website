@@ -32,8 +32,6 @@ frames:
     alt: "White-gloved hand placing a chocolate onto a red PETI box"
   - image: peti-grid-3
     alt: "Magenta PETI gift box in warm directional light"
-  - image: peti-wide
-    alt: "Wide still life of PETI biscuits and packaging in warm light"
 
 # Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
 # scrub, gift, documentary (see src/content.config.ts).

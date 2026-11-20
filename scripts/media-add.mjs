@@ -14,7 +14,8 @@
  *
  * Options:
  *   --client <id>     client id (= file name in src/content/clients/), required
- *   --file <path>     the original photo (JPG/PNG/TIFF/WebP/HEIC…), required
+ *   --file <path>     the original photo (JPG, PNG, TIFF or WebP), required.
+ *                     iPhone HEIC photos: export as JPG first.
  *   --role <r>        "grid" (default) or "feature" (big / full-width / lead)
  *   --lead            this is the client's main photo (implies --role feature)
  *   --slug <name>     custom slug (default: <client>-photo-<next number>)
@@ -98,7 +99,15 @@ if (manifest[slug]) {
 // .rotate() bakes the camera's EXIF orientation into the pixels, so the
 // reported width/height always match what the browser shows.
 const base = sharp(src).rotate();
-const { width, height } = await base.metadata();
+let width, height;
+try {
+  ({ width, height } = await base.metadata());
+} catch {
+  fail(
+    "Couldn't read that file as a photo. Use JPG, PNG, TIFF or WebP " +
+      "(iPhone HEIC: open it and export as JPG first)."
+  );
+}
 if (!width || !height) fail("Couldn't read that file as an image.");
 // metadata() reports pre-rotation size; swap for portrait EXIF orientations.
 const meta = await sharp(src).metadata();

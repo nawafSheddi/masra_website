@@ -26,6 +26,13 @@ If a request is vague ("make it nicer"), ask one short question with 2–3
 concrete options. Never invent content such as client names, claims,
 numbers or prices. They must come from him.
 
+## First time on a new computer
+
+1. Install **Node.js 24** (nodejs.org → LTS, or `fnm install 24`). Node
+   23+ also works; Node 22 doesn't.
+2. In this folder: `npx pnpm install --frozen-lockfile`
+3. `npx pnpm check`: if it passes, everything is set up.
+
 ## Commands
 
 ```bash
@@ -38,6 +45,13 @@ npx pnpm media:add --client <id> --file <photo> [--lead] [--role feature]
 npx pnpm media:remove <image-name>
 npx pnpm media:upload                # copy images/video to the R2 bucket (see docs/guides)
 ```
+
+**Dev server and agents:** when Astro detects an AI agent, `npx pnpm dev`
+starts the server in the background and returns immediately, printing its
+URL. `npx pnpm exec astro dev status|logs|stop` manages it. The dev server
+keeps showing the last valid content when a content file has a mistake (the
+error only appears in its logs), so **always run `npx pnpm check`** after
+editing content.
 
 `pnpm` isn't installed globally, so always use `npx pnpm`. Never run a bare
 `npx <tool>` for a tool that isn't in `node_modules`: it can download an
@@ -105,17 +119,20 @@ forever, so a reused name would keep showing the old photo.
 4. Pick the gallery `layout.type`. Each has a minimum photo count, and
    `check` enforces it:
 
-   | Layout | Look | Min frames | Notes |
+   | Layout | Look | Frames | Notes |
    |---|---|---|---|
-   | `theatrical` | Spotlight stage, lead + 3 drifting photos | 3 | uses the first 3 frames |
-   | `strip` | Horizontal film strip | 3 | needs `label` |
-   | `stilllife` | Lead zooms like a painting, details rise | 2 | |
-   | `picnic` | Tilted prints drifting (good for light palettes) | 3 | |
-   | `gift` | Quiet, centered, lots of space | 2 | |
-   | `documentary` | Flowing essay, Arabic + English captions | 2 | every photo needs `caption: { ar, en }` |
-   | `scrub` | Stop-motion canvas + 2 videos | 3 | needs a video frame sequence: Shaya only for now |
+   | `theatrical` | Spotlight stage, lead + 3 drifting photos | exactly 3 | |
+   | `strip` | Horizontal film strip | 3–8 | needs `label` |
+   | `stilllife` | Lead zooms like a painting, details rise | 2–4 | |
+   | `picnic` | Tilted prints drifting (good for light palettes) | 3–8 | |
+   | `gift` | Quiet, centered, lots of space | 2–8 | |
+   | `documentary` | Flowing essay, Arabic + English captions | 2–30 | every photo needs `caption: { ar, en }` |
+   | `scrub` | Stop-motion canvas + 2 videos + 2 photos | exactly 2 | needs a video frame sequence: Shaya only for now |
 
-   A client with only photos can use any layout except `scrub`.
+   The limits are what fits on screen at desktop and phone size; `check`
+   enforces them. If he wants more photos than a layout shows, suggest a
+   layout that shows more (strip, picnic, gift or documentary). A client
+   with only photos can use any layout except `scrub`.
 5. Palette: 5 hex colors. Keep `ink` readable on `bg` (aim for 4.5:1
    contrast) and `inkDim` readable too. Light pages (pale `bg`) need dark
    `ink`.

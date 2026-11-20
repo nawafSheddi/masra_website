@@ -70,6 +70,46 @@ account with images in R2. Before this rebuild:
   `clients.config.ts`, the client-side routing module, and the old CURATED
   image pipeline (kept locally by the developer).
 
+## Second pass (gaps found in review)
+
+- **Photo limits per layout.** The schema now enforces how many frames each
+  layout shows, measured at 1440 and 390 px:
+  - theatrical: exactly 3;
+  - strip, picnic, gift: 3–8 (gift 2–8);
+  - still-life: 2–4;
+  - documentary: 2–30;
+  - scrub: exactly 2.
+
+  Before this, PETI's 4th frame and five of Shaya's seven were listed but
+  never displayed (in v3 too), so "add a photo" could pass and show
+  nothing. Scrub now uses its 2 frames directly.
+- **Removed images the site never showed** (keeping only used images in
+  git): `peti-wide`, `shaya-frame-2/4/5/6`, `shaya-wide`, and the unused
+  white logo.
+- **Dev server.** Astro 7 backgrounds `astro dev` when it detects an AI
+  agent. `.claude/launch.json` sets `ASTRO_DEV_BACKGROUND=0` for the
+  desktop preview, and `AGENTS.md` explains the daemon and why to run
+  `check` (dev keeps serving the last valid content).
+- **`media:add`** gives a plain message for unreadable files (HEIC: export
+  as JPG first).
+- **`AGENTS.md`** gains a "first time on a new computer" section.
+
+Extra checks for this pass:
+
+- **Live editing:** in `astro dev`, a YAML edit showed up in 2 s.
+- **Behavior on the built site:**
+  - Work tabs 3/2/2/7 with `aria-pressed`;
+  - the services hover preview, which loads only on desktop;
+  - email click-to-copy;
+  - Back from a client page with bfcache disabled restores the exact
+    offset (1517 px) and skips the preloader.
+- **Upload dry run:** `media:upload --dry-run` lists 332 files with the
+  right cache rules.
+- **Preview build** (`astro build --site https://masra-v2.pages.dev`)
+  under `wrangler pages dev`, with `wrangler.jsonc` present:
+  - every route as expected;
+  - share cards point at the preview host.
+
 ## Verification
 
 - `npx pnpm check`: `astro check` 0 errors, 18/18 tests, build OK.

@@ -66,20 +66,6 @@
     ],
     "blurDataURI": "data:image/webp;base64,UklGRsYAAABXRUJQVlA4ILoAAAAwBgCdASoYACAAPt1cpE2opSOiN/qoARAbiWYAnTMOSIBsGsX5IrBaBVO+2p8nkQBS+sELvAtmDongAP6QCpdhZaCONTKRXmpOcCDsrnraV72HXWB89TbiwrkX+WO93LzDg3s/IFwQcBUb1DKrfWFPoqpIodSx219QEQp5Y5yFxyU3TE22yZz8QLsCkYRWaIbwYJSt/A853hrXIpTf1uwlAWUN4Qs9nij45HxtpVM8MjQhYzpTbSMAAAA="
   },
-  "peti-wide": {
-    "shoot": "peti",
-    "role": "feature",
-    "width": 9332,
-    "height": 6221,
-    "aspect": 1.5001,
-    "widths": [
-      480,
-      960,
-      1600,
-      2400
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAwCdASoYABAAPu1iqk4ppaQiMAgBMB2JQBOgMU3b7ZGlZnePh6AAAP7eVClZwNaK2M7o9p0TOdpq+r+FnvuG3MjdN2ZYv/GYHS/R9NEx3m3G20VqWyz9+jGFwAAA"
-  },
   "idmi-strip-1": {
     "shoot": "idmi",
     "role": "grid",
@@ -330,19 +316,6 @@
     ],
     "blurDataURI": "data:image/webp;base64,UklGRhgBAABXRUJQVlA4IAwBAAAwBgCdASoYAB4APu1qsFAppaUiqAqpMB2JYgCdM4ClvCT/elYaQZ0jrLF34fvFS7FejsTlHYae9vAAAP7vv7zaeacMgQs1MyqGpTnoSimN4YV4c0UBiXdsO97X+8zOCRCnFUMhx0ltRUHLteG/rw9cJpu+VpcOet4FJ/VKGWJM3cmE0LlalGAwW3PBFJqT3MsVrNDplmFJCz6uHGrjVw78FTrOdhBUSSZofjjIo/jG1in2WlnJ6DrsNKcFTvMRJiJLdxPB1Hxz7qorv21AOKbYLU3DuLkCxpQ35JcCmLT0VhsayeqXw05AuUPXmKrbr12i0FhthInDBT2c+yUl1yxK2B+fmvRZHA1REAAA"
   },
-  "shaya-frame-2": {
-    "shoot": "shaya",
-    "role": "grid",
-    "width": 5206,
-    "height": 6506,
-    "aspect": 0.8002,
-    "widths": [
-      480,
-      960,
-      1600
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAACQBgCdASoYAB4APu1or1CppaQiqAqpMB2JbACdMoR1tSAjm0imtVG83LdmF3kltk6BBh+uYQYWQ7fPAjwAAP7OIfhmfzC+TVQFKZu4XPp5U5X6jLhHtfMoXe7XSXvPv2p/7Ca+7OujOmKJlFOUX18DW7+YwNNFAxMaxkI3le9qCsCGZheiPss42zzxidKl5mJsH4r+yDwwwxF3P1b0wQ4xFBHXPmV3jl77mpVNGVYJRqX03zMHhu/yvmRlt8hSlMoZChEEj8A1RvXieJS2TSnrEiRVBwxZjjkI8vOzVmVZXnAuC3FK+yF9N0+AckxiM2ct5kq5Ttz4Tq7K2thS8VYDX0kENwjgleV5hNrwLrGxE+RJ5girszlaoFFnDgS7W5diBla4gAA="
-  },
   "shaya-frame-3": {
     "shoot": "shaya",
     "role": "grid",
@@ -355,59 +328,6 @@
       1600
     ],
     "blurDataURI": "data:image/webp;base64,UklGRv4AAABXRUJQVlA4IPIAAABwBgCdASoYAB4APu1mq0+ppSOiMBgIATAdiWYAtSFAC2ys9w5HQQjArBUeB6ibxeGe8amBEsAqM/di3AAA/LS1pzgXGI6GeZzmfzE3nzZpsQG65M092lP2i3dWnc2KwFbLB3OJa+6InTEPKBBFyzJZgDSWurwTDx66+NIStTF1zigK+LIVlpiAf8gl0oqqQeixWGn7B3kH2Fb3qOfAZvXBcTd0k7wHUkTarDba9yNeFJocuWXuAYxwu4OUChZmX63rx71SNB0GPLVmFSAAS//L/PPCN5QoovuFGV5599BML+rdA5saxhI9mfRbD5YUrAAAAA=="
-  },
-  "shaya-frame-4": {
-    "shoot": "shaya",
-    "role": "grid",
-    "width": 6336,
-    "height": 7920,
-    "aspect": 0.8,
-    "widths": [
-      480,
-      960,
-      1600
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRgwBAABXRUJQVlA4IAABAADQBgCdASoYAB4APu1sqlEppaOiqAqpMB2JZgCdM494aPsZsuma5bB0XtfG1dcCX7WfB85RrRNo2dkfWe6JOAAA/vhQG/KrehTTUYZ/aQgq7F/SRap6Jhvh4S/3U5fbDrj7a4MDnoqB1+JhH297MK5HfZk4NaOOwN3OYz+mFwbdAITlnC7ie/HYAIWMC/4+EespjfdUlIOtgX3DOgDb47X6e9G/IlGDGuu5qPqz2BHBnaVEmkrTVcFoi6iY2B6mUWz6aRLlQePy9Q5yYmW3J8oAPpjEEB15GoOR7Ak+q12a9np4wdaF78hL/nqdRnEnDw6Lj0GBp4q4UdLrwaIhIAAA"
-  },
-  "shaya-frame-5": {
-    "shoot": "shaya",
-    "role": "grid",
-    "width": 6336,
-    "height": 8448,
-    "aspect": 0.75,
-    "widths": [
-      480,
-      960,
-      1600
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABwBQCdASoYACAAPu1qrVCppaQiqAqpMB2JZgCsM48OAHgQ5zS74PoskqsJ1xQW9DxIBWoAAP74TpCSgVVuKBKbe/YBw6xCIpS+hdImVknD1KuDFrbQKTy4a1d/wfXQVt+eLvGRrxD+KLWZpePiWGgDVtOew3QtI5kaLODZwA3Cx4fCPAMvxBH6PsGklOFcgzxm82/dG3wYaPr0uCKQopRKXtFJCtVE7eHRAAAA"
-  },
-  "shaya-frame-6": {
-    "shoot": "shaya",
-    "role": "grid",
-    "width": 6336,
-    "height": 7920,
-    "aspect": 0.8,
-    "widths": [
-      480,
-      960,
-      1600
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRswAAABXRUJQVlA4IMAAAACwBQCdASoYAB4APu1mqk8ppaOiKA1RMB2JQBOmY2d7hKIqMLB4j6mgd77n8mk2VjWbX/x6YwAA/sLlpVlvR7WenZTR9Da0WH9V4s2Guf04uTlewJGIUvwPE0ud/F0OPtTLJRFZIdFva/2EQElezxYU+PPoAYrTLkyWFSpp1gR71Br3mq2Zy1o3TF8DusajdjQxuIfV3Czs+D0h/v+uOyEJsCH1eqWSUZMFX3x5vU12UEdaBhc2rzEmFIYsYErAAAA="
-  },
-  "shaya-wide": {
-    "shoot": "shaya",
-    "role": "feature",
-    "width": 6336,
-    "height": 7920,
-    "aspect": 0.8,
-    "widths": [
-      480,
-      960,
-      1600,
-      2400
-    ],
-    "blurDataURI": "data:image/webp;base64,UklGRgABAABXRUJQVlA4IPQAAAAQBgCdASoYAB4APu1kq06ppaQiKA1RMB2JQBcGMYd5QIPIczshaAYuqceS6OfKR4XS/XsRyJeBzgAA/vpe7v83JlE++eEf3IPVrOXon0L3apyFWN2PQN3OD2n/L7TarcihlvuofgklHjQMJZ0fsZpkx1iI6+n4OMU4Sj15fn46nmjX/fnKUT2c5XuCkfTnR7VEoO8LN0Ze4QPQzbHDyRsl96yniqzWEQvrS4Nhbk1mxQNCP23bn79T30Q45iDtwn0l2aXuSQcBid6XRXhYvnsVOf7/lYrOw9vxe9Nhhu+otAe2JLohYdh1ZcwhZ7bYvjbOFnAA"
   },
   "riyadh-lead": {
     "shoot": "riyadh",

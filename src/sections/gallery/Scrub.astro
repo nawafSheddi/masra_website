@@ -15,7 +15,7 @@ const { frames, layout } = Astro.props.client.data;
 if (layout.type !== "scrub") throw new Error("Scrub.astro needs a scrub layout");
 const seq = (videoManifest.sequences as Record<string, { frameCount: number }>)[layout.sequence.id];
 const total = String(seq.frameCount).padStart(3, "0");
-const [leftStill, , rightStill] = frames;
+const [leftStill, rightStill] = frames;
 ---
 
 <div class="chapter__canvas scrub">

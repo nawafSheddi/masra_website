@@ -3,14 +3,14 @@
   "configurations": [
     {
       "name": "masra-dev",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["pnpm", "dev"],
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["ASTRO_DEV_BACKGROUND=0", "npx", "pnpm", "dev"],
       "port": 5173
     },
     {
       "name": "masra-preview",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["pnpm", "preview", "--port", "4321"],
+      "runtimeExecutable": "env",
+      "runtimeArgs": ["ASTRO_PREVIEW_BACKGROUND=0", "npx", "pnpm", "preview", "--port", "4321"],
       "port": 4321
     }
   ]

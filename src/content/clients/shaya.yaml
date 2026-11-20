@@ -24,23 +24,13 @@ lead:
   image: shaya-lead
   alt: "Grid of Shaya green-tea tins on gold, one open with loose leaves"
 
-# Gallery photos, in order. Add one with:
+# Gallery photos: the scrub layout shows exactly 2 (left and right of the canvas). Add one with:
 #   npx pnpm media:add --client shaya --file <photo>
 frames:
   - image: shaya-frame-1
     alt: "Tea bag dripping over a glass cup of deep red Shaya tea"
-  - image: shaya-frame-2
-    alt: "Amber Shaya tea pouring into a glass cup"
   - image: shaya-frame-3
     alt: "Four colorful Shaya teas photographed top-down with long shadows"
-  - image: shaya-frame-4
-    alt: "Hand lifting a sachet from a Shaya tea discovery box"
-  - image: shaya-frame-5
-    alt: "Portrait hidden behind an open green Shaya tea menu"
-  - image: shaya-frame-6
-    alt: "Macro cup of steeping Shaya green tea leaves"
-  - image: shaya-wide
-    alt: "Shaya gift box interior with tins, scoop and flower jar in low light"
 
 # Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
 # scrub, gift, documentary (see src/content.config.ts).
