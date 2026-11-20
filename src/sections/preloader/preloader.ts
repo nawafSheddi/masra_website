@@ -29,11 +29,18 @@ export function runPreloader(ctx: MotionContext, heroImageReady: Promise<unknown
   wordmark.alt = strings.brand.wordmarkEn;
   wordmark.decoding = "async";
 
+  // Mirrored counters — 000→100 bottom-left, 100→000 bottom-right, the
+  // preloader's "camera frame" corners counting toward each other.
   const counter = document.createElement("div");
   counter.className = "preloader__counter";
   counter.textContent = "000";
 
-  el.append(wordmark, counter);
+  const counterMirror = document.createElement("div");
+  counterMirror.className = "preloader__counter preloader__counter--mirror";
+  counterMirror.setAttribute("aria-hidden", "true"); // decorative twin
+  counterMirror.textContent = "100";
+
+  el.append(wordmark, counter, counterMirror);
   document.body.appendChild(el);
   setScrollLocked(true);
 
@@ -62,6 +69,7 @@ export function runPreloader(ctx: MotionContext, heroImageReady: Promise<unknown
     ease: "circOut",
     onUpdate: (v) => {
       counter.textContent = String(Math.round(v)).padStart(3, "0");
+      counterMirror.textContent = String(Math.round(100 - v)).padStart(3, "0");
     },
   });
 
@@ -72,6 +80,9 @@ export function runPreloader(ctx: MotionContext, heroImageReady: Promise<unknown
   return ready.then(
     () =>
       new Promise<void>((resolve) => {
+        // Exit tint: the curtain flushes to chapter 01's crimson right
+        // before it lifts — the palette system's opening line.
+        el.classList.add("preloader--exit");
         // Curtain wipe: the whole overlay clips away upward like a shutter.
         const wipe = animate(
           el,

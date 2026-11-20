@@ -1,7 +1,7 @@
 import { animate, inView, scroll, spring, stagger } from "motion";
 import type { MotionContext } from "./motion-context";
 import { durations, eases, scrollRanges, springs, staggers } from "../../config/motion.config";
-import { splitChars } from "./split";
+import { splitChars, splitWords } from "./split";
 
 /**
  * Reusable reveal patterns — the shared choreography vocabulary.
@@ -95,6 +95,41 @@ export function revealChars(
   else inView(el, run, { amount: 0.5 });
 }
 
+/** Word-level spring-stagger reveal — the ONLY split-reveal allowed on
+ *  Arabic display type. Each word stays one intact shaped run (splitting
+ *  a connected script by glyph destroys its joined letterforms), so this
+ *  is safe for the bilingual chapter titles and any dir="rtl" heading. */
+export function revealWords(
+  ctx: MotionContext,
+  el: HTMLElement,
+  opts: { immediate?: boolean; delay?: number } = {}
+): void {
+  if (ctx.reducedMotion) return;
+
+  const words = splitWords(el);
+  if (!words.length) return;
+
+  for (const w of words) {
+    w.style.opacity = "0";
+    w.style.transform = "translateY(0.55em)";
+  }
+
+  const run = () => {
+    animate(
+      words,
+      { opacity: [0, 1], y: ["0.55em", "0em"] },
+      {
+        type: spring,
+        ...springs.type,
+        delay: stagger(staggers.items * 0.6, { startDelay: opts.delay ?? 0 }),
+      }
+    );
+  };
+
+  if (opts.immediate) run();
+  else inView(el, run, { amount: 0.5 });
+}
+
 /** Simple y+opacity rise for blocks (paragraphs, labels, stat rows). */
 export function revealBlock(
   ctx: MotionContext,
@@ -116,6 +151,22 @@ export function revealBlock(
 
   if (opts.immediate) run();
   else inView(el, run, { amount: 0.4 });
+}
+
+/** Opacity-only fade — the documentary register's entire motion budget.
+ *  Deliberately slower and stiller than revealBlock: no translation, no
+ *  clip, just photographs surfacing like prints in a developer tray. */
+export function revealFade(ctx: MotionContext, el: HTMLElement, delay = 0): void {
+  if (ctx.reducedMotion) return;
+
+  el.style.opacity = "0";
+  inView(
+    el,
+    () => {
+      animate(el, { opacity: [0, 1] }, { duration: durations.slow * 1.3, delay, ease: "easeOut" });
+    },
+    { amount: 0.3 }
+  );
 }
 
 /** Staggered rise for a list of siblings (grid tiles, service rows). */

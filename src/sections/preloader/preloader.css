@@ -26,3 +26,16 @@
   letter-spacing: 0.2em;
   color: var(--color-ink-dim);
 }
+
+/* Mirrored twin counting 100 → 000 in the opposite corner */
+.preloader__counter--mirror {
+  left: auto;
+  right: var(--gutter);
+}
+
+/* Exit beat: the curtain flushes to chapter 01's crimson as it lifts,
+   previewing the palette system before the first chapter arrives. */
+.preloader--exit {
+  background: var(--palette-peti-bg);
+  transition: background-color var(--dur-fast) var(--ease-in-out-cine);
+}

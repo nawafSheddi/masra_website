@@ -1,0 +1,54 @@
+{
+  "loops": {
+    "shaya-loop-1": {
+      "sources": [
+        {
+          "src": "/video/shaya/shaya-loop-1.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/shaya/shaya-loop-1.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "poster": {
+        "avif": "/video/shaya/shaya-loop-1-poster.avif",
+        "webp": "/video/shaya/shaya-loop-1-poster.webp"
+      },
+      "width": 720,
+      "height": 900,
+      "aspect": 0.8,
+      "duration": 1.58
+    },
+    "shaya-loop-2": {
+      "sources": [
+        {
+          "src": "/video/shaya/shaya-loop-2.webm",
+          "type": "video/webm"
+        },
+        {
+          "src": "/video/shaya/shaya-loop-2.mp4",
+          "type": "video/mp4"
+        }
+      ],
+      "poster": {
+        "avif": "/video/shaya/shaya-loop-2-poster.avif",
+        "webp": "/video/shaya/shaya-loop-2-poster.webp"
+      },
+      "width": 720,
+      "height": 900,
+      "aspect": 0.8,
+      "duration": 1.75
+    }
+  },
+  "sequences": {
+    "shaya": {
+      "dir": "/images/shaya/seq",
+      "pattern": "f-%03d.webp",
+      "frameCount": 68,
+      "width": 880,
+      "height": 1100,
+      "aspect": 0.8
+    }
+  }
+}

@@ -58,6 +58,28 @@ export function initContact(root: HTMLElement, ctx: MotionContext): void {
     value.textContent = def.value;
 
     a.append(label, value);
+
+    // Email: click copies the address (the mailto stays on the href for
+    // middle-click / long-press). The label flashes "Copied" with a spring
+    // tick, then settles back — small trust-building microinteraction.
+    if (def.label === strings.contact.links.email.label && "clipboard" in navigator) {
+      a.title = strings.contact.copyHint;
+      let revertTimer: ReturnType<typeof setTimeout> | undefined;
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        void navigator.clipboard.writeText(def.value).then(() => {
+          label.textContent = strings.contact.copied;
+          if (!ctx.reducedMotion) {
+            animate(label, { scale: [1, 1.15, 1] }, { duration: 0.35, ease: "easeOut" });
+          }
+          clearTimeout(revertTimer);
+          revertTimer = setTimeout(() => {
+            label.textContent = def.label;
+          }, 1600);
+        });
+      });
+    }
+
     li.appendChild(a);
     list.appendChild(li);
     anchors.push(a);

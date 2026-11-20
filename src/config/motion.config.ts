@@ -56,3 +56,20 @@ export const scrollRanges = {
 
 /** Marquee loop durations (s) per clients-wall row; middle row reversed. */
 export const marqueeDurations = [40, 48, 44] as const;
+
+/** v2 chapter-system numbers. */
+export const chapterMotion = {
+  /** Palette takeover cross-fade (s) — mirrors --dur-palette in tokens.css. */
+  paletteTransition: 0.75,
+  /** Final fraction of a chapter's scroll range that drives its exit
+   *  curtain wipe (0.12 = last 12%). */
+  curtainRange: 0.12,
+  /** Overview ⇄ Index FLIP transition duration (s). */
+  flipDuration: 0.6,
+  /** Sticky-scene image drift: max lateral travel as a fraction of stage
+   *  width (strip/picnic layouts). */
+  driftShift: 0.08,
+  /** How early (viewport multiples) the Shaya frame sequence starts
+   *  prefetching before its chapter scrolls into view. */
+  sequencePrefetchMargin: 1,
+} as const;

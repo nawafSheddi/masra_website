@@ -29,6 +29,19 @@
   --color-mint: #66eda6;          /* MASRA mint — interactive highlights     */
   --color-gray: #bcbcbc;          /* brand gray — reserved, rarely used      */
 
+  /* ------------------------------------------------- chapter palette (v2) */
+  /* The "Seven Moods" takeover system: every section stylesheet consumes
+     ONLY these --chapter-* roles. styles/chapters.css re-points them per
+     campaign via body[data-chapter="…"]; outside a chapter they resolve to
+     the base darkroom palette below. Custom properties don't interpolate,
+     so base.css transitions the CONSUMING properties (background-color,
+     color, …) instead. */
+  --chapter-bg: var(--color-bg);
+  --chapter-bg-elevated: var(--color-bg-elevated);
+  --chapter-ink: var(--color-ink);
+  --chapter-ink-dim: var(--color-ink-dim);
+  --chapter-accent: var(--color-brand);
+
   /* ------------------------------------------------------------ typography */
   /* Ambit is the studio's licensed brand typeface (English); Space Mono is
      our added utility voice for camera-metadata labels. */
@@ -37,6 +50,9 @@
   --font-mono: "Space Mono", monospace;
   /* Arabic text always renders in the brand's Arabic face */
   --font-arabic: "TheYearofHandicrafts", "Geeza Pro", "Noto Naskh Arabic", serif;
+  /* Documentary-register serif (system stack — zero bytes shipped). Used
+     only by the Maqsoud photo essay to break the commercial type voice. */
+  --font-serif: Georgia, "Times New Roman", serif;
 
   --weight-light: 300;
   --weight-regular: 400;
@@ -68,6 +84,7 @@
   --dur-base: 0.6s;
   --dur-slow: 0.9s;
   --dur-wipe: 0.8s;
+  --dur-palette: 0.75s; /* chapter palette cross-fade — mirrors chapterMotion.paletteTransition */
 
   /* Easings — expo-out for reveals, cinematic in-out for wipes */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -77,6 +94,7 @@
   --z-content: 1;
   --z-image-panel: 2;      /* hero image sits between the two type lines     */
   --z-type-front: 3;
+  --z-curtain: 4;          /* between-chapter wipe overlay (child of chapter) */
   --z-hover-thumb: 40;     /* services floating thumbnail                    */
   --z-cursor: 90;
   --z-preloader: 100;

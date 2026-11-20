@@ -18,13 +18,38 @@ html {
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-ink);
+  /* v2: the canvas reads the CHAPTER roles. Outside a chapter they resolve
+     to the base darkroom palette (tokens.css defaults); when palette.ts
+     flips body[data-chapter], styles/chapters.css re-points them and the
+     transition below cross-fades the whole page. */
+  background: var(--chapter-bg);
+  color: var(--chapter-ink);
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip; /* horizontal choreography must never create a scrollbar */
+}
+
+/* Palette takeover cross-fade. Custom properties don't interpolate — the
+   consuming properties do, so every themed surface declares the same
+   transition. `.themed` is the opt-in class for any element that paints
+   with --chapter-* tokens (chapter shells, curtains, index rows…). */
+body,
+.themed {
+  transition:
+    background-color var(--dur-palette) var(--ease-in-out-cine),
+    color var(--dur-palette) var(--ease-in-out-cine),
+    border-color var(--dur-palette) var(--ease-in-out-cine);
+}
+
+/* Reduced motion: the palette still SWAPS (it's information, not motion) —
+   it just snaps instead of cross-fading. */
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .themed {
+    transition: none;
+  }
 }
 
 /* Brand-colored selection — small detail, on-brand */
@@ -111,7 +136,7 @@ button {
   font-size: var(--text-label);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-ink-dim);
+  color: var(--chapter-ink-dim); /* adapts to the active chapter palette */
 }
 
 /* Arabic wordmark spans — always rendered whole (never char-split) */

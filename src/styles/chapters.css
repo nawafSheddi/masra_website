@@ -1,0 +1,129 @@
+/**
+ * "Seven Moods" chapter palettes.
+ *
+ * The ONLY place campaign color values exist. Each palette is declared
+ * once as :root --palette-<id>-* custom properties (so the between-chapter
+ * curtains can borrow the NEXT chapter's background), then mapped onto the
+ * live --chapter-* roles by body[data-chapter] as palette.ts flips the
+ * attribute. Transitions live in base.css — custom properties themselves
+ * don't interpolate, the consuming properties do.
+ *
+ * Role meanings:
+ *   --chapter-bg           page canvas while the chapter owns the screen
+ *   --chapter-bg-elevated  raised panels / image placeholders (~8% lifted)
+ *   --chapter-ink          primary text on that canvas
+ *   --chapter-ink-dim      secondary text (ink pulled ~35% toward bg,
+ *                          hand-tuned to keep AA contrast on its bg)
+ *   --chapter-accent       the campaign's signature color
+ *
+ * No data-chapter attribute (or data-chapter="base") = base darkroom
+ * palette from tokens.css — hero, manifesto, services, clients, contact.
+ */
+
+:root {
+  /* 01 — PETI · Crimson: red-box theatre, white gloves, one spotlight. */
+  --palette-peti-bg: #1a0507;
+  --palette-peti-bg-elevated: #2b0c10;
+  --palette-peti-ink: #f6e8e6;
+  --palette-peti-ink-dim: #b39694;
+  --palette-peti-accent: #c8102e;
+
+  /* 02 — IDMI · Roast: espresso near-black, crema gold. */
+  --palette-idmi-bg: #0a0908;
+  --palette-idmi-bg-elevated: #191512;
+  --palette-idmi-ink: #e8e2d9;
+  --palette-idmi-ink-dim: #a49b8e;
+  --palette-idmi-accent: #b08d57;
+
+  /* 03 — LA BONTÉ · Candlelight: Dutch still-life umber, mint-box accent. */
+  --palette-labonte-bg: #211a12;
+  --palette-labonte-bg-elevated: #342a1d;
+  --palette-labonte-ink: #f3ead8;
+  --palette-labonte-ink-dim: #b0a48c;
+  --palette-labonte-accent: #7fd8a4;
+
+  /* 04 — MAMOLA · Picnic: the first LIGHT beat — pastel pink sunlight. */
+  --palette-mamola-bg: #f2d7d9;
+  --palette-mamola-bg-elevated: #f9e7e8;
+  --palette-mamola-ink: #3a2428;
+  --palette-mamola-ink-dim: #75555b;
+  --palette-mamola-accent: #c94f6d;
+
+  /* 05 — SHAYA · Steeped: deep tea green, cream-tin gold. */
+  --palette-shaya-bg: #142019;
+  --palette-shaya-bg-elevated: #223428;
+  --palette-shaya-ink: #f0ead8;
+  --palette-shaya-ink-dim: #a8a48e;
+  --palette-shaya-accent: #d9c88f;
+
+  /* 06 — RIYADH · Golden: the second light beat — kunafa beige, quiet. */
+  --palette-riyadh-bg: #e9dcc7;
+  --palette-riyadh-bg-elevated: #f4ecdd;
+  --palette-riyadh-ink: #2e2416;
+  --palette-riyadh-ink-dim: #6d5e45;
+  --palette-riyadh-accent: #a06f1e;
+
+  /* 07 — MAQSOUD · The Old Quarter: documentary sepia, retro-stripe
+     orange that hands off into the brand-vermilion contact finale. */
+  --palette-maqsoud-bg: #201409;
+  --palette-maqsoud-bg-elevated: #362513;
+  --palette-maqsoud-ink: #f2e5d2;
+  --palette-maqsoud-ink-dim: #ae9d84;
+  --palette-maqsoud-accent: #e2792e;
+}
+
+body[data-chapter="peti"] {
+  --chapter-bg: var(--palette-peti-bg);
+  --chapter-bg-elevated: var(--palette-peti-bg-elevated);
+  --chapter-ink: var(--palette-peti-ink);
+  --chapter-ink-dim: var(--palette-peti-ink-dim);
+  --chapter-accent: var(--palette-peti-accent);
+}
+
+body[data-chapter="idmi"] {
+  --chapter-bg: var(--palette-idmi-bg);
+  --chapter-bg-elevated: var(--palette-idmi-bg-elevated);
+  --chapter-ink: var(--palette-idmi-ink);
+  --chapter-ink-dim: var(--palette-idmi-ink-dim);
+  --chapter-accent: var(--palette-idmi-accent);
+}
+
+body[data-chapter="labonte"] {
+  --chapter-bg: var(--palette-labonte-bg);
+  --chapter-bg-elevated: var(--palette-labonte-bg-elevated);
+  --chapter-ink: var(--palette-labonte-ink);
+  --chapter-ink-dim: var(--palette-labonte-ink-dim);
+  --chapter-accent: var(--palette-labonte-accent);
+}
+
+body[data-chapter="mamola"] {
+  --chapter-bg: var(--palette-mamola-bg);
+  --chapter-bg-elevated: var(--palette-mamola-bg-elevated);
+  --chapter-ink: var(--palette-mamola-ink);
+  --chapter-ink-dim: var(--palette-mamola-ink-dim);
+  --chapter-accent: var(--palette-mamola-accent);
+}
+
+body[data-chapter="shaya"] {
+  --chapter-bg: var(--palette-shaya-bg);
+  --chapter-bg-elevated: var(--palette-shaya-bg-elevated);
+  --chapter-ink: var(--palette-shaya-ink);
+  --chapter-ink-dim: var(--palette-shaya-ink-dim);
+  --chapter-accent: var(--palette-shaya-accent);
+}
+
+body[data-chapter="riyadh"] {
+  --chapter-bg: var(--palette-riyadh-bg);
+  --chapter-bg-elevated: var(--palette-riyadh-bg-elevated);
+  --chapter-ink: var(--palette-riyadh-ink);
+  --chapter-ink-dim: var(--palette-riyadh-ink-dim);
+  --chapter-accent: var(--palette-riyadh-accent);
+}
+
+body[data-chapter="maqsoud"] {
+  --chapter-bg: var(--palette-maqsoud-bg);
+  --chapter-bg-elevated: var(--palette-maqsoud-bg-elevated);
+  --chapter-ink: var(--palette-maqsoud-ink);
+  --chapter-ink-dim: var(--palette-maqsoud-ink-dim);
+  --chapter-accent: var(--palette-maqsoud-accent);
+}

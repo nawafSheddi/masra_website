@@ -101,3 +101,23 @@
     margin-left: clamp(1rem, 8vw, 4rem);
   }
 }
+
+/* v2 concept line — "Seven moods" + Arabic twin under the tagline */
+.hero__moods {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.hero__moods-ar {
+  font-family: var(--font-arabic);
+  font-size: 1.4em;
+  letter-spacing: 0;
+  text-transform: none;
+}

@@ -50,12 +50,49 @@ const CURATED = [
   { src: "After/DSC09410.png", shoot: "idmi", slug: "idmi-strip-4", role: "grid" },
   { src: "After/DSC09181.png", shoot: "idmi", slug: "idmi-strip-5", role: "grid" },
 
-  // LEVO — baroque still-life cakes (shoot folder "After 02")
-  { src: "After 02/DSC01357.jpg", shoot: "levo", slug: "levo-centerpiece", role: "feature" },
-  { src: "After 02/DSC01005.jpg", shoot: "levo", slug: "levo-grid-1", role: "grid" },
-  { src: "After 02/DSC01028.jpg", shoot: "levo", slug: "levo-grid-2", role: "grid" },
-  { src: "After 02/DSC01101.jpg", shoot: "levo", slug: "levo-grid-3", role: "grid" },
-  { src: "After 02/DSC01031.jpg", shoot: "levo", slug: "levo-accent", role: "grid" },
+  // LA BONTÉ — baroque candlelit still-life cakes (shoot folder "After 02";
+  // v1 shipped these under the working slug "levo", renamed for v2)
+  { src: "After 02/DSC01357.jpg", shoot: "labonte", slug: "labonte-centerpiece", role: "feature" },
+  { src: "After 02/DSC01005.jpg", shoot: "labonte", slug: "labonte-grid-1", role: "grid" },
+  { src: "After 02/DSC01028.jpg", shoot: "labonte", slug: "labonte-grid-2", role: "grid" },
+  { src: "After 02/DSC01101.jpg", shoot: "labonte", slug: "labonte-grid-3", role: "grid" },
+  { src: "After 02/DSC01031.jpg", shoot: "labonte", slug: "labonte-accent", role: "grid" },
+
+  // MAMOLA — pastel picnic & poolside chocolates (shoot folder "mamola/01")
+  { src: "mamola/01/DSC09313.jpg", shoot: "mamola", slug: "mamola-lead", role: "feature" },
+  { src: "mamola/01/DSC09230.jpg", shoot: "mamola", slug: "mamola-frame-1", role: "grid" },
+  { src: "mamola/01/DSC09271.jpg", shoot: "mamola", slug: "mamola-frame-2", role: "grid" },
+  { src: "mamola/01/DSC09323.jpg", shoot: "mamola", slug: "mamola-frame-3", role: "grid" },
+  { src: "mamola/01/DSC09363.jpg", shoot: "mamola", slug: "mamola-frame-4", role: "grid" },
+  { src: "mamola/01/DSC09391.jpg", shoot: "mamola", slug: "mamola-frame-5", role: "grid" },
+  { src: "mamola/01/DSC09415.jpg", shoot: "mamola", slug: "mamola-frame-6", role: "grid" },
+
+  // SHAYA — tea house: beige studio (01), velvet editorial (02), tin gift sets (04)
+  { src: "shaya/04/DSC02109.png", shoot: "shaya", slug: "shaya-lead", role: "feature" },
+  { src: "shaya/01/Photos/DSC01592.jpg", shoot: "shaya", slug: "shaya-frame-1", role: "grid" },
+  { src: "shaya/01/Photos/DSC01678.jpg", shoot: "shaya", slug: "shaya-frame-2", role: "grid" },
+  { src: "shaya/01/Photos/DSC01627.jpg", shoot: "shaya", slug: "shaya-frame-3", role: "grid" },
+  { src: "shaya/02/DSC02770.jpg", shoot: "shaya", slug: "shaya-frame-4", role: "grid" },
+  { src: "shaya/02/DSC02764.jpg", shoot: "shaya", slug: "shaya-frame-5", role: "grid" },
+  { src: "shaya/04/DSC02031.png", shoot: "shaya", slug: "shaya-frame-6", role: "grid" },
+  { src: "shaya/04/DSC02005.png", shoot: "shaya", slug: "shaya-wide", role: "feature" },
+
+  // RIYADH — kunafa gifting box, sunlit beige + deep cocoa (shoot folder "riyadh/03")
+  { src: "riyadh/03/DSC01355.png", shoot: "riyadh", slug: "riyadh-lead", role: "feature" },
+  { src: "riyadh/03/DSC01358.png", shoot: "riyadh", slug: "riyadh-frame-1", role: "grid" },
+  { src: "riyadh/03/DSC01360.png", shoot: "riyadh", slug: "riyadh-frame-2", role: "grid" },
+  { src: "riyadh/03/DSC01364.png", shoot: "riyadh", slug: "riyadh-frame-3", role: "grid" },
+  { src: "riyadh/03/DSC01371.png", shoot: "riyadh", slug: "riyadh-frame-4", role: "grid" },
+
+  // MAQSOUD — documentary essay: heritage Riyadh broast house (shoot folder "maqsoud")
+  { src: "maqsoud/DSC01771.jpg", shoot: "maqsoud", slug: "maqsoud-lead", role: "feature" },
+  { src: "maqsoud/DSC01719-2.jpg", shoot: "maqsoud", slug: "maqsoud-essay-1", role: "grid" },
+  { src: "maqsoud/DSC01764.jpg", shoot: "maqsoud", slug: "maqsoud-essay-2", role: "grid" },
+  { src: "maqsoud/DSC01787.jpg", shoot: "maqsoud", slug: "maqsoud-essay-3", role: "grid" },
+  { src: "maqsoud/DSC01801.jpg", shoot: "maqsoud", slug: "maqsoud-essay-4", role: "grid" },
+  { src: "maqsoud/DSC01826.jpg", shoot: "maqsoud", slug: "maqsoud-essay-5", role: "grid" },
+  { src: "maqsoud/DSC01845.jpg", shoot: "maqsoud", slug: "maqsoud-essay-6", role: "grid" },
+  { src: "maqsoud/DSC01854.jpg", shoot: "maqsoud", slug: "maqsoud-essay-7", role: "grid" },
 ];
 
 /** Encoder settings: AVIF is primary (best bytes/quality on photos),

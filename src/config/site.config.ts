@@ -1,9 +1,9 @@
-import { strings } from "./strings";
+import { strings, type ImageSlug } from "./strings";
 
 /**
- * Site-level configuration: external links, section order, and the mapping
- * of image slugs to layout slots. Changing which photo appears where — or
- * reordering sections — happens here, never inside section code.
+ * Site-level configuration: external links, section order, and the few
+ * image assignments that don't belong to a campaign (services hover
+ * thumbs). Campaign structure lives in campaigns.config.ts.
  */
 
 /** Contact endpoints assembled from strings (single source for numbers). */
@@ -18,7 +18,9 @@ export const links = {
 export const sectionOrder = [
   "hero",
   "manifesto",
-  "work",
+  "indexNav",
+  "chapters",
+  "numbers",
   "services",
   "clients",
   "contact",
@@ -26,31 +28,14 @@ export const sectionOrder = [
 
 export type SectionName = (typeof sectionOrder)[number];
 
-/** Image slug → layout slot assignments per section. */
-export const imageRoles = {
-  hero: { panel: "peti-hero" },
-  peti: {
-    lead: "peti-lead",
-    grid: ["peti-grid-1", "peti-grid-2", "peti-grid-3"],
-    wide: "peti-wide",
-  },
-  idmi: {
-    strip: ["idmi-strip-1", "idmi-strip-2", "idmi-strip-3", "idmi-strip-4", "idmi-strip-5"],
-  },
-  levo: {
-    centerpiece: "levo-centerpiece",
-    grid: ["levo-grid-1", "levo-grid-2", "levo-grid-3"],
-    accent: "levo-accent",
-  },
-} as const;
-
 /** Service row → hover-thumbnail slug (desktop hover preview). Order matches
- *  strings.services.items. */
-export const serviceThumbs = [
+ *  strings.services.items; one lead frame per campaign keeps every mood
+ *  represented in the services list. */
+export const serviceThumbs: readonly ImageSlug[] = [
   "peti-lead", // Photography
-  "levo-centerpiece", // Videography
-  "idmi-strip-1", // Phone Photography
-  "levo-grid-2", // Food Styling
-  "peti-grid-2", // Art Direction
-  "idmi-strip-3", // Graphic Design
+  "shaya-lead", // Videography (the stop-motion campaign)
+  "maqsoud-lead", // Phone Photography (the documentary register)
+  "labonte-centerpiece", // Food Styling
+  "mamola-lead", // Art Direction
+  "riyadh-lead", // Graphic Design
 ] as const;

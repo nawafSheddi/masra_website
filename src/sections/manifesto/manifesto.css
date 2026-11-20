@@ -43,3 +43,10 @@
     gap: var(--space-3);
   }
 }
+
+/* Selective word emphasis (*word* markers in strings.ts) — the single
+   italic voice inside the display statement. */
+.manifesto__em {
+  font-style: italic;
+  color: var(--color-brand);
+}

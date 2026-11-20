@@ -22,9 +22,19 @@ export function initManifesto(root: HTMLElement, ctx: MotionContext): void {
   eyebrow.className = "eyebrow";
   eyebrow.textContent = strings.manifesto.eyebrow;
 
+  // Emphasis markers: words wrapped in *asterisks* in strings.ts render in
+  // the italic emphasis style. Strip the markers, remember which word
+  // indices they covered, and tag those spans after the split below.
+  const rawTokens = strings.manifesto.statement.split(/\s+/);
+  const emphasisIndices = new Set<number>();
+  const cleanTokens = rawTokens.map((token, i) => {
+    if (/\*[^*]+\*/.test(token)) emphasisIndices.add(i);
+    return token.replaceAll("*", "");
+  });
+
   const statement = document.createElement("p");
   statement.className = "manifesto__statement";
-  statement.textContent = strings.manifesto.statement;
+  statement.textContent = cleanTokens.join(" ");
 
   const stats = document.createElement("ul");
   stats.className = "manifesto__stats";
@@ -44,22 +54,31 @@ export function initManifesto(root: HTMLElement, ctx: MotionContext): void {
   section.append(eyebrow, statement, stats);
   root.appendChild(section);
 
-  if (ctx.reducedMotion) return;
+  if (ctx.reducedMotion) {
+    // Static page still gets the typographic emphasis (no split happened,
+    // so wrap via a cheap rebuild through the same splitter).
+    const staticWords = splitWords(statement);
+    staticWords.forEach((w, i) => {
+      if (emphasisIndices.has(i)) w.classList.add("manifesto__em");
+    });
+    return;
+  }
 
   // Word-by-word scroll highlight: scroll() feeds section progress to a
   // callback that lights all words up to the current position. Each word
   // carries a short CSS opacity transition so the wavefront feels liquid,
   // and the scrub runs in both directions for free.
   const words = splitWords(statement);
-  for (const word of words) {
-    word.style.opacity = "0.3";
+  words.forEach((word, i) => {
+    word.style.opacity = "0.45";
     word.style.transition = "opacity 0.25s linear";
-  }
+    if (emphasisIndices.has(i)) word.classList.add("manifesto__em");
+  });
   scroll(
     (progress: number) => {
       const lit = Math.floor(progress * words.length);
       words.forEach((word, i) => {
-        word.style.opacity = i <= lit ? "1" : "0.3";
+        word.style.opacity = i <= lit ? "1" : "0.45";
       });
     },
     // The highlight plays out across the section's middle passage.
