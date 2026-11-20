@@ -92,7 +92,7 @@ export const strings = {
 
   /* ----------------------------------------------------------------- work */
   /* Feedback item 3: three categories replace "Seven Moods". Category
-     membership is configured per campaign in campaigns.config.ts. */
+     membership is set per client in src/content/clients/<id>.yaml. */
   work: {
     eyebrow: "Our work",
     title: "WORK",
