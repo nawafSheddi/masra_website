@@ -1,7 +1,36 @@
-# MASRA Studio — Portfolio Site (v3)
+# MASRA Studio website
 
-Dark cinematic site for [MASRA Studio](https://masra.sa), a Riyadh visual
-production studio. Home: About · Work (Artistic / Lifestyle / Menu) ·
+The website for [MASRA Studio](https://masra.sa), a visual production and
+photography studio in Riyadh.
+
+## For the owner: how to change the site
+
+You don't need to code. Open this folder in **Claude Code** (or Codex) and
+ask in plain words, for example:
+
+- "Change the About text to: …"
+- "Replace the third photo on the Mamola page with this one" (attach it or
+  point to the Drive file)
+- "Add a new client called … in the Lifestyle category"
+- "Put the new IDMI logo on the clients wall" (attach the SVG)
+- "Update the WhatsApp number to …"
+
+The assistant knows where everything lives (the rules are in `AGENTS.md`),
+shows you a preview screenshot, and asks before saving (committing) the
+change. Once it's saved and pushed to GitHub, the live site updates
+(see *Deploying to Cloudflare* below).
+
+Good habits:
+- One change per request is easiest to check.
+- Always look at the screenshot it shows you before saying yes.
+- Original photos stay in Google Drive; only the web-optimized copies are
+  stored here.
+
+---
+
+## For developers and AI agents
+
+Dark cinematic site: Home has About · Work (Artistic / Lifestyle / Menu) ·
 Services · Featured clients · Contact, with a fixed header and a "Start
 your project" WhatsApp CTA. Every client also has its own page at
 `/work/<id>`, where that campaign's bespoke layout and color world play
@@ -17,15 +46,15 @@ npx pnpm dev           # dev server at http://localhost:5173
 npx pnpm test          # unit tests (node --test; routing, filter, client roster)
 npx pnpm build         # typecheck + production build → dist/
 npx pnpm preview       # serve the production build locally
-npx pnpm images        # regenerate optimized images from assets/ (needs the raw photo folders)
+npx pnpm images        # optimize photos listed in scripts/optimize-images.mjs (keeps ones whose raw file isn't here)
 npx pnpm videos        # regenerate loops + frame sequence from assets/ (needs ffmpeg)
 ```
 
 ## Project layout
 
 ```
-assets/                raw photography (~5 GB, gitignored — sources for the pipelines)
-brand_assets/          official brand kit: logos, Ambit fonts, guidelines (gitignored sources)
+assets/                raw photos you download from Drive to process (gitignored, never committed)
+brand_assets/          official brand kit: guidelines, logo masters, fonts (tracked)
 scripts/
 ├─ optimize-images.mjs   sharp pipeline → public/images + src/generated/image-manifest.json
 └─ optimize-videos.mjs   ffmpeg pipeline → public/video + seq frames + video-manifest.json
@@ -88,7 +117,21 @@ src/
 Every section builds its DOM from the config files — no copy or image
 assignments live inside section code.
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
+
+**Moving the site to the studio's own Cloudflare account** (one time):
+
+1. Cloudflare dashboard → *Workers & Pages* → *Create* → *Pages* →
+   *Connect to Git* → pick this GitHub repo.
+2. Production branch `master`, build command `npx pnpm build`, output
+   directory `dist`. Save and deploy.
+3. *Custom domains* → add `masra.sa` (the domain must be in the same
+   Cloudflare account).
+
+From then on, every push to `master` publishes the site automatically
+(about a minute), and every other branch gets its own preview URL.
+
+Settings reference:
 
 - Build command: `npx pnpm build`
 - Output directory: `dist`
@@ -106,7 +149,7 @@ reference the slug from `campaigns.config.ts`. Video: edit `LOOPS` /
 
 ## Docs
 
-- `docs/inspiration-research.md` — every site reviewed for v1 + v2, the
-  techniques taken from each, and the two rejected design concepts.
-- `changelogs/` — one entry per work session, including measured
-  performance numbers for this redesign.
+- `AGENTS.md`: rules and step-by-step recipes for AI agents (`CLAUDE.md`
+  imports it).
+- `lessons-learned/`: traps already hit once, and how to avoid them.
+- `changelogs/`: one entry per work session (what changed and why).

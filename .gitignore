@@ -2,16 +2,25 @@
 node_modules/
 dist/
 
-# Raw photography sources (1GB) — optimized derivatives live in public/images
+# Raw photography (originals live in the studio's Google Drive; download
+# into assets/<client>/ only to run `npx pnpm images`) — never commit them.
+# The optimized web versions in public/images ARE committed.
 assets/
 
-# Brand kit sources (PDFs, OTFs, logo masters) — web derivatives live in
-# public/fonts and public/images/brand
-brand_assets/
+# Note: brand_assets/ (the official brand kit: guidelines, fonts, logo
+# masters) IS tracked on purpose, so anyone working on the site has it.
 
 # OS noise
 .DS_Store
 
-# Local env
+# Local env (secrets: R2 / Cloudflare keys) — never commit
 .env
 .env.*
+!.env.example
+
+# Cloudflare wrangler local state (created by `wrangler pages dev`)
+.wrangler/
+
+# Local-only notes and dev history (kept on the developer's machine)
+.local/
+*.local.md

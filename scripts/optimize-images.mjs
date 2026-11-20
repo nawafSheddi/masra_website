@@ -14,7 +14,7 @@
  * Usage:  npm run images          (skips outputs newer than their source)
  *         npm run images -- --force   (rebuild everything)
  */
-import { existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -106,9 +106,38 @@ function isFresh(outPath, srcPath) {
   return statSync(outPath).mtimeMs >= statSync(srcPath).mtimeMs;
 }
 
+/**
+ * The manifest from the previous run. Raw sources live only on the machine
+ * that shot/downloaded them (assets/ is git-ignored), so a fresh clone has
+ * NONE of them. Entries whose source is missing are carried over from here
+ * instead of failing — that lets anyone add ONE new photo without needing
+ * the whole 5 GB archive, and guarantees we never silently drop an image.
+ */
+const PREVIOUS_MANIFEST = existsSync(MANIFEST_PATH)
+  ? JSON.parse(readFileSync(MANIFEST_PATH, "utf8"))
+  : {};
+
+/** True when every derivative file a manifest entry points at is on disk. */
+function derivativesExist(slug, prev) {
+  return prev.widths.every((w) =>
+    ["avif", "webp"].every((ext) => existsSync(join(OUT_DIR, prev.shoot, `${slug}-${w}.${ext}`)))
+  );
+}
+
 async function processImage(entry) {
   const srcPath = join(SRC_DIR, entry.src);
-  if (!existsSync(srcPath)) throw new Error(`Missing source: ${entry.src}`);
+  if (!existsSync(srcPath)) {
+    // No raw file on this machine: keep the already-optimized image as-is.
+    const prev = PREVIOUS_MANIFEST[entry.slug];
+    if (prev && derivativesExist(entry.slug, prev)) {
+      console.log(`  ${entry.slug.padEnd(18)} kept (raw source not on this machine)`);
+      return [entry.slug, prev];
+    }
+    // A NEW entry whose file isn't there yet — fail loudly with a fix.
+    throw new Error(
+      `Missing source for new image "${entry.slug}": put the original at assets/${entry.src}`
+    );
+  }
 
   const outDir = join(OUT_DIR, entry.shoot);
   mkdirSync(outDir, { recursive: true });
@@ -194,6 +223,8 @@ async function writeLogos() {
 async function writeOgImage() {
   const srcPath = join(SRC_DIR, "01/DSC00114.jpg");
   const outPath = join(OUT_DIR, "og.jpg");
+  // Fresh clones don't have the raw hero photo — keep the committed card.
+  if (!existsSync(srcPath) && existsSync(outPath)) return;
   if (isFresh(outPath, srcPath)) return;
   await sharp(srcPath)
     .rotate()
