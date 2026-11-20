@@ -5,6 +5,9 @@ photography studio in Riyadh.
 
 ## For the owner: how to change the site
 
+👉 **Read [EDITING-GUIDE.md](EDITING-GUIDE.md)**: setup, example requests
+for every kind of change, publishing, and undoing.
+
 You don't need to code. Open this folder in **Claude Code** (or Codex) and
 ask in plain words, for example:
 

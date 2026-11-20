@@ -22,6 +22,9 @@ these photos to Mamola", "add a new client". For every request:
 6. **Ask before committing**, and again before pushing. Use a short, plain
    commit message. Never force-push or rewrite history.
 
+The owner's own guide is `EDITING-GUIDE.md`, which describes what he
+expects you to do. Keep it accurate when you change how something works.
+
 If a request is vague ("make it nicer"), ask one short question with 2–3
 concrete options. Never invent content such as client names, claims,
 numbers or prices. They must come from him.
@@ -150,6 +153,19 @@ for one day only.
 ### Publish
 Pushing to `master` publishes the site once the Cloudflare project is
 connected to the repo (see `docs/guides/deploy.md`). Ask before every push.
+
+### Undo / go back
+- "Undo the last change": `git revert <commit>` (makes a new commit that
+  reverses it), run `check`, show him the result, and push when he
+  confirms.
+- "Go back to how it was on <date>": show `git log --since/--until` in
+  plain words, then revert the commits after that point.
+- Never use `git reset --hard` on pushed commits or force-push: every
+  version must stay in the history.
+
+### Set up on a new computer ("set up this project")
+Follow **First time on a new computer** above, then run `npx pnpm dev` and
+show him the site running locally.
 
 ## How the code is organized (when you must touch it)
 
