@@ -2,8 +2,6 @@ import { animate } from "motion";
 import type { MotionContext } from "../../shared/motion/motion-context";
 import { setScrollLocked } from "../../shared/motion/smooth-scroll";
 import { durations, eases } from "../../config/motion.config";
-import { strings } from "../../config/strings";
-import "./preloader.css";
 
 /**
  * Preloader — the darkroom curtain.
@@ -25,33 +23,19 @@ export function runPreloader(
 ): Promise<void> {
   // v3: deep links into a section (e.g. "/#work" from a client page's nav)
   // skip the curtain entirely — the visitor asked for specific content.
-  if (opts.skip) return Promise.resolve();
+  if (opts.skip) {
+    document.querySelector(".preloader")?.remove();
+    return Promise.resolve();
+  }
 
-  const el = document.createElement("div");
-  el.className = "preloader";
-  el.setAttribute("role", "status");
-  el.setAttribute("aria-label", strings.a11y.preloaderLabel);
+  // Elements rendered by Preloader.astro.
+  const el = document.querySelector<HTMLElement>(".preloader");
+  if (!el) return Promise.resolve();
+  const wordmark = el.querySelector<HTMLImageElement>(".preloader__wordmark")!;
+  const [counter, counterMirror] = Array.from(el.querySelectorAll<HTMLElement>(".preloader__counter"));
+  // The wordmark is held invisible by the CSS motion gate until now.
+  wordmark.removeAttribute("data-reveal");
 
-  // Official hand-drawn calligraphic wordmark (brand kit art, never a font).
-  const wordmark = document.createElement("img");
-  wordmark.className = "preloader__wordmark";
-  wordmark.src = "/images/brand/masra-logo-orange.png";
-  wordmark.alt = strings.brand.wordmarkEn;
-  wordmark.decoding = "async";
-
-  // Mirrored counters — 000→100 bottom-left, 100→000 bottom-right, the
-  // preloader's "camera frame" corners counting toward each other.
-  const counter = document.createElement("div");
-  counter.className = "preloader__counter";
-  counter.textContent = "000";
-
-  const counterMirror = document.createElement("div");
-  counterMirror.className = "preloader__counter preloader__counter--mirror";
-  counterMirror.setAttribute("aria-hidden", "true"); // decorative twin
-  counterMirror.textContent = "100";
-
-  el.append(wordmark, counter, counterMirror);
-  document.body.appendChild(el);
   setScrollLocked(true);
 
   // Reduced motion: a quiet 300ms beat, no counter theater.

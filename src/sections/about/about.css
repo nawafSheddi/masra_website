@@ -51,3 +51,16 @@
   font-style: italic;
   color: var(--color-brand);
 }
+
+/* Server-rendered word spans (About.astro). Inline-block so each word can
+   fade independently; while motion runs they start dim (about.ts lights
+   them as you scroll) — set here too so they don't flash bright first. */
+.about__word {
+  display: inline-block;
+}
+.js-motion .about__word {
+  opacity: 0.45;
+}
+.about__stat-label {
+  display: block;
+}

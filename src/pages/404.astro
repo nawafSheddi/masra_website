@@ -1,0 +1,28 @@
+---
+/**
+ * Page not found — served (with a real 404 status) by Cloudflare for any
+ * URL that has no page, including /work/<unknown-client>.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { strings } from "../config/strings";
+import { ogImagePath } from "../shared/media/media";
+import "../sections/client-page/client-page.css";
+---
+
+<BaseLayout
+  title={`${strings.clientPage.notFoundTitle}${strings.clientPage.titleSuffix}`}
+  description={strings.clientPage.notFoundBody}
+  ogImage={ogImagePath()}
+  ogImageAlt={strings.meta.ogImageAlt}
+  noindex
+>
+  <section class="client-intro client-intro--missing container" id="intro">
+    <h1 class="client-intro__title display">{strings.clientPage.notFoundTitle}</h1>
+    <p class="client-intro__description">{strings.clientPage.notFoundBody}</p>
+    <a class="btn btn--cta client-intro__home" href="/#work">{strings.clientPage.notFoundLink}</a>
+  </section>
+</BaseLayout>
+
+<script>
+  import "../entries/boot-only";
+</script>

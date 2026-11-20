@@ -1,0 +1,66 @@
+---
+/**
+ * Site header — fixed bar on every page.
+ *
+ *   [MASRA mark]   About  Work  Services  Clients  Contact   [Start your project →]
+ *
+ * Markup only; behavior (mobile menu, in-page jumps, solid-on-scroll,
+ * active link) lives in header.ts. Mounted OUTSIDE <main>, so the palette
+ * takeover never targets it.
+ */
+import CtaLink from "../../shared/ui/CtaLink.astro";
+import { navItems } from "../../config/site.config";
+import { strings } from "../../config/strings";
+import { mediaUrl } from "../../shared/media/media";
+import "./header.css";
+
+interface Props {
+  /** True on the home page: links jump in-page instead of navigating. */
+  home: boolean;
+}
+const { home } = Astro.props;
+---
+
+<header class="site-header" data-home={home ? "true" : "false"}>
+  <a class="site-header__home" href={home ? "#main" : "/"} aria-label={strings.nav.homeLabel}>
+    {/* Decorative — the link's aria-label names it. Intrinsic size → no layout shift. */}
+    <img
+      class="site-header__logo"
+      src={mediaUrl("/images/brand/masra-logo-orange.png")}
+      alt=""
+      width="1385"
+      height="520"
+    />
+  </a>
+
+  <nav class="site-header__nav" id="site-nav" aria-label={strings.nav.label}>
+    <ul class="site-header__links">
+      {
+        navItems.map((item) => (
+          <li>
+            <a class="site-header__link" href={home ? `#${item.anchor}` : `/#${item.anchor}`} data-anchor={item.anchor}>
+              {strings.nav[item.label]}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="site-header__actions">
+    <CtaLink label={strings.nav.cta} class="site-header__cta" />
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      aria-label={strings.nav.menuOpen}
+      data-label-open={strings.nav.menuOpen}
+      data-label-close={strings.nav.menuClose}
+    >
+      {/* Two bars that morph into an X via CSS when open. */}
+      <span class="site-header__bar" aria-hidden="true"></span>
+      <span class="site-header__bar" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>

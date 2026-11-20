@@ -1,0 +1,55 @@
+# Shaya · Steeped — deep tea green, cream-tin gold.
+# This file IS the /work/shaya page. The file name is the URL.
+# Field rules are in src/content.config.ts (npx pnpm check explains any mistake).
+
+name: "Shaya"
+nameAr: "شايا"
+order: 5
+category: artistic   # artistic | lifestyle | menu
+year: "2026"
+tags: ["Stop motion", "Photography", "Packaging"]
+description: "A tea house in stop motion. Tins, petals, and shadows that move one frame at a time."
+
+# Page colors (6-digit hex). bg = background, ink = text,
+# inkDim = secondary text (keep readable on bg), accent = highlight.
+palette:
+  bg: "#142019"
+  bgElevated: "#223428"
+  ink: "#f0ead8"
+  inkDim: "#a8a48e"
+  accent: "#d9c88f"
+
+# Main photo: Work card, top of the gallery, and the share card.
+lead:
+  image: shaya-lead
+  alt: "Grid of Shaya green-tea tins on gold, one open with loose leaves"
+
+# Gallery photos, in order. Add one with:
+#   npx pnpm media:add --client shaya --file <photo>
+frames:
+  - image: shaya-frame-1
+    alt: "Tea bag dripping over a glass cup of deep red Shaya tea"
+  - image: shaya-frame-2
+    alt: "Amber Shaya tea pouring into a glass cup"
+  - image: shaya-frame-3
+    alt: "Four colorful Shaya teas photographed top-down with long shadows"
+  - image: shaya-frame-4
+    alt: "Hand lifting a sachet from a Shaya tea discovery box"
+  - image: shaya-frame-5
+    alt: "Portrait hidden behind an open green Shaya tea menu"
+  - image: shaya-frame-6
+    alt: "Macro cup of steeping Shaya green tea leaves"
+  - image: shaya-wide
+    alt: "Shaya gift box interior with tins, scoop and flower jar in low light"
+
+# Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
+# scrub, gift, documentary (see src/content.config.ts).
+layout:
+  type: scrub
+  sceneHeight: 2.5   # screen-heights the gallery stays pinned (max 2.5)
+  sequence: { id: shaya, alt: "Stop-motion sequence: Shaya lemon tea box and two glasses under moving shadows" }
+  loops:
+    - { video: shaya-loop-1, alt: "Stop-motion loop: tea pouring from a glass teapot beside a lit candle" }
+    - { video: shaya-loop-2, alt: "Stop-motion loop: loose tea leaves circling a red cup of tea" }
+  counterPrefix: "F"
+  hint: "Scroll to steep"

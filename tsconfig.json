@@ -1,26 +1,15 @@
 {
+  /* Astro's strict preset: strict TS, bundler resolution, .astro support. */
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2022",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode — Vite handles resolution and emit */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-
-    /* Strictness — catch animation-target typos at compile time */
-    "strict": true,
+    /* Catch animation-target typos and dead code at check time. */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowImportingTsExtensions": true,
+    /* Node built-ins for build-time code, scripts and node --test files. */
+    "types": ["node"]
   },
-  "include": ["src"],
-  /* Test files run under node --test and import node: built-ins; they are
-     not part of the browser bundle, so the app typecheck skips them. */
-  "exclude": ["src/**/*.test.ts"]
+  "include": [".astro/types.d.ts", "src/**/*", "scripts/**/*"],
+  "exclude": ["dist", "node_modules"]
 }

@@ -4,7 +4,7 @@
  *
  * The three categories come from the client's feedback (they replace the
  * v2 "Seven Moods"). Which client sits in which category is configured per
- * campaign in campaigns.config.ts (`category` field); display labels live
+ * client in src/content/clients/<id>.yaml (`category`); display labels live
  * in strings.work. Import-free so `node --test` can run the co-located test.
  */
 

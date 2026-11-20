@@ -1,8 +1,5 @@
 import type { MotionContext } from "../../shared/motion/motion-context";
 import { scrollToHash, setScrollLocked } from "../../shared/motion/smooth-scroll";
-import { strings } from "../../config/strings";
-import { links, navItems } from "../../config/site.config";
-import "./header.css";
 
 /**
  * Site header — v3 (client feedback item 1).
@@ -34,68 +31,16 @@ export interface HeaderOptions {
   home: boolean;
 }
 
-export function initHeader(parent: HTMLElement, _ctx: MotionContext, opts: HeaderOptions): HTMLElement {
-  const header = document.createElement("header");
-  header.className = "site-header";
-
-  // --- Brand mark → home (top of page on home, "/" elsewhere) -------------
-  const home = document.createElement("a");
-  home.className = "site-header__home";
-  home.href = opts.home ? "#main" : "/";
-  home.setAttribute("aria-label", strings.nav.homeLabel);
-  const logo = document.createElement("img");
-  logo.className = "site-header__logo";
-  logo.src = "/images/brand/masra-logo-orange.png";
-  logo.alt = ""; // decorative — the link's aria-label names it
-  logo.width = 1385; // intrinsic size → no layout shift while it loads
-  logo.height = 520;
-  home.appendChild(logo);
-
-  // --- Nav links (shared by desktop row + mobile panel) --------------------
-  const nav = document.createElement("nav");
-  nav.className = "site-header__nav";
-  nav.id = "site-nav";
-  nav.setAttribute("aria-label", strings.nav.label);
-  const list = document.createElement("ul");
-  list.className = "site-header__links";
+export function initHeader(header: HTMLElement, _ctx: MotionContext, opts: HeaderOptions): void {
+  // Elements rendered by Header.astro.
+  const parent = header.parentElement!;
+  const home = header.querySelector<HTMLAnchorElement>(".site-header__home")!;
+  const nav = header.querySelector<HTMLElement>(".site-header__nav")!;
+  const toggle = header.querySelector<HTMLButtonElement>(".site-header__toggle")!;
   const navLinks = new Map<string, HTMLAnchorElement>();
-  for (const item of navItems) {
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.className = "site-header__link";
-    a.href = opts.home ? `#${item.anchor}` : `/#${item.anchor}`;
-    a.textContent = strings.nav[item.label];
-    li.appendChild(a);
-    list.appendChild(li);
-    navLinks.set(item.anchor, a);
+  for (const a of nav.querySelectorAll<HTMLAnchorElement>("a[data-anchor]")) {
+    navLinks.set(a.dataset.anchor!, a);
   }
-  nav.appendChild(list);
-
-  // --- Primary CTA → WhatsApp ---------------------------------------------
-  const cta = buildCtaLink(strings.nav.cta);
-  cta.classList.add("site-header__cta");
-
-  // --- Mobile menu toggle --------------------------------------------------
-  const toggle = document.createElement("button");
-  toggle.className = "site-header__toggle";
-  toggle.type = "button";
-  toggle.setAttribute("aria-controls", nav.id);
-  toggle.setAttribute("aria-expanded", "false");
-  toggle.setAttribute("aria-label", strings.nav.menuOpen);
-  // Two bars that morph into an X via CSS when open.
-  for (let i = 0; i < 2; i++) {
-    const bar = document.createElement("span");
-    bar.className = "site-header__bar";
-    bar.setAttribute("aria-hidden", "true");
-    toggle.appendChild(bar);
-  }
-
-  const actions = document.createElement("div");
-  actions.className = "site-header__actions";
-  actions.append(cta, toggle);
-
-  header.append(home, nav, actions);
-  parent.appendChild(header);
 
   // ---------------------------------------------------------------- menu
   const mobile = window.matchMedia(MOBILE_QUERY);
@@ -106,7 +51,7 @@ export function initHeader(parent: HTMLElement, _ctx: MotionContext, opts: Heade
     open = next;
     header.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? strings.nav.menuClose : strings.nav.menuOpen);
+    toggle.setAttribute("aria-label", (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? "");
     // Closed panel on mobile = links unreachable by keyboard / AT.
     nav.inert = mobile.matches && !open;
     // Open panel = everything behind it (skip link, <main>) unreachable, so
@@ -215,27 +160,4 @@ export function initHeader(parent: HTMLElement, _ctx: MotionContext, opts: Heade
     });
   }
 
-  return header;
-}
-
-/**
- * The "Start your project" WhatsApp button, shared by the header and the
- * contact section so both CTAs stay identical (label, link, a11y text).
- * Opens in a new tab; the accessible name says so.
- */
-export function buildCtaLink(label: string): HTMLAnchorElement {
-  const a = document.createElement("a");
-  a.className = "btn btn--cta";
-  a.href = links.whatsapp;
-  a.target = "_blank";
-  a.rel = "noopener";
-  a.setAttribute("aria-label", `${label} (${strings.a11y.opensWhatsApp})`);
-  const text = document.createElement("span");
-  text.textContent = label;
-  const arrow = document.createElement("span");
-  arrow.className = "btn__arrow";
-  arrow.setAttribute("aria-hidden", "true");
-  arrow.textContent = "→";
-  a.append(text, arrow);
-  return a;
 }

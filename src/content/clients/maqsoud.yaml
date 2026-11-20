@@ -1,0 +1,56 @@
+# Maqsoud · The Old Quarter — documentary sepia, retro-stripe orange.
+# This file IS the /work/maqsoud page. The file name is the URL.
+# Field rules are in src/content.config.ts (npx pnpm check explains any mistake).
+
+name: "Maqsoud"
+nameAr: "مقصود"
+order: 7
+category: menu   # artistic | lifestyle | menu
+year: "2026"
+tags: ["Documentary", "Editorial"]
+description: "A broast house that has fed its street for decades. We left the strobes at the studio and photographed it the way it is: striped ceilings, pomegranate juice, lunch rush."
+
+# Page colors (6-digit hex). bg = background, ink = text,
+# inkDim = secondary text (keep readable on bg), accent = highlight.
+palette:
+  bg: "#201409"
+  bgElevated: "#362513"
+  ink: "#f2e5d2"
+  inkDim: "#ae9d84"
+  accent: "#e2792e"
+
+# Main photo: Work card, top of the gallery, and the share card.
+lead:
+  image: maqsoud-lead
+  alt: "Maqsoud counter with juice machine, oranges and pomegranates at noon"
+  caption: { ar: "المحل عند الظهر — عصير الرمان جاهز", en: "The counter at noon, pomegranate juice standing ready." }
+
+# Gallery photos, in order. Add one with:
+#   npx pnpm media:add --client maqsoud --file <photo>
+frames:
+  - image: maqsoud-essay-1
+    alt: "Chicken shawarma turning against the flame at Maqsoud"
+    caption: { ar: "الشاورما على النار", en: "Shawarma turning against the flame." }
+  - image: maqsoud-essay-2
+    alt: "Empty Maqsoud dining room with yellow chairs and striped ceiling"
+    caption: { ar: "الكراسي تنتظر الزبائن", en: "Chairs waiting for the lunch crowd." }
+  - image: maqsoud-essay-3
+    alt: "Vintage pomegranate slush machine churning at Maqsoud"
+    caption: { ar: "مكينة العصير القديمة", en: "The old juice machine, still working." }
+  - image: maqsoud-essay-4
+    alt: "Fries on paper handed over in front of the shawarma flame"
+    caption: { ar: "بطاطس على ورق", en: "Fries on paper, straight from the fryer." }
+  - image: maqsoud-essay-5
+    alt: "Cooks in orange caps building wraps on the griddle"
+    caption: { ar: "الصبة الأولى", en: "First wraps of the shift." }
+  - image: maqsoud-essay-6
+    alt: "A wrapped shawarma handed across the Maqsoud counter"
+    caption: { ar: "التسليم باليد", en: "Handed over, not plated." }
+  - image: maqsoud-essay-7
+    alt: "Hands with a shawarma wrap and juice at a Maqsoud table"
+    caption: { ar: "الغداء كما يجب", en: "Lunch, the way it should be." }
+
+# Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
+# scrub, gift, documentary (see src/content.config.ts).
+layout:
+  type: documentary

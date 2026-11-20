@@ -1,4 +1,3 @@
-import type { Campaign } from "../../config/campaigns.config";
 
 /**
  * Chapter palette takeover — each client page (and v2's chapter run) wears
@@ -39,10 +38,10 @@ export function syncThemeColor(): void {
 /**
  * Observe chapter wrappers (plus any base-palette sentinels) and drive
  * body[data-chapter]. `sections` maps element → chapter id ("base" or a
- * campaign id from the roster).
+ * client id — its palette CSS is emitted by the client page).
  */
 export function initPaletteTakeover(
-  sections: ReadonlyArray<{ el: HTMLElement; id: Campaign["id"] | typeof BASE_CHAPTER }>
+  sections: ReadonlyArray<{ el: HTMLElement; id: string }>
 ): void {
   const idByEl = new Map<Element, string>(sections.map((s) => [s.el, s.id]));
 

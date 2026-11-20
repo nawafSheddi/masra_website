@@ -1,0 +1,51 @@
+---
+/**
+ * Responsive <picture> for an optimized image slug (build-time render).
+ *
+ * Geometry comes from the image manifest; meaning (alt text) is passed in by
+ * the caller — client photos carry their alt text in their content file.
+ * Every image gets:
+ *   - AVIF source + WebP fallback with full srcset ladders
+ *   - explicit width/height (layout never jumps while images load)
+ *   - a blur-up placeholder painted under the img; the img fades in on
+ *     load (shared/ui/picture-fade.ts)
+ *   - lazy loading by default; the LCP image opts into eager + high priority
+ */
+import { getImage, imageFallbackSrc, imageSrcset } from "../media/media";
+
+interface Props {
+  /** Image slug from src/generated/image-manifest.json. */
+  slug: string;
+  /** What the photo shows. Pass "" when the image sits inside a link whose
+   *  text already names it (decorative). */
+  alt: string;
+  /** CSS `sizes` — how wide this slot renders (default: full width). */
+  sizes?: string;
+  /** Eager + fetchpriority=high — ONLY for the page's main (LCP) image. */
+  eager?: boolean;
+  /** Extra class on the <picture>. */
+  class?: string;
+}
+
+const { slug, alt, sizes = "100vw", eager = false, class: className = "" } = Astro.props;
+const entry = getImage(slug);
+---
+
+<picture
+  class:list={["pic", className]}
+  style={`background-image:url("${entry.blurDataURI}");background-size:cover;background-position:center`}
+>
+  <source type="image/avif" srcset={imageSrcset(slug, "avif")} sizes={sizes} />
+  <img
+    src={imageFallbackSrc(slug)}
+    srcset={imageSrcset(slug, "webp")}
+    sizes={sizes}
+    alt={alt}
+    width={entry.width}
+    height={entry.height}
+    decoding="async"
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : undefined}
+    data-fade
+  />
+</picture>

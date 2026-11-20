@@ -1,0 +1,42 @@
+# PETI · Crimson — red-box theatre, white gloves, one spotlight.
+# This file IS the /work/peti page. The file name is the URL.
+# Field rules are in src/content.config.ts (npx pnpm check explains any mistake).
+
+name: "PETI"
+order: 1
+category: artistic   # artistic | lifestyle | menu
+year: "2025"
+tags: ["Art direction", "Photography", "Packaging"]
+description: "A chocolate house dressed in crimson. White gloves, one spotlight, and gift boxes that arrive like theatre."
+
+# Page colors (6-digit hex). bg = background, ink = text,
+# inkDim = secondary text (keep readable on bg), accent = highlight.
+palette:
+  bg: "#1a0507"
+  bgElevated: "#2b0c10"
+  ink: "#f6e8e6"
+  inkDim: "#b39694"
+  accent: "#c8102e"
+
+# Main photo: Work card, top of the gallery, and the share card.
+lead:
+  image: peti-lead
+  alt: "PETI packaging arranged on a crimson set with hard shadows"
+
+# Gallery photos, in order. Add one with:
+#   npx pnpm media:add --client peti --file <photo>
+frames:
+  - image: peti-grid-1
+    alt: "Tower of PETI chocolate biscuits on peach seamless"
+  - image: peti-grid-2
+    alt: "White-gloved hand placing a chocolate onto a red PETI box"
+  - image: peti-grid-3
+    alt: "Magenta PETI gift box in warm directional light"
+  - image: peti-wide
+    alt: "Wide still life of PETI biscuits and packaging in warm light"
+
+# Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
+# scrub, gift, documentary (see src/content.config.ts).
+layout:
+  type: theatrical
+  sceneHeight: 2   # screen-heights the gallery stays pinned (max 2.5)

@@ -1,0 +1,27 @@
+---
+/**
+ * Preloader — the darkroom curtain over the home page (markup only; the
+ * sequence lives in preloader.ts). Rendered in the HTML so it covers the
+ * page from the very first paint. Skipped (hidden by CSS) for deep links
+ * and Back/Forward returns, hidden entirely without JavaScript.
+ */
+import { strings } from "../../config/strings";
+import { mediaUrl } from "../../shared/media/media";
+import "./preloader.css";
+---
+
+<div class="preloader" role="status" aria-label={strings.a11y.preloaderLabel}>
+  {/* Official hand-drawn calligraphic wordmark (brand kit art, never a font). */}
+  <img
+    class="preloader__wordmark"
+    src={mediaUrl("/images/brand/masra-logo-orange.png")}
+    alt={strings.brand.wordmarkEn}
+    width="1385"
+    height="520"
+    decoding="async"
+    data-reveal
+  />
+  {/* Mirrored counters — 000→100 bottom-left, 100→000 bottom-right. */}
+  <div class="preloader__counter">000</div>
+  <div class="preloader__counter preloader__counter--mirror" aria-hidden="true">100</div>
+</div>

@@ -1,0 +1,30 @@
+---
+/**
+ * The "Start your project" WhatsApp button, shared by the header and the
+ * contact section so both CTAs stay identical (label, link, a11y text).
+ * Opens in a new tab; the accessible name says so.
+ */
+import { links } from "../../config/site.config";
+import { strings } from "../../config/strings";
+
+interface Props {
+  label: string;
+  /** Extra classes (e.g. "site-header__cta", "btn--xl"). */
+  class?: string;
+  /** Mark for an entrance animation (see the motion gate in base.css). */
+  reveal?: boolean;
+}
+const { label, class: className = "", reveal = false } = Astro.props;
+---
+
+<a
+  class:list={["btn btn--cta", className]}
+  href={links.whatsapp}
+  target="_blank"
+  rel="noopener"
+  aria-label={`${label} (${strings.a11y.opensWhatsApp})`}
+  data-reveal={reveal ? "" : undefined}
+>
+  <span>{label}</span>
+  <span class="btn__arrow" aria-hidden="true">{strings.glyphs.arrowRight}</span>
+</a>

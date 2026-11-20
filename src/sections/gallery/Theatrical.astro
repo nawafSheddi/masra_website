@@ -1,0 +1,37 @@
+---
+/**
+ * "theatrical" layout (PETI): the lead under a spotlight vignette, three
+ * set-piece photos drifting around it. Uses the first 3 frames.
+ * Motion: theatrical.ts.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { lead, frames } = Astro.props.client.data;
+// Paint order: first set piece, the lead, then the other two.
+const sats = frames.slice(0, 3).map((photo, i) => ({ photo, cls: `theatrical__sat theatrical__sat--${i + 1}` }));
+const before = sats.slice(0, 1);
+const after = sats.slice(1);
+---
+
+<div class="chapter__canvas theatrical">
+  {
+    before.map((s) => (
+      <div class={s.cls} data-reveal>
+        <Picture slug={s.photo.image} alt={s.photo.alt} sizes="22vw" />
+      </div>
+    ))
+  }
+  <div class="theatrical__lead" data-reveal>
+    <Picture slug={lead.image} alt={lead.alt} sizes="(min-width: 900px) 40vw, 80vw" />
+  </div>
+  {
+    after.map((s) => (
+      <div class={s.cls} data-reveal>
+        <Picture slug={s.photo.image} alt={s.photo.alt} sizes="22vw" />
+      </div>
+    ))
+  }
+  {/* Spotlight vignette: darkens all but a center pool of light. */}
+  <div class="theatrical__vignette" aria-hidden="true"></div>
+</div>

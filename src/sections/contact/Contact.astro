@@ -1,0 +1,66 @@
+---
+/**
+ * Contact / footer — the closing frame on every page (markup; motion,
+ * click-to-copy and magnetic links in contact.ts).
+ *
+ * Headline, a large "Start your project" WhatsApp button (same component
+ * as the header CTA), email (click-to-copy) and Instagram, and the
+ * calligraphic wordmark rising from the bottom edge.
+ */
+import CtaLink from "../../shared/ui/CtaLink.astro";
+import { strings } from "../../config/strings";
+import { links } from "../../config/site.config";
+import { mediaUrl } from "../../shared/media/media";
+import "./contact.css";
+
+// Secondary channels — endpoint URLs come from site.config.
+const channels = [
+  { ...strings.contact.links.email, href: links.email, copy: true },
+  { ...strings.contact.links.instagram, href: links.instagram, copy: false },
+];
+---
+
+<section class="contact container" id="contact">
+  <p class="eyebrow" data-reveal>{strings.contact.eyebrow}</p>
+  <h2 class="contact__title display" data-reveal>{strings.contact.title}</h2>
+  <CtaLink label={strings.contact.cta} class="btn--xl contact__cta" reveal />
+
+  <ul class="contact__links">
+    {
+      channels.map((c) => (
+        <li>
+          <a
+            class="contact__link"
+            href={c.href}
+            target="_blank"
+            rel="noopener"
+            data-reveal
+            data-copy={c.copy ? c.value : undefined}
+            data-copy-label={c.copy ? c.label : undefined}
+            data-copy-hint={c.copy ? strings.contact.copyHint : undefined}
+            data-copied={c.copy ? strings.contact.copied : undefined}
+          >
+            <span class="contact__link-label">{c.label}</span>
+            <span class="contact__link-value">{c.value}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <footer class="contact__footer">
+    <div class="contact__footer-meta">
+      <span>{strings.contact.footerNote}</span>
+      <span>{strings.contact.copyright}</span>
+    </div>
+    <img
+      class="contact__wordmark"
+      src={mediaUrl("/images/brand/masra-logo-orange.png")}
+      alt={strings.brand.wordmarkEn}
+      width="1385"
+      height="520"
+      loading="lazy"
+      decoding="async"
+    />
+  </footer>
+</section>

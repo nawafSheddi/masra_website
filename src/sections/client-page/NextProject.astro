@@ -1,0 +1,27 @@
+---
+/**
+ * "Next project" link at the end of a client page — the next client in
+ * Work order (wraps from the last back to the first).
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+import { strings } from "../../config/strings";
+
+interface Props { next: Client }
+const { next } = Astro.props;
+---
+
+<section class="client-next container" id="next">
+  <a class="client-next__link" href={`/work/${next.id}`} data-cursor="view" data-reveal>
+    <div class="client-next__text">
+      <p class="eyebrow">{strings.clientPage.next}</p>
+      <p class="client-next__name display">
+        {next.data.name} <span aria-hidden="true">{strings.glyphs.arrowRight}</span>
+      </p>
+    </div>
+    <div class="client-next__media">
+      {/* alt="": the link text already names the project. */}
+      <Picture slug={next.data.lead.image} alt="" sizes="(min-width: 900px) 24vw, 40vw" />
+    </div>
+  </a>
+</section>

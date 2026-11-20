@@ -1,19 +1,25 @@
-# Cloudflare Pages cache policy.
-# Optimized images and hashed build assets never change at their URL —
-# cache them immutable for a year. HTML falls back to default (revalidate).
+# Cloudflare cache policy (Pages and Workers static assets both read this).
+#
+# Optimized images, video, fonts and Astro's hashed build files never change
+# at their URL (a new photo always gets a new file name), so they are cached
+# "immutable" for a year. HTML is revalidated on every visit (default), so
+# content edits show up as soon as a deploy finishes.
 /images/*
   Cache-Control: public, max-age=31536000, immutable
-/assets/*
+/_astro/*
   Cache-Control: public, max-age=31536000, immutable
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 /video/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Client logos are swapped IN PLACE (same filename — see the how-to in
-# src/config/clients.config.ts), so they must not be cached immutable like
-# the rest of /images/*. "! Cache-Control" detaches the inherited
-# immutable header; a day's cache keeps them fast but updatable.
+# Files that are replaced IN PLACE (same file name) must not be immutable:
+# client logos (see src/content/featured-clients.yaml) and per-client share
+# cards (regenerated when a lead photo changes). "! Cache-Control" removes
+# the inherited header; one day keeps them fast but updatable.
 /images/clients/*
+  ! Cache-Control
+  Cache-Control: public, max-age=86400
+/images/og/*
   ! Cache-Control
   Cache-Control: public, max-age=86400

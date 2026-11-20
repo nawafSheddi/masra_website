@@ -1,0 +1,48 @@
+---
+/**
+ * Home page. Sections render in site.config `sectionOrder`; their behavior
+ * is wired by src/entries/home.ts.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Preloader from "../sections/preloader/Preloader.astro";
+import Hero from "../sections/hero/Hero.astro";
+import About from "../sections/about/About.astro";
+import Work from "../sections/work/Work.astro";
+import Services from "../sections/services/Services.astro";
+import Clients from "../sections/clients/Clients.astro";
+import Contact from "../sections/contact/Contact.astro";
+import { sectionOrder, type SectionName } from "../config/site.config";
+import { strings } from "../config/strings";
+import { imageSrcset, ogImagePath } from "../shared/media/media";
+import { HERO_SIZES } from "../sections/hero/hero-image";
+
+const sections: Record<SectionName, typeof Hero> = {
+  hero: Hero,
+  about: About,
+  work: Work,
+  services: Services,
+  clients: Clients,
+  contact: Contact,
+};
+---
+
+<BaseLayout
+  title={strings.meta.title}
+  description={strings.meta.description}
+  ogImage={ogImagePath()}
+  ogImageAlt={strings.meta.ogImageAlt}
+  home
+  preloadImage={{ srcset: imageSrcset(strings.heroImage.slug, "avif"), sizes: HERO_SIZES }}
+>
+  <Preloader slot="before-header" />
+  {
+    sectionOrder.map((name) => {
+      const Section = sections[name];
+      return <Section />;
+    })
+  }
+</BaseLayout>
+
+<script>
+  import "../entries/home";
+</script>

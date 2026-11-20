@@ -1,0 +1,38 @@
+---
+/**
+ * Services — full-width index rows, each with a one-line description
+ * (markup; motion + desktop hover preview in services.ts).
+ *
+ * Content: src/content/services.yaml (order on the page = order in file).
+ * The hover-preview photos are rendered once, hidden, inside
+ * .services__thumb; they only load on desktop pointers when JS reveals the
+ * thumb (lazy images inside a hidden element are never fetched).
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import { getServices } from "../../shared/content/clients";
+import { strings } from "../../config/strings";
+import "./services.css";
+
+const services = await getServices();
+---
+
+<section class="services container" id="services">
+  <p class="eyebrow" data-reveal>{strings.services.eyebrow}</p>
+  <h2 class="services__title display" data-reveal>{strings.services.title}</h2>
+  <ul class="services__list">
+    {
+      services.map(({ data }, i) => (
+        <li class="services__row" data-reveal>
+          <span class="services__index">{String(i + 1).padStart(2, "0")}</span>
+          <div class="services__text">
+            <h3 class="services__name">{data.name}</h3>
+            <p class="services__description">{data.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="services__thumb" aria-hidden="true" hidden>
+    {services.map(({ data }) => <Picture slug={data.thumb} alt="" sizes="17.5rem" />)}
+  </div>
+</section>

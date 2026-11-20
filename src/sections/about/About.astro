@@ -1,0 +1,47 @@
+---
+/**
+ * About — the studio's own definition + the facts row (markup; the
+ * scroll-driven read-along highlight lives in about.ts).
+ *
+ * Words wrapped in *asterisks* in strings.about.statement render in the
+ * italic emphasis style. Each word is its own span so about.ts can light
+ * them up as the visitor scrolls.
+ */
+import { strings } from "../../config/strings";
+import "./about.css";
+
+const words = strings.about.statement.split(/\s+/).map((token) => ({
+  text: token.replaceAll("*", ""),
+  em: /\*[^*]+\*/.test(token),
+}));
+const plain = words.map((w) => w.text).join(" ");
+---
+
+<section class="about container" id="about">
+  <p class="eyebrow">{strings.about.eyebrow}</p>
+  {/* The statement is the section's heading; screen readers get one clean
+      string (sr-only), the per-word spans are hidden from them. */}
+  <h2 class="about__statement">
+    <span class="sr-only">{plain}</span>
+    {
+      words.map((w) => (
+        <>
+          <span class:list={["about__word", { about__em: w.em }]} aria-hidden="true">
+            {w.text}
+          </span>{" "}
+        </>
+      ))
+    }
+  </h2>
+  {/* Label before value, so both read "Brands 200+", "Since 2023". */}
+  <ul class="about__stats">
+    {
+      strings.about.stats.map((stat) => (
+        <li class="about__stat" data-reveal>
+          <span class="about__stat-label">{stat.label}</span>
+          <span class="about__stat-value">{stat.value}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

@@ -12,7 +12,17 @@ import { splitChars, splitWords } from "./split";
  * hidden "from" state via inline style ONLY when it is actually going to
  * animate (ctx.reducedMotion false). No-JS and reduced-motion users never
  * see hidden content.
+ *
+ * Pre-rendered pages: markup that will animate carries `data-reveal`, which
+ * keeps it invisible until its helper runs (see base.css "motion gate").
+ * Every helper calls arm() first — it removes that attribute in the same
+ * task that sets the inline from-state, so nothing flashes in between.
  */
+
+/** Hand an element over from the CSS motion gate to the helper. */
+function arm(el: HTMLElement): void {
+  el.removeAttribute("data-reveal");
+}
 
 /** Clip-path curtain reveal (bottom-up) with an inner counter-zoom.
  *  Used by every image tile on the site.
@@ -24,6 +34,7 @@ import { splitChars, splitWords } from "./split";
  *  deadlock — hidden forever because it can never become "visible". */
 export function revealClip(ctx: MotionContext, el: HTMLElement, delay = 0): void {
   if (ctx.reducedMotion) return;
+  arm(el);
 
   const target = (el.firstElementChild as HTMLElement | null) ?? el;
   const img = el.querySelector("img");
@@ -69,6 +80,7 @@ export function revealChars(
   opts: { immediate?: boolean; delay?: number } = {}
 ): void {
   if (ctx.reducedMotion) return;
+  arm(el);
 
   const { chars } = splitChars(el);
   if (!chars.length) {
@@ -105,6 +117,7 @@ export function revealWords(
   opts: { immediate?: boolean; delay?: number } = {}
 ): void {
   if (ctx.reducedMotion) return;
+  arm(el);
 
   const words = splitWords(el);
   if (!words.length) return;
@@ -137,6 +150,7 @@ export function revealBlock(
   opts: { immediate?: boolean; delay?: number } = {}
 ): void {
   if (ctx.reducedMotion) return;
+  arm(el);
 
   el.style.opacity = "0";
   el.style.transform = "translateY(24px)";
@@ -158,6 +172,7 @@ export function revealBlock(
  *  clip, just photographs surfacing like prints in a developer tray. */
 export function revealFade(ctx: MotionContext, el: HTMLElement, delay = 0): void {
   if (ctx.reducedMotion) return;
+  arm(el);
 
   el.style.opacity = "0";
   inView(
@@ -183,6 +198,7 @@ export function revealGroup(
   if (ctx.reducedMotion || !els.length) return;
 
   for (const el of els) {
+    arm(el);
     el.style.opacity = "0";
     el.style.transform = "translateY(32px)";
   }

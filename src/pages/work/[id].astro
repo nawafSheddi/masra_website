@@ -1,0 +1,58 @@
+---
+/**
+ * One page per client: /work/<id>, generated at build time from every file
+ * in src/content/clients/ (the file name is the id). Adding a client file
+ * adds a page; deleting it removes the page.
+ *
+ *   intro → gallery (the client's layout) → next project → contact
+ *
+ * Behavior: src/entries/client.ts.
+ */
+import { existsSync } from "node:fs";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ClientIntro from "../../sections/client-page/ClientIntro.astro";
+import Gallery from "../../sections/gallery/Gallery.astro";
+import NextProject from "../../sections/client-page/NextProject.astro";
+import Contact from "../../sections/contact/Contact.astro";
+import { clientPaletteCss, getClients, nextClient, type Client } from "../../shared/content/clients";
+import { ogImagePath } from "../../shared/media/media";
+import { strings } from "../../config/strings";
+
+export async function getStaticPaths() {
+  const clients = await getClients();
+  return clients.map((client) => ({
+    params: { id: client.id },
+    props: { client, next: nextClient(clients, client.id) },
+  }));
+}
+
+interface Props {
+  client: Client;
+  next: Client;
+}
+const { client, next } = Astro.props;
+const { data } = client;
+
+// Per-client share card if media-add generated one, else the site card.
+const clientOg = ogImagePath(client.id);
+const ogImage = existsSync(`public${clientOg}`) ? clientOg : ogImagePath();
+---
+
+<BaseLayout
+  title={`${data.name}${strings.clientPage.titleSuffix}`}
+  description={`${data.name} — ${strings.work.categoryLabel[data.category]}. ${data.description}`}
+  ogImage={ogImage}
+  ogImageAlt={data.lead.alt}
+  chapter={client.id}
+  paletteCss={clientPaletteCss(client)}
+  themeColor={data.palette.bg}
+>
+  <ClientIntro client={client} />
+  <Gallery client={client} />
+  <NextProject next={next} />
+  <Contact />
+</BaseLayout>
+
+<script>
+  import "../../entries/client";
+</script>

@@ -210,3 +210,25 @@ main > section[id] {
  * hidden "from" state via inline styles immediately before animating.
  * With JS disabled or reduced motion active, the full site is readable.
  */
+
+/* ------------------------------------------------------------ motion gate
+   Pages are pre-rendered, so they paint before the animation code runs.
+   While <html class="js-motion"> is set (BaseLayout's head script — only
+   when JS runs and reduced motion is off), elements about to animate in
+   (`data-reveal`) stay invisible; each reveal helper removes the attribute
+   as it takes over (shared/motion/reveals.ts). Images fade in over their
+   blur placeholder once decoded (shared/ui/picture-fade.ts). */
+.js-motion [data-reveal] {
+  opacity: 0;
+}
+.js-motion img[data-fade]:not(.is-loaded) {
+  opacity: 0;
+}
+img[data-fade] {
+  transition: opacity 0.4s ease;
+}
+
+/* Deep links and Back/Forward returns skip the preloader curtain. */
+.skip-preloader .preloader {
+  display: none;
+}

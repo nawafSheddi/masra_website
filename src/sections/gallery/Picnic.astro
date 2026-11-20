@@ -1,0 +1,28 @@
+---
+/**
+ * "picnic" layout (Mamola): the lead floats in the open right half while a
+ * band of tilted photos drifts along the bottom like prints sliding across
+ * a picnic blanket. Motion: picnic.ts.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { lead, frames } = Astro.props.client.data;
+/** Tossed-on-the-blanket resting tilt, alternating direction. */
+const tilt = (i: number) => `${(i % 2 === 0 ? 1 : -1) * (1.2 + (i % 3) * 0.6)}deg`;
+---
+
+<div class="chapter__canvas picnic">
+  <div class="picnic__band">
+    {
+      frames.map((f, i) => (
+        <div class="picnic__card" style={`rotate:${tilt(i)}`} data-reveal>
+          <Picture slug={f.image} alt={f.alt} sizes="(min-width: 900px) 16vw, 40vw" />
+        </div>
+      ))
+    }
+  </div>
+  <div class="picnic__lead" data-reveal>
+    <Picture slug={lead.image} alt={lead.alt} sizes="(min-width: 900px) 30vw, 60vw" />
+  </div>
+</div>

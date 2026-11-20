@@ -1,10 +1,7 @@
 import { animate, scroll } from "motion";
 import type { MotionContext } from "../../shared/motion/motion-context";
 import { revealBlock, revealChars } from "../../shared/motion/reveals";
-import { buildPicture } from "../../shared/ui/picture";
-import { strings } from "../../config/strings";
 import { durations, eases, scrollRanges } from "../../config/motion.config";
-import "./hero.css";
 
 /**
  * Hero — the opening frame.
@@ -15,51 +12,18 @@ import "./hero.css";
  * On scroll-out the panel settles (scale → 1) and the type lifts away —
  * the site's first "camera move".
  *
- * Returns the hero image element so the preloader can gate on its decode.
+ * Returns a promise for the hero image decode (the preloader gates on it)
+ * and the entrance function main.ts calls as the curtain lifts.
  */
-export function initHero(root: HTMLElement, ctx: MotionContext): { imageReady: Promise<unknown>; enter: () => void } {
-  const section = document.createElement("section");
-  section.className = "hero";
-  section.id = "hero";
-
-  // Mono eyebrow — studio locator line.
-  const eyebrow = document.createElement("p");
-  eyebrow.className = "hero__eyebrow eyebrow";
-  eyebrow.textContent = strings.hero.eyebrow;
-
-  // The two display lines. Back line renders behind the image panel,
-  // front line paints over it (z-sandwich).
-  const type = document.createElement("h1");
-  type.className = "hero__type display";
-  const line1 = document.createElement("span");
-  line1.className = "hero__line hero__line--back";
-  line1.textContent = strings.hero.line1;
-  const line2 = document.createElement("span");
-  line2.className = "hero__line hero__line--front";
-  line2.textContent = strings.hero.line2;
-  type.append(line1, line2);
-
-  // Portrait film-still panel (LCP image — eager + high priority).
-  const panel = document.createElement("div");
-  panel.className = "hero__panel";
-  // LCP panel slug — chapter 01's hero frame (preloaded in index.html).
-  const picture = buildPicture("peti-hero", {
-    sizes: "(min-width: 768px) 38vw, 70vw",
-    eager: true,
-  });
-  panel.appendChild(picture);
-
-  const tagline = document.createElement("p");
-  tagline.className = "hero__tagline";
-  tagline.textContent = strings.hero.tagline;
-
-  const cue = document.createElement("p");
-  cue.className = "hero__scroll-cue";
-  cue.textContent = strings.hero.scrollCue;
-  cue.setAttribute("aria-label", strings.a11y.scrollDown);
-
-  section.append(eyebrow, type, panel, tagline, cue);
-  root.appendChild(section);
+export function initHero(section: HTMLElement, ctx: MotionContext): { imageReady: Promise<unknown>; enter: () => void } {
+  // Elements rendered by Hero.astro.
+  const eyebrow = section.querySelector<HTMLElement>(".hero__eyebrow")!;
+  const line1 = section.querySelector<HTMLElement>(".hero__line--back")!;
+  const line2 = section.querySelector<HTMLElement>(".hero__line--front")!;
+  const panel = section.querySelector<HTMLElement>(".hero__panel")!;
+  const picture = panel.querySelector("picture")!;
+  const tagline = section.querySelector<HTMLElement>(".hero__tagline")!;
+  const cue = section.querySelector<HTMLElement>(".hero__scroll-cue")!;
 
   // Promise the preloader gates on: hero pixels decoded (or errored — never block).
   const img = picture.querySelector("img")!;

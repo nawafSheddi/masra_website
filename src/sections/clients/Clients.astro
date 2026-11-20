@@ -1,0 +1,64 @@
+---
+/**
+ * Featured clients — the logo wall (markup; reveal motion + broken-logo
+ * fallback in clients.ts).
+ *
+ *   TRUSTED BY
+ *   Featured clients                         200+ brands and counting
+ *   ┌────┬────┬────┬────┬────┬────┐
+ *   │logo│logo│logo│logo│logo│logo│   6 cols desktop · 4 tablet · 3 mobile
+ *   └────┴────┴────┴────┴────┴────┘   24 equal cells → every row is full
+ *
+ * Roster: src/content/featured-clients.yaml (exactly 24 — the build checks).
+ * A client without a logo shows its name as a text wordmark in the same
+ * cell; a logo file that fails to load is swapped for the name at runtime.
+ */
+import { getFeaturedClients } from "../../shared/content/clients";
+import { strings } from "../../config/strings";
+import { mediaUrl } from "../../shared/media/media";
+import "./clients.css";
+
+const wall = await getFeaturedClients();
+/** Arabic names render right-to-left in the Arabic face. */
+const ARABIC = /[؀-ۿ]/;
+---
+
+<section class="clients container" id="clients">
+  <header class="clients__header">
+    <div>
+      <p class="eyebrow" data-reveal>{strings.clients.eyebrow}</p>
+      <h2 class="clients__title display" data-reveal>{strings.clients.title}</h2>
+    </div>
+    {/* "200+ brands and counting" — copy, independent of the grid's length. */}
+    <p class="clients__count" data-reveal>
+      <span class="clients__count-number">{strings.clients.count}</span>
+      <span> {strings.clients.countLabel}</span>
+    </p>
+  </header>
+
+  <ul class="logo-grid">
+    {
+      wall.map(({ data }) => {
+        const ar = ARABIC.test(data.name);
+        return (
+          <li class="logo-grid__cell" data-reveal>
+            {data.logo ? (
+              <img
+                class="logo-grid__logo"
+                src={mediaUrl(data.logo)}
+                alt={data.name}
+                loading="lazy"
+                decoding="async"
+                data-name={data.name}
+              />
+            ) : (
+              <span class="logo-grid__wordmark" lang={ar ? "ar" : undefined} dir={ar ? "rtl" : undefined}>
+                {data.name}
+              </span>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>

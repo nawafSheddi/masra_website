@@ -1,30 +1,36 @@
-import { strings, type ImageSlug } from "./strings";
+import { strings } from "./strings";
 
 /**
- * Site-level configuration: external links, section order, header nav,
- * and the few image assignments that don't belong to a campaign (services
- * hover thumbs). Campaign structure lives in campaigns.config.ts; the
- * featured-clients roster lives in clients.config.ts.
+ * Site-level configuration: contact links, home section order, header nav.
+ *
+ * Content (clients, services, logo wall) lives in src/content/; copy lives
+ * in strings.ts. This file only wires things together.
  */
 
-/** Contact endpoints assembled from strings (single source for numbers). */
+/** Contact details — change the number / address / handle here. */
+export const contact = {
+  /** WhatsApp number in international format, digits only. */
+  whatsappNumber: "966536267188",
+  email: "info@wemasra.com",
+  instagramHandle: "wemasra",
+} as const;
+
+/** Outgoing links assembled from `contact` + strings (prefilled messages). */
 export const links = {
   /* "Start your project" CTA (header + contact) — WhatsApp deep link with a
      prefilled message. */
-  whatsapp: `https://wa.me/966536267188?text=${encodeURIComponent(strings.contact.whatsappPrefill)}`,
-  email: `mailto:info@wemasra.com?subject=${encodeURIComponent(strings.contact.emailSubject)}`,
-  instagram: "https://instagram.com/wemasra",
+  whatsapp: `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(strings.contact.whatsappPrefill)}`,
+  email: `mailto:${contact.email}?subject=${encodeURIComponent(strings.contact.emailSubject)}`,
+  instagram: `https://instagram.com/${contact.instagramHandle}`,
 } as const;
 
-/** Home-page sections mount in this order inside <main>. The header sits
- *  outside <main>; the preloader overlays everything and is not part of
- *  the document flow. Feedback order: About → Work → Services → Clients →
- *  Contact. */
+/** Home-page sections in display order (each is also the section's id).
+ *  The hero always comes first. Reordering = reordering this list. */
 export const sectionOrder = ["hero", "about", "work", "services", "clients", "contact"] as const;
 
 export type SectionName = (typeof sectionOrder)[number];
 
-/** Section ids the header can link to (each is also the section's DOM id). */
+/** Section ids the header can link to. */
 export type NavAnchor = Exclude<SectionName, "hero">;
 
 /** Header nav, left → right. `label` keys into strings.nav. Reordering or
@@ -37,14 +43,6 @@ export const navItems: ReadonlyArray<{ anchor: NavAnchor; label: keyof typeof st
   { anchor: "contact", label: "contact" },
 ];
 
-/** Service row → hover-thumbnail slug (desktop hover preview). Order matches
- *  strings.services.items; one lead frame per campaign keeps the whole
- *  portfolio represented in the services list. */
-export const serviceThumbs: readonly ImageSlug[] = [
-  "peti-lead", // Photography
-  "shaya-lead", // Videography (the stop-motion campaign)
-  "maqsoud-lead", // Phone Photography (the documentary register)
-  "labonte-centerpiece", // Food Styling
-  "mamola-lead", // Art Direction
-  "riyadh-lead", // Graphic Design
-] as const;
+/** Number of cells in the featured-clients logo wall. 24 fills every row
+ *  at 6, 4 and 3 columns; the build fails with a clear message otherwise. */
+export const LOGO_WALL_SIZE = 24;

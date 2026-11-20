@@ -1,0 +1,42 @@
+# La Bonté · Candlelight — Dutch still-life umber, mint-box accent.
+# This file IS the /work/labonte page. The file name is the URL.
+# Field rules are in src/content.config.ts (npx pnpm check explains any mistake).
+
+name: "La Bonté"
+order: 3
+category: artistic   # artistic | lifestyle | menu
+year: "2025"
+tags: ["Still life", "Food styling", "Art direction"]
+description: "Cakes staged like Dutch paintings — candelabras, moss and all. Still life that refuses to sit still."
+
+# Page colors (6-digit hex). bg = background, ink = text,
+# inkDim = secondary text (keep readable on bg), accent = highlight.
+palette:
+  bg: "#211a12"
+  bgElevated: "#342a1d"
+  ink: "#f3ead8"
+  inkDim: "#b0a48c"
+  accent: "#7fd8a4"
+
+# Main photo: Work card, top of the gallery, and the share card.
+lead:
+  image: labonte-centerpiece
+  alt: "Candlelit dessert table staged like a baroque painting for La Bonté"
+
+# Gallery photos, in order. Add one with:
+#   npx pnpm media:add --client labonte --file <photo>
+frames:
+  - image: labonte-grid-1
+    alt: "White La Bonté cake with berries surrounded by lit taper candles"
+  - image: labonte-grid-2
+    alt: "La Bonté chocolate petals plated with a stamped chocolate coin"
+  - image: labonte-grid-3
+    alt: "Hand lifting a tart from a mint La Bonté box of desserts"
+  - image: labonte-accent
+    alt: "Detail of a La Bonté cake against a painterly backdrop"
+
+# Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
+# scrub, gift, documentary (see src/content.config.ts).
+layout:
+  type: stilllife
+  sceneHeight: 2   # screen-heights the gallery stays pinned (max 2.5)

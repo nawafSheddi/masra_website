@@ -1,0 +1,25 @@
+---
+/**
+ * "strip" layout (IDMI): every frame on one horizontal film strip that
+ * travels sideways as you scroll, with a small label underneath.
+ * Motion: strip.ts.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { frames, layout } = Astro.props.client.data;
+const label = layout.type === "strip" ? layout.label : "";
+---
+
+<div class="chapter__canvas strip">
+  <div class="strip__track">
+    {
+      frames.map((f) => (
+        <div class="strip__frame">
+          <Picture slug={f.image} alt={f.alt} sizes="(min-width: 900px) 34vw, 70vw" />
+        </div>
+      ))
+    }
+  </div>
+  <p class="eyebrow strip__label">{label}</p>
+</div>

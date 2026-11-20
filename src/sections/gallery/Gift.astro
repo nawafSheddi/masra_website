@@ -1,0 +1,25 @@
+---
+/**
+ * "gift" layout (Riyadh): the quietest page — the lead centered with lots
+ * of space, the detail photos in a measured row beneath. Motion: gift.ts.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { lead, frames } = Astro.props.client.data;
+---
+
+<div class="chapter__canvas gift">
+  <div class="gift__lead" data-reveal>
+    <Picture slug={lead.image} alt={lead.alt} sizes="(min-width: 900px) 34vw, 70vw" />
+  </div>
+  <div class="gift__row">
+    {
+      frames.map((f) => (
+        <div class="gift__cell" data-reveal>
+          <Picture slug={f.image} alt={f.alt} sizes="(min-width: 900px) 14vw, 40vw" />
+        </div>
+      ))
+    }
+  </div>
+</div>

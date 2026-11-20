@@ -1,0 +1,62 @@
+---
+/**
+ * Gallery — the photo body of a client page, in that client's layout
+ * (src/content/clients/<id>.yaml → layout.type).
+ *
+ *   <article class="chapter themed" data-chapter-id="…">   ← palette target
+ *     <div class="chapter__stage">                          ← sticky viewport
+ *       (layout markup)
+ *     </div>
+ *   </article>
+ *
+ * The wrapper's height (sceneHeight × 100vh) is the scroll runway; the
+ * stage pins for its duration and the layout's script (gallery.ts →
+ * <layout>.ts) choreographs against the wrapper's scroll progress. The
+ * documentary layout doesn't pin — it flows like a normal essay.
+ *
+ * PALETTE RULE: the <article> wrapper is what the palette observer watches —
+ * it must NEVER carry a clip-path (Chromium counts an element's own
+ * clip-path in its intersection area, and the color change would silently
+ * stop working). Clips stay on inner children.
+ */
+import type { Client } from "../../shared/content/clients";
+import Theatrical from "./Theatrical.astro";
+import Strip from "./Strip.astro";
+import StillLife from "./StillLife.astro";
+import Picnic from "./Picnic.astro";
+import Scrub from "./Scrub.astro";
+import Gift from "./Gift.astro";
+import Documentary from "./Documentary.astro";
+import "./gallery.css";
+
+interface Props {
+  client: Client;
+}
+const { client } = Astro.props;
+const { layout } = client.data;
+const flows = layout.type === "documentary";
+const sceneHeight = "sceneHeight" in layout ? layout.sceneHeight : undefined;
+
+const layouts = {
+  theatrical: Theatrical,
+  strip: Strip,
+  stilllife: StillLife,
+  picnic: Picnic,
+  scrub: Scrub,
+  gift: Gift,
+  documentary: Documentary,
+} as const;
+const Layout = layouts[layout.type];
+---
+
+<article
+  class:list={["chapter themed", { "chapter--flow": flows }]}
+  id={`chapter-${client.id}`}
+  data-chapter-id={client.id}
+  data-layout={layout.type}
+  style={sceneHeight ? `--scene-h:${sceneHeight}` : undefined}
+>
+  <div class="chapter__stage">
+    <Layout client={client} />
+  </div>
+</article>

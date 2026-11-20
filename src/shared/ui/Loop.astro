@@ -1,0 +1,38 @@
+---
+/**
+ * Stop-motion video loop (build-time markup; playback in shared/ui/video.ts).
+ *
+ * <video muted loop playsinline preload="none" poster> with AV1/WebM first
+ * and H.264/MP4 fallback, explicit dimensions (no layout jump). Nothing but
+ * the poster loads until video.ts starts playback near the viewport — and
+ * under reduced motion it never plays (the poster stays as a still).
+ */
+import videoManifest from "../../generated/video-manifest.json";
+import { mediaUrl } from "../media/media";
+
+interface Props {
+  /** Loop id from src/generated/video-manifest.json. */
+  id: string;
+  /** What the loop shows. */
+  alt: string;
+  class?: string;
+}
+const { id, alt, class: className = "" } = Astro.props;
+const entry = (videoManifest.loops as Record<string, (typeof videoManifest.loops)["shaya-loop-1"]>)[id];
+if (!entry) throw new Error(`Video loop "${id}" is not in src/generated/video-manifest.json`);
+---
+
+<video
+  class:list={["loop", className]}
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={mediaUrl(entry.poster.webp)}
+  width={entry.width}
+  height={entry.height}
+  aria-label={alt}
+  data-loop
+>
+  {entry.sources.map((s) => <source src={mediaUrl(s.src)} type={s.type} />)}
+</video>

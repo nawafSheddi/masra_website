@@ -1,0 +1,36 @@
+---
+/**
+ * Client page intro:
+ *
+ *   ← All work
+ *   ARTISTIC PHOTOGRAPHY · 2025
+ *   PETI                                   ← client's palette takes over
+ *   Art direction · Photography · Packaging
+ *   A chocolate house dressed in crimson…
+ *
+ * All text comes from src/content/clients/<id>.yaml. Entrance motion:
+ * entries/client.ts.
+ */
+import type { Client } from "../../shared/content/clients";
+import { strings } from "../../config/strings";
+import "./client-page.css";
+
+interface Props { client: Client }
+const { client } = Astro.props;
+const { glyphs } = strings;
+---
+
+{/* data-chapter-id: palette target (this client's colors). */}
+<section class="client-intro container themed" id="intro" data-chapter-id={client.id}>
+  <a class="client-intro__back" href="/#work" data-reveal>
+    <span aria-hidden="true">{glyphs.arrowLeft}</span> {strings.clientPage.back}
+  </a>
+  <p class="eyebrow client-intro__meta" data-reveal>
+    {strings.work.categoryLabel[client.data.category]} {glyphs.separator} {client.data.year}
+  </p>
+  <h1 class="client-intro__title display" data-reveal>{client.data.name}</h1>
+  <ul class="client-intro__tags" data-reveal>
+    {client.data.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+  <p class="client-intro__description" data-reveal>{client.data.description}</p>
+</section>

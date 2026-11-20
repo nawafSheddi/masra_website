@@ -1,0 +1,59 @@
+---
+/**
+ * "documentary" layout (Maqsoud): a flowing photo essay — no pinning, no
+ * scrubbing — with Arabic-first captions and English secondaries. Every
+ * photo needs a `caption` (the schema checks). Motion: documentary.ts
+ * (opacity-only fades).
+ *
+ * Essay rhythm: the lead full-width, then the frames repeat
+ * [pair] [solo, offset right] [full] [pair] [solo]… for any number of photos.
+ */
+import DocuFigure from "./DocuFigure.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { lead, frames } = Astro.props.client.data;
+
+type Photo = (typeof frames)[number];
+type Block = { kind: "row"; items: { photo: Photo; no: number }[] } | { kind: "solo" | "full"; photo: Photo; no: number };
+
+// Lay the frames out in the repeating pair → solo → full rhythm.
+const blocks: Block[] = [];
+const pattern = ["row", "solo", "full"] as const;
+let i = 0;
+let step = 0;
+while (i < frames.length) {
+  const kind = pattern[step % pattern.length];
+  if (kind === "row" && i + 1 < frames.length) {
+    blocks.push({ kind: "row", items: [{ photo: frames[i], no: i + 1 }, { photo: frames[i + 1], no: i + 2 }] });
+    i += 2;
+  } else {
+    blocks.push({ kind: kind === "row" ? "solo" : kind, photo: frames[i], no: i + 1 });
+    i += 1;
+  }
+  step++;
+}
+const ROW_SIZES = "(min-width: 900px) 34vw, 90vw";
+const WIDE_SIZES = "(min-width: 900px) 55vw, 100vw";
+---
+
+<div class="chapter__canvas docu">
+  <DocuFigure photo={lead} no={0} class="docu__figure--full" sizes="(min-width: 900px) 70vw, 100vw" />
+  {
+    blocks.map((b) =>
+      b.kind === "row" ? (
+        <div class="docu__row">
+          {b.items.map((it) => (
+            <DocuFigure photo={it.photo} no={it.no} sizes={ROW_SIZES} />
+          ))}
+        </div>
+      ) : (
+        <DocuFigure
+          photo={b.photo}
+          no={b.no}
+          class={b.kind === "solo" ? "docu__solo" : "docu__figure--full"}
+          sizes={WIDE_SIZES}
+        />
+      )
+    )
+  }
+</div>

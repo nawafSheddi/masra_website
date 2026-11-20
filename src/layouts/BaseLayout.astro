@@ -1,0 +1,150 @@
+---
+/**
+ * The page shell every page shares: <head> (SEO + share card + fonts),
+ * skip link, fixed header, and the <main> landmark the page content fills.
+ *
+ * Motion gating (the inline head script below):
+ *   Pages are fully rendered HTML, so they paint BEFORE the animation code
+ *   runs. Elements that are about to animate in carry `data-reveal`; while
+ *   <html class="js-motion"> is set, base.css keeps them invisible so they
+ *   don't flash, then the reveal helpers take over. The class is only set
+ *   when JS runs AND the visitor hasn't asked for reduced motion, and it is
+ *   removed after a few seconds no matter what — so if a script ever fails,
+ *   content still shows. With JS disabled, nothing is ever hidden.
+ */
+import "@fontsource/space-mono";
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/fonts.css";
+import "../styles/chapters.css";
+import "../shared/ui/cursor.css";
+import Header from "../sections/header/Header.astro";
+import { strings } from "../config/strings";
+import { mediaUrl } from "../shared/media/media";
+
+interface Props {
+  /** <title> */
+  title: string;
+  /** Meta description (search results + share card text). */
+  description: string;
+  /** Share-card image path under public/ (e.g. "/images/og/peti.jpg"). */
+  ogImage: string;
+  ogImageAlt: string;
+  /** Home page: header links jump in-page. */
+  home?: boolean;
+  /** Client id whose palette the page wears from first paint. */
+  chapter?: string;
+  /** Inline CSS for that palette (from clientPaletteCss). */
+  paletteCss?: string;
+  /** Initial browser-bar color (mobile address bar tint). */
+  themeColor?: string;
+  /** Keep this page out of search results (404). */
+  noindex?: boolean;
+  /** Extra <link rel="preload"> for the LCP image, if any. */
+  preloadImage?: { srcset: string; sizes: string };
+}
+
+const {
+  title,
+  description,
+  ogImage,
+  ogImageAlt,
+  home = false,
+  chapter,
+  paletteCss,
+  themeColor = "#0b0a09",
+  noindex = false,
+  preloadImage,
+} = Astro.props;
+
+// Absolute URLs for crawlers (share cards need them). `site` is set in
+// astro.config.mjs. A media base URL (R2) is already absolute.
+const site = Astro.site ?? new URL("https://masra.sa");
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImageUrl = new URL(mediaUrl(ogImage), site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+
+    {/* Share card (WhatsApp, iMessage, X, LinkedIn…) */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MASRA Studio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content={themeColor} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* Brand type: Ambit Bold carries all display text — fetch it early. */}
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Ambit-Bold.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Ambit-Light.woff2" crossorigin />
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          fetchpriority="high"
+        />
+      )
+    }
+
+    {/* This client's palette, so the page paints in its colors immediately. */}
+    {paletteCss && <style set:html={paletteCss} />}
+
+    <script is:inline>
+      // Motion gate + preloader skip — runs before first paint. Plain ES5 on
+      // purpose (inline, unbundled). See the comment at the top of
+      // src/layouts/BaseLayout.astro.
+      (function () {
+        var d = document.documentElement;
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          d.classList.add("js-motion");
+          // Failsafe: never leave content hidden if a script fails.
+          setTimeout(function () {
+            d.classList.remove("js-motion");
+          }, 4000);
+        }
+        // Failsafe: the preloader (home) normally leaves within ~4s; never
+        // let a script error trap the visitor behind it.
+        setTimeout(function () {
+          var p = document.querySelector(".preloader");
+          if (p && p.parentNode) {
+            p.parentNode.removeChild(p);
+            d.style.overflow = "";
+          }
+        }, 6000);
+        // Deep links ("/#work") and Back/Forward returns skip the preloader.
+        var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+        if (location.hash.length > 1 || (nav && nav.type === "back_forward")) {
+          d.classList.add("skip-preloader");
+        }
+      })();
+    </script>
+    {/* Without JavaScript there is no preloader exit — never show it. */}
+    <noscript><style>.preloader{display:none}</style></noscript>
+  </head>
+  <body data-chapter={chapter}>
+    <a class="skip-link" href="#main">{strings.a11y.skipToContent}</a>
+    <slot name="before-header" />
+    <Header home={home} />
+    {/* tabindex=-1: the skip link / home link can move focus here. */}
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+  </body>
+</html>

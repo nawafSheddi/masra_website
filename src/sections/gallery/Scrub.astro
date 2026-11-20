@@ -1,0 +1,43 @@
+---
+/**
+ * "scrub" layout (Shaya): a stop-motion clip on a canvas that plays exactly
+ * as fast as you scroll, a film counter ("F 012 / 068") beneath it, and two
+ * video loops + two stills (frames 1 and 3) flanking it. The canvas itself
+ * is created by scrub.ts (it's drawn frame by frame).
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import Loop from "../../shared/ui/Loop.astro";
+import type { Client } from "../../shared/content/clients";
+import videoManifest from "../../generated/video-manifest.json";
+
+interface Props { client: Client }
+const { frames, layout } = Astro.props.client.data;
+if (layout.type !== "scrub") throw new Error("Scrub.astro needs a scrub layout");
+const seq = (videoManifest.sequences as Record<string, { frameCount: number }>)[layout.sequence.id];
+const total = String(seq.frameCount).padStart(3, "0");
+const [leftStill, , rightStill] = frames;
+---
+
+<div class="chapter__canvas scrub">
+  <div class="scrub__flank scrub__flank--left">
+    <Loop id={layout.loops[0].video} alt={layout.loops[0].alt} />
+    <div class="scrub__still" data-reveal>
+      <Picture slug={leftStill.image} alt={leftStill.alt} sizes="18vw" />
+    </div>
+  </div>
+  <div
+    class="scrub__center"
+    data-sequence={layout.sequence.id}
+    data-sequence-label={layout.sequence.alt}
+    data-prefix={layout.counterPrefix}
+  >
+    <p class="eyebrow scrub__counter">{layout.counterPrefix} 001 / {total}</p>
+    <p class="eyebrow scrub__hint">{layout.hint}</p>
+  </div>
+  <div class="scrub__flank scrub__flank--right">
+    <div class="scrub__still" data-reveal>
+      <Picture slug={rightStill.image} alt={rightStill.alt} sizes="18vw" />
+    </div>
+    <Loop id={layout.loops[1].video} alt={layout.loops[1].alt} />
+  </div>
+</div>

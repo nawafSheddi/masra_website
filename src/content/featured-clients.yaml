@@ -1,0 +1,33 @@
+# Featured clients — the logo wall on the home page.
+#
+# RULES: keep EXACTLY 24 entries (fills every row at 6 / 4 / 3 columns).
+# The first 7 are the clients shown under Work, in the same order.
+# Add/replace a logo: put the file in public/images/clients/<id>.svg
+# (SVG preferred; else a transparent PNG/WebP ~400px wide, trimmed tight)
+# and set `logo:` on that line. No logo = the name is shown as text.
+# Not shown yet (24-cell limit): Qishtya, Shawrma Albalad, Ablaze.
+
+- { id: peti, name: "PETI" }
+- { id: idmi, name: "IDMI", logo: /images/clients/idmi.webp }
+- { id: labonte, name: "La Bonté" }
+- { id: mamola, name: "Mamola" }
+- { id: shaya, name: "Shaya" }
+- { id: riyadh, name: "Riyadh" }
+- { id: maqsoud, name: "Maqsoud" }
+- { id: half-million, name: "1/2 M", logo: /images/clients/half-million.svg }
+- { id: beit-alshawarma, name: "بيت الشاورما", logo: /images/clients/beit-alshawarma.webp }
+- { id: unwan-alqahwa, name: "عنوان القهوة" }
+- { id: jan-burger, name: "Jan Burger" }
+- { id: nua, name: "Nua" }
+- { id: ronalos-pizza, name: "Ronalo's Pizza" }
+- { id: 4-twins, name: "4 Twins" }
+- { id: bloss, name: "Bloss" }
+- { id: cayk, name: "Cayk" }
+- { id: jayla, name: "Jayla" }
+- { id: sedar, name: "Sedar" }
+- { id: lets-pizza, name: "Let's Pizza" }
+- { id: levo, name: "LEVO" }
+- { id: the-chefz, name: "The Chefz" }
+- { id: musa-palm, name: "Musa & Palm", logo: /images/clients/musa-palm.svg }
+- { id: bab, name: "Bab" }
+- { id: chok, name: "Chok" }

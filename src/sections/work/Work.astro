@@ -1,0 +1,71 @@
+---
+/**
+ * Work — the client grid with category tabs (markup; filtering + motion in
+ * work.ts).
+ *
+ *   OUR WORK
+ *   WORK                                 [All] [Artistic] [Lifestyle] [Menu]
+ *   ┌────────┐ ┌────────┐ ┌────────┐
+ *   │ image  │ │ image  │ │ image  │    each card → /work/<id>
+ *   │ PETI   │ │ IDMI   │ │ …      │
+ *
+ * One card per file in src/content/clients/, in `order`. Each card carries
+ * its category in data-category so the tabs can filter without any data
+ * shipped to the browser.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import { getClients } from "../../shared/content/clients";
+import { strings } from "../../config/strings";
+import { WORK_FILTERS } from "./filter";
+import "./work.css";
+
+const clients = await getClients();
+const { glyphs } = strings;
+---
+
+<section class="work container" id="work">
+  <div class="work__head">
+    <div>
+      <p class="eyebrow" data-reveal>{strings.work.eyebrow}</p>
+      <h2 class="work__title display" data-reveal>{strings.work.title}</h2>
+    </div>
+    <div class="work__tabs" role="group" aria-label={strings.work.tabsLabel} data-reveal>
+      {
+        WORK_FILTERS.map((filter) => (
+          <button type="button" class="work__tab" data-filter={filter} aria-pressed={filter === "all" ? "true" : "false"}>
+            {strings.work.tabs[filter]}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <ul class="work__grid">
+    {
+      clients.map((client) => (
+        <li class="work__item" data-category={client.data.category} data-reveal>
+          {/* data-cursor: the custom cursor shows "VIEW" over cards. */}
+          <a class="work-card" href={`/work/${client.id}`} data-cursor="view">
+            <div class="work-card__media">
+              {/* alt="": the card's name already labels the link. */}
+              <Picture
+                slug={client.data.lead.image}
+                alt=""
+                sizes="(min-width: 900px) 30vw, (min-width: 600px) 45vw, 100vw"
+              />
+            </div>
+            <div class="work-card__body">
+              <h3 class="work-card__name">{client.data.name}</h3>
+              <p class="work-card__meta eyebrow">
+                {strings.work.categoryLabel[client.data.category]} {glyphs.separator} {client.data.year}
+              </p>
+              <span class="work-card__cta" aria-hidden="true">
+                {strings.work.viewProject} {glyphs.arrowRight}
+              </span>
+            </div>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>

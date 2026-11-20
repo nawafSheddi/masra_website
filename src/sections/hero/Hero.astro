@@ -1,0 +1,26 @@
+---
+/**
+ * Hero — the opening frame (markup; entrance + scroll camera move live in
+ * hero.ts). "MASRA / STUDIO" with a portrait film-still z-sandwiched between
+ * the two lines. The photo is the page's LCP image: eager, high priority,
+ * and preloaded from <head> (see pages/index.astro).
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import { strings } from "../../config/strings";
+import { HERO_SIZES } from "./hero-image";
+import "./hero.css";
+---
+
+<section class="hero" id="hero">
+  <p class="hero__eyebrow eyebrow">{strings.hero.eyebrow}</p>
+  {/* Back line renders behind the image panel, front line paints over it. */}
+  <h1 class="hero__type display">
+    <span class="hero__line hero__line--back">{strings.hero.line1}</span>
+    <span class="hero__line hero__line--front">{strings.hero.line2}</span>
+  </h1>
+  <div class="hero__panel">
+    <Picture slug={strings.heroImage.slug} alt={strings.heroImage.alt} sizes={HERO_SIZES} eager />
+  </div>
+  <p class="hero__tagline">{strings.hero.tagline}</p>
+  <p class="hero__scroll-cue" aria-label={strings.a11y.scrollDown}>{strings.hero.scrollCue}</p>
+</section>

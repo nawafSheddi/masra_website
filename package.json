@@ -3,23 +3,31 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "MASRA Studio — dark cinematic editorial portfolio (static, motion.dev)",
+  "description": "MASRA Studio website — static Astro site (content in src/content/)",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "images": "node scripts/optimize-images.mjs",
-    "videos": "node scripts/optimize-videos.mjs",
-    "test": "node --test \"src/**/*.test.ts\""
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check && npm run test --silent && astro build",
+    "test": "node --test \"src/**/*.test.ts\" \"scripts/**/*.test.mjs\"",
+    "media:add": "node scripts/media-add.mjs",
+    "media:remove": "node scripts/media-remove.mjs",
+    "media:upload": "node scripts/media-upload.mjs",
+    "videos": "node scripts/optimize-videos.mjs"
   },
   "dependencies": {
     "@fontsource/space-mono": "^5.2.0",
+    "astro": "7.4.7",
     "lenis": "^1.3.0",
     "motion": "^12.23.0"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@types/node": "24.19.2",
     "sharp": "^0.34.0",
-    "typescript": "^5.8.0",
-    "vite": "^7.0.0"
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

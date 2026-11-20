@@ -1,0 +1,47 @@
+# Mamola · Picnic — a LIGHT page: pastel pink sunlight.
+# This file IS the /work/mamola page. The file name is the URL.
+# Field rules are in src/content.config.ts (npx pnpm check explains any mistake).
+
+name: "Mamola"
+nameAr: "مامولا"
+order: 4
+category: lifestyle   # artistic | lifestyle | menu
+year: "2026"
+tags: ["Photography", "Art direction", "Styling"]
+description: "Chocolate on a picnic blanket. Mangoes, pool water, and the sun doing half the styling."
+
+# Page colors (6-digit hex). bg = background, ink = text,
+# inkDim = secondary text (keep readable on bg), accent = highlight.
+palette:
+  bg: "#f2d7d9"
+  bgElevated: "#f9e7e8"
+  ink: "#3a2428"
+  inkDim: "#75555b"
+  accent: "#c94f6d"
+
+# Main photo: Work card, top of the gallery, and the share card.
+lead:
+  image: mamola-lead
+  alt: "Pink Mamola tub of chocolates on a pool edge above turquoise water"
+
+# Gallery photos, in order. Add one with:
+#   npx pnpm media:add --client mamola --file <photo>
+frames:
+  - image: mamola-frame-1
+    alt: "Top-down basket of mangoes on a yellow picnic blanket"
+  - image: mamola-frame-2
+    alt: "Macro of Mamola chocolate balls, one cut open showing the filling"
+  - image: mamola-frame-3
+    alt: "Hands opening a blue illustrated Mamola tin at a garden picnic"
+  - image: mamola-frame-4
+    alt: "Slice of cream cake beside the pool with mango cubes"
+  - image: mamola-frame-5
+    alt: "Basket of mangoes held above the grass, photographed from above"
+  - image: mamola-frame-6
+    alt: "Hand reaching into a tub of Mamola chocolates on a striped towel"
+
+# Gallery look + motion. Options: theatrical, strip, stilllife, picnic,
+# scrub, gift, documentary (see src/content.config.ts).
+layout:
+  type: picnic
+  sceneHeight: 2   # screen-heights the gallery stays pinned (max 2.5)

@@ -1,0 +1,27 @@
+---
+/**
+ * "stilllife" layout (La Bonté): the lead as a pinned painting that slowly
+ * zooms, then a row of detail photos rises over it. Motion: stilllife.ts.
+ */
+import Picture from "../../shared/ui/Picture.astro";
+import type { Client } from "../../shared/content/clients";
+interface Props { client: Client }
+const { lead, frames } = Astro.props.client.data;
+---
+
+<div class="chapter__canvas stilllife">
+  <div class="stilllife__center">
+    <Picture slug={lead.image} alt={lead.alt} sizes="(min-width: 900px) 62vw, 100vw" />
+    {/* Candle glow: breathing warm radial, additively blended. */}
+    <div class="stilllife__glow" aria-hidden="true"></div>
+  </div>
+  <div class="stilllife__details">
+    {
+      frames.map((f) => (
+        <div class="stilllife__cell">
+          <Picture slug={f.image} alt={f.alt} sizes="(min-width: 900px) 22vw, 45vw" />
+        </div>
+      ))
+    }
+  </div>
+</div>

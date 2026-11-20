@@ -1,0 +1,23 @@
+---
+/** One documentary-essay figure: photo + bilingual caption + frame number. */
+import Picture from "../../shared/ui/Picture.astro";
+
+interface Props {
+  photo: { image: string; alt: string; caption?: { ar: string; en: string } };
+  /** Frame number shown before the caption (0 = the lead). */
+  no: number;
+  /** Extra layout class: docu__figure--full or docu__solo. */
+  class?: string;
+  sizes: string;
+}
+const { photo, no, class: cls, sizes } = Astro.props;
+---
+
+<figure class:list={["docu__figure", cls]} data-reveal>
+  <Picture slug={photo.image} alt={photo.alt} sizes={sizes} />
+  <figcaption class="docu__caption">
+    <span class="docu__frame-no">{String(no).padStart(2, "0")}</span>
+    <span class="docu__caption-ar" dir="rtl" lang="ar">{photo.caption?.ar}</span>
+    <span class="docu__caption-en">{photo.caption?.en}</span>
+  </figcaption>
+</figure>

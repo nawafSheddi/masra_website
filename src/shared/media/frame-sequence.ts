@@ -1,4 +1,5 @@
 import videoManifest from "../../generated/video-manifest.json";
+import { mediaUrl } from "./media-url";
 
 /**
  * Scroll-scrubbed stop-motion frame sequence.
@@ -38,7 +39,10 @@ export interface FrameSequence {
 
 /** Frame URL for a 1-based index, e.g. dir/f-014.webp. */
 function frameUrl(entry: SequenceEntry, index1: number): string {
-  return `${entry.dir}/${entry.pattern.replace("%03d", String(index1).padStart(3, "0"))}`;
+  // mediaUrl: served from R2 when PUBLIC_MEDIA_BASE_URL is set. Drawing a
+  // cross-origin image on a canvas works without CORS (the canvas is only
+  // painted, never read back).
+  return mediaUrl(`${entry.dir}/${entry.pattern.replace("%03d", String(index1).padStart(3, "0"))}`);
 }
 
 export function createFrameSequence(id: SequenceId): FrameSequence {
