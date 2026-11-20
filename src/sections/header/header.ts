@@ -143,7 +143,18 @@ export function initHeader(parent: HTMLElement, _ctx: MotionContext, opts: Heade
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // new-tab clicks
       e.preventDefault();
       if (open) setOpen(false);
-      if (scrollToHash(hash)) history.replaceState(null, "", hash === "#main" ? location.pathname : hash);
+      if (!scrollToHash(hash)) return;
+      // Keep any query string (e.g. campaign tracking) when updating the URL.
+      history.replaceState(null, "", hash === "#main" ? location.pathname + location.search : location.search + hash);
+      // Move keyboard focus to the section we jumped to, so the next Tab
+      // continues from there (and closing the menu doesn't drop focus on
+      // <body>). tabindex=-1 makes a section focusable without adding it to
+      // the Tab order; preventScroll leaves the smooth scroll in charge.
+      const target = document.getElementById(hash.slice(1));
+      if (target) {
+        if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+        target.focus({ preventScroll: true });
+      }
     };
     for (const a of navLinks.values()) a.addEventListener("click", (e) => jump(e, a.hash));
     home.addEventListener("click", (e) => jump(e, "#main"));

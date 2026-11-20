@@ -34,19 +34,19 @@
 .logo-grid {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--color-ink-faint);
   border: 1px solid var(--color-ink-faint);
 }
 @media (min-width: 40rem) {
   .logo-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 @media (min-width: 64rem) {
   .logo-grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
   /* Wider cells on desktop → shorter 2:1 boxes keep the wall compact.
      (Parent-qualified so it beats the base cell rule declared below.) */
@@ -93,6 +93,8 @@
   line-height: 1.1;
   text-align: center;
   letter-spacing: -0.01em;
+  /* Long names wrap inside the cell instead of widening the grid. */
+  overflow-wrap: anywhere;
   color: var(--chapter-ink-dim);
   transition: color var(--dur-fast) ease;
 }

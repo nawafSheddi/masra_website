@@ -87,6 +87,12 @@ button {
 }
 
 /* Visible keyboard focus — accessibility floor */
+/* Sections focused programmatically after a nav jump: no ring around the
+   whole section (focus is moved there for keyboard / screen-reader flow). */
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 3px;

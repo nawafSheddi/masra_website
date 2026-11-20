@@ -246,6 +246,8 @@ export const strings = {
     /* Click-to-copy affordance on the email link. */
     copyHint: "Click to copy",
     copied: "Copied",
+    /* Subject line prefilled when someone clicks the email link. */
+    emailSubject: "Project inquiry — MASRA Studio",
     /* Prefilled WhatsApp message (URL-encoded in site.config.ts). */
     whatsappPrefill: "Hi MASRA — I'd like to start a project.",
     footerNote: "Riyadh, Saudi Arabia",

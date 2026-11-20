@@ -14,5 +14,11 @@ import { renderClientPage } from "./pages/client/client-page";
 // different client's layout).
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
+// Bare /work (no client id) means "show me the work" — send it to the Work
+// grid on the home page instead of the "project not found" block.
+if (location.pathname === "/work" || location.pathname === "/work/") {
+  location.replace("/#work");
+}
+
 const { ctx, main } = boot({ home: false });
 renderClientPage(main, ctx, parseClientRoute(location.pathname));

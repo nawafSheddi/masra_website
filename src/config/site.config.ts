@@ -12,7 +12,7 @@ export const links = {
   /* "Start your project" CTA (header + contact) — WhatsApp deep link with a
      prefilled message. */
   whatsapp: `https://wa.me/966536267188?text=${encodeURIComponent(strings.contact.whatsappPrefill)}`,
-  email: `mailto:info@wemasra.com?subject=${encodeURIComponent("Project inquiry — MASRA Studio")}`,
+  email: `mailto:info@wemasra.com?subject=${encodeURIComponent(strings.contact.emailSubject)}`,
   instagram: "https://instagram.com/wemasra",
 } as const;
 

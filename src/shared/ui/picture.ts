@@ -34,6 +34,10 @@ export interface PictureOptions {
   eager?: boolean;
   /** Extra class on the wrapping <picture>. */
   className?: string;
+  /** alt="" — use when the image sits inside a link whose text already
+   *  names it (work cards, next project), so screen readers don't read the
+   *  long photo description before the link name. */
+  decorative?: boolean;
 }
 
 /** Build the srcset string for one format ladder. */
@@ -51,7 +55,7 @@ export function buildPicture(slug: ImageSlug, opts: PictureOptions = {}): HTMLPi
   const entry = entries[slug];
   if (!entry) throw new Error(`Unknown image slug: ${slug}`);
 
-  const { sizes = "100vw", eager = false, className = "" } = opts;
+  const { sizes = "100vw", eager = false, className = "", decorative = false } = opts;
 
   const picture = document.createElement("picture");
   picture.className = `pic ${className}`.trim();
@@ -70,7 +74,7 @@ export function buildPicture(slug: ImageSlug, opts: PictureOptions = {}): HTMLPi
   img.src = `/images/${entry.shoot}/${slug}-${entry.widths[entry.widths.length - 1]}.webp`;
   img.srcset = srcset(slug, entry, "webp");
   img.sizes = sizes;
-  img.alt = strings.imageAlt[slug];
+  img.alt = decorative ? "" : strings.imageAlt[slug];
   img.width = entry.width;
   img.height = entry.height;
   img.decoding = "async";

@@ -56,6 +56,14 @@ export function renderClientPage(main: HTMLElement, ctx: MotionContext, id: stri
   TEMPLATES[campaign.template](main, ctx, campaign);
 }
 
+/** Decorative arrow glyph — aria-hidden so screen readers skip it. */
+function arrowGlyph(glyph: string): HTMLSpanElement {
+  const span = document.createElement("span");
+  span.setAttribute("aria-hidden", "true");
+  span.textContent = glyph;
+  return span;
+}
+
 /** "standard" template: intro → chapter gallery → next project → contact. */
 function buildStandard(main: HTMLElement, ctx: MotionContext, campaign: Campaign): void {
   const copy = strings.chapters[campaign.id] as ChapterCopy;
@@ -76,7 +84,8 @@ function buildStandard(main: HTMLElement, ctx: MotionContext, campaign: Campaign
   const back = document.createElement("a");
   back.className = "client-intro__back";
   back.href = "/#work";
-  back.textContent = `← ${strings.clientPage.back}`;
+  // Arrow is decoration: hidden from screen readers ("left arrow All work").
+  back.append(arrowGlyph("←"), ` ${strings.clientPage.back}`);
 
   const meta = document.createElement("p");
   meta.className = "eyebrow client-intro__meta";
@@ -114,16 +123,17 @@ function buildStandard(main: HTMLElement, ctx: MotionContext, campaign: Campaign
   nextLink.href = clientHref(next.id);
   nextLink.dataset.cursor = "view";
   const nextText = document.createElement("div");
+  nextText.className = "client-next__text";
   const nextLabel = document.createElement("p");
   nextLabel.className = "eyebrow";
   nextLabel.textContent = strings.clientPage.next;
   const nextName = document.createElement("p");
   nextName.className = "client-next__name display";
-  nextName.textContent = `${strings.chapters[next.id].name} →`;
+  nextName.append(`${strings.chapters[next.id].name} `, arrowGlyph("→"));
   nextText.append(nextLabel, nextName);
   const nextMedia = document.createElement("div");
   nextMedia.className = "client-next__media";
-  nextMedia.appendChild(buildPicture(next.images.lead, { sizes: "(min-width: 900px) 24vw, 40vw" }));
+  nextMedia.appendChild(buildPicture(next.images.lead, { sizes: "(min-width: 900px) 24vw, 40vw", decorative: true }));
   nextLink.append(nextText, nextMedia);
   nextSection.appendChild(nextLink);
   main.appendChild(nextSection);
@@ -154,6 +164,12 @@ function buildStandard(main: HTMLElement, ctx: MotionContext, campaign: Campaign
 /** Friendly dead end for /work/<unknown>: explains and links back. */
 function buildNotFound(main: HTMLElement, ctx: MotionContext): void {
   document.title = `${strings.clientPage.notFoundTitle}${strings.clientPage.titleSuffix}`;
+  // Every /work/<anything> is served this template with HTTP 200, so tell
+  // search engines not to index the "not found" variant (no soft-404 spam).
+  const robots = document.createElement("meta");
+  robots.name = "robots";
+  robots.content = "noindex";
+  document.head.appendChild(robots);
   const section = document.createElement("section");
   section.className = "client-intro client-intro--missing container";
   section.id = "intro";

@@ -126,6 +126,7 @@ function buildCard(campaign: Campaign): HTMLLIElement {
   media.appendChild(
     buildPicture(campaign.images.lead, {
       sizes: "(min-width: 900px) 30vw, (min-width: 600px) 45vw, 100vw",
+      decorative: true, // the card's name labels the link
     })
   );
 

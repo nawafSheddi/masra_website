@@ -82,7 +82,15 @@ export function scrollToY(y: number): void {
  */
 export function scrollToHash(hash: string, opts: { immediate?: boolean } = {}): boolean {
   if (!hash || hash === "#") return false;
-  const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+  // A malformed escape ("#%E0") makes decodeURIComponent throw — treat it
+  // as "no such anchor" instead of an uncaught error.
+  let id: string;
+  try {
+    id = decodeURIComponent(hash.slice(1));
+  } catch {
+    return false;
+  }
+  const target = document.getElementById(id);
   if (!target) return false;
   scrollTo(target, opts);
   return true;
