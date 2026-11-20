@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { nextIndex, paletteCss } from "./clients-pure.ts";
+import { contrastRatio, nextIndex, paletteCss } from "./clients-pure.ts";
 
 const palette = { bg: "#1a0507", bgElevated: "#2b0c10", ink: "#f6e8e6", inkDim: "#b39694", accent: "#c8102e" };
 
@@ -26,4 +26,11 @@ test("paletteCss maps every role onto the --chapter-* tokens", () => {
 test("paletteCss refuses values that could break out of the rule", () => {
   assert.throws(() => paletteCss("peti", { ...palette, bg: "red}body{x:y" }));
   assert.throws(() => paletteCss('a"]{', palette));
+});
+
+test("contrastRatio matches WCAG reference values", () => {
+  assert.equal(Math.round(contrastRatio("#000000", "#ffffff")), 21);
+  assert.equal(contrastRatio("#777777", "#777777"), 1);
+  // Order doesn't matter.
+  assert.equal(contrastRatio("#1a0507", "#f6e8e6"), contrastRatio("#f6e8e6", "#1a0507"));
 });

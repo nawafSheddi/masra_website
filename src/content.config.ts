@@ -3,6 +3,7 @@ import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { parse as parseYaml } from "yaml";
 import { hasImage } from "./shared/media/media";
+import { MIN_TEXT_CONTRAST, contrastRatio } from "./shared/content/clients-pure";
 import videoManifest from "./generated/video-manifest.json";
 
 /**
@@ -146,6 +147,20 @@ const clients = defineCollection({
       layout,
     })
     .superRefine((client, ctx) => {
+      // Text must stay readable on the page background.
+      const darkBg = contrastRatio(client.palette.bg, "#ffffff") > contrastRatio(client.palette.bg, "#000000");
+      for (const role of ["ink", "inkDim"] as const) {
+        const ratio = contrastRatio(client.palette[role], client.palette.bg);
+        if (ratio < MIN_TEXT_CONTRAST) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["palette", role],
+            message:
+              `palette.${role} is too close to palette.bg (contrast ${ratio.toFixed(1)}:1, needs ` +
+              `${MIN_TEXT_CONTRAST}:1). Make it ${darkBg ? "lighter" : "darker"}.`,
+          });
+        }
+      }
       const min = MIN_FRAMES[client.layout.type];
       if (client.frames.length < min) {
         ctx.addIssue({

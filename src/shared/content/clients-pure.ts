@@ -39,3 +39,22 @@ export function paletteCss(id: string, p: Palette): string {
     `--chapter-accent:${p.accent}}`
   );
 }
+
+/** WCAG relative luminance of a #rrggbb color. */
+function luminance(hex: string): number {
+  const [r, g, b] = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** WCAG contrast ratio between two #rrggbb colors (1 to 21). Body text
+ *  needs at least 4.5 to be comfortably readable (WCAG AA). */
+export function contrastRatio(a: string, b: string): number {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+/** Minimum contrast for text colors on a client page background. */
+export const MIN_TEXT_CONTRAST = 4.5;

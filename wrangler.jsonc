@@ -1,0 +1,20 @@
+// Cloudflare hosting config (Workers static assets — Cloudflare's current
+// recommendation for new sites). The site is fully static: Cloudflare serves
+// the files Astro builds into dist/. No server code.
+//
+// Deploy manually:   npx pnpm build && npx wrangler deploy
+// Or connect the GitHub repo in the Cloudflare dashboard (Workers & Pages →
+// Create → Import a repository) so every push to master deploys itself.
+// Full steps: docs/guides/deploy.md
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "masra-website",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown URLs get dist/404.html with a real 404 status.
+    "not_found_handling": "404-page",
+    // /work/peti serves dist/work/peti.html (no .html in URLs).
+    "html_handling": "auto-trailing-slash"
+  }
+}
