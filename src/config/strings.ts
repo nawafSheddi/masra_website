@@ -14,6 +14,8 @@ export const strings = {
     title: "MASRA Studio — Visual Production & Photography, Riyadh",
     description:
       "MASRA is a Riyadh visual production studio — artistic, lifestyle and menu photography, from concept to final delivery, for 200+ brands since 2023.",
+    /* Site name on share cards (og:site_name). */
+    siteName: "MASRA Studio",
     /* Shorter line used on social share cards (Open Graph). */
     ogDescription:
       "Artistic, lifestyle and menu photography — from concept to final delivery, for 200+ brands since 2023.",

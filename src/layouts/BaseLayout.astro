@@ -20,6 +20,7 @@ import "../styles/chapters.css";
 import "../shared/ui/cursor.css";
 import Header from "../sections/header/Header.astro";
 import { strings } from "../config/strings";
+import { BASE_THEME_COLOR } from "../config/site.config";
 import { mediaUrl } from "../shared/media/media";
 
 interface Props {
@@ -52,7 +53,7 @@ const {
   home = false,
   chapter,
   paletteCss,
-  themeColor = "#0b0a09",
+  themeColor = BASE_THEME_COLOR,
   noindex = false,
   preloadImage,
 } = Astro.props;
@@ -77,7 +78,7 @@ const ogImageUrl = new URL(mediaUrl(ogImage), site).href;
 
     {/* Share card (WhatsApp, iMessage, X, LinkedIn…) */}
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="MASRA Studio" />
+    <meta property="og:site_name" content={strings.meta.siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

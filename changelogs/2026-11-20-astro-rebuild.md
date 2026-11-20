@@ -110,6 +110,48 @@ Extra checks for this pass:
   - every route as expected;
   - share cards point at the preview host.
 
+## Independent code review (fresh session, 13 findings)
+
+Fixed and re-tested:
+
+- **Image names could be reused** after `media:remove`, so visitors would
+  have seen the old photo for up to a year. Removed names now go to
+  `src/generated/retired-images.json` and are never handed out again.
+  Verified: add → remove → add gives `-photo-2`, and `--slug` with a
+  retired name is refused.
+- **Two imports at once lost a photo** (same new name). A lock file now
+  refuses the second run with a plain message. Verified with two parallel
+  runs.
+- **A duplicate or missing `id` in `services.yaml` / `featured-clients.yaml`
+  silently dropped an entry**, and `check` still passed. The loader now
+  assigns ids from file position, so people never write ids. Verified: a
+  repeated service renders twice instead of vanishing.
+- **A logo path to a missing file passed `check`.** The schema now checks
+  that the file exists. Verified: the check fails, naming the file.
+- **Hiding a home section** (documented as allowed) caused type errors and
+  a crash if the hero was hidden. `sectionOrder` can now drop any section;
+  its header link and the hero preload follow automatically. Verified with
+  only About / Work / Contact.
+- **Docs:**
+  - the share card `public/images/og/<id>.jpg` is now in the commit
+    checklist;
+  - "one import at a time" is stated;
+  - the R2 guide covers the share-card upload and no longer claims lighter
+    deploys;
+  - the deploy guide explains `site` / previews with `--site`;
+  - the add-client skill gives the per-layout photo counts and no longer
+    asks for an Arabic name (`nameAr` isn't displayed; marked as such);
+  - stale references in `.gitignore` and `filter.test.ts` are fixed.
+- **Copy and config rules:** `og:site_name` is in `strings.ts`; the base
+  browser-bar color is in `site.config.ts` (it can't read a CSS token).
+
+Not changed:
+
+- `llms.txt` headings: machine-readable format, not visitor copy.
+- No security headers in `_headers`: same as before.
+- Possible reveal edge case with 25+ services: unverified and far outside
+  realistic content.
+
 ## Verification
 
 - `npx pnpm check`: `astro check` 0 errors, 18/18 tests, build OK.

@@ -1,9 +1,11 @@
 # Serving images from an R2 bucket
 
 By default, images and video are served by the site itself (from
-`public/images` and `public/video`). Moving them to an R2 bucket is optional.
-It keeps them separate from the site and makes deploys lighter. The site
-switches over with **one setting**, and switches back by removing it.
+`public/images` and `public/video`). Moving them to an R2 bucket is optional:
+it serves them from the studio's own media domain, separate from the site.
+The site switches over with **one setting**, and switches back by removing it.
+(The files stay in the repo and in the deploy either way; the repo is the
+source of truth.)
 
 ## 1. Create the bucket (Cloudflare dashboard)
 
@@ -45,7 +47,8 @@ bucket. To verify, open a client page and check that photos load from
 
 `media:add` still writes into `public/images` and the manifest, so the repo
 stays the source of truth. After adding photos, run `npx pnpm media:upload`
-(or `--only images/<client>` for just one client), then push.
+(or, for one client, `--only images/<client>` and also `--only images/og`
+if a share card changed), then push.
 
 ## Switching back
 

@@ -24,17 +24,18 @@ export const links = {
   instagram: `https://instagram.com/${contact.instagramHandle}`,
 } as const;
 
-/** Home-page sections in display order (each is also the section's id).
- *  The hero always comes first. Reordering = reordering this list. */
-export const sectionOrder = ["hero", "about", "work", "services", "clients", "contact"] as const;
+/** Every home section that exists (each name is also the section's id). */
+export type SectionName = "hero" | "about" | "work" | "services" | "clients" | "contact";
 
-export type SectionName = (typeof sectionOrder)[number];
+/** Home-page sections in display order. Reorder this list to reorder the
+ *  page; delete a name to hide that section (its header link hides too). */
+export const sectionOrder: readonly SectionName[] = ["hero", "about", "work", "services", "clients", "contact"];
 
 /** Section ids the header can link to. */
 export type NavAnchor = Exclude<SectionName, "hero">;
 
-/** Header nav, left → right. `label` keys into strings.nav. Reordering or
- *  hiding a link is a change here only. */
+/** Header nav, left → right. `label` keys into strings.nav. Links to a
+ *  section that's not in sectionOrder are left out automatically. */
 export const navItems: ReadonlyArray<{ anchor: NavAnchor; label: keyof typeof strings.nav }> = [
   { anchor: "about", label: "about" },
   { anchor: "work", label: "work" },
@@ -42,6 +43,11 @@ export const navItems: ReadonlyArray<{ anchor: NavAnchor; label: keyof typeof st
   { anchor: "clients", label: "clients" },
   { anchor: "contact", label: "contact" },
 ];
+
+/** Browser-bar color on pages without a client palette. Must match
+ *  --color-bg in src/styles/tokens.css (a <meta> tag can't read CSS
+ *  variables). */
+export const BASE_THEME_COLOR = "#0b0a09";
 
 /** Number of cells in the featured-clients logo wall. 24 fills every row
  *  at 6, 4 and 3 columns; the build fails with a clear message otherwise. */

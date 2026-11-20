@@ -2,8 +2,9 @@
 node_modules/
 dist/
 
-# Raw photography (originals live in the studio's Google Drive; download
-# into assets/<client>/ only to run `npx pnpm images`) — never commit them.
+# Raw photography (originals live in the studio's Google Drive). Import with
+# `npx pnpm media:add`, which never copies the original into the repo; if
+# you keep raw files in assets/, they are never committed.
 # The optimized web versions in public/images ARE committed.
 assets/
 
@@ -27,3 +28,6 @@ assets/
 
 # Astro generated types (recreated by `astro sync` / dev / build)
 .astro/
+
+# media-add/remove lock (only exists while a media command runs)
+src/generated/.media.lock

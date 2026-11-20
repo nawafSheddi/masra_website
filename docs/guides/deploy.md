@@ -19,8 +19,11 @@ Cloudflare serves them. The recommended setup connects the GitHub repo, so
 5. **Custom domain:** open the project's **Settings**, then **Domains &
    Routes**, then **Add**, and enter `masra.sa` (and `www.masra.sa` if
    wanted). The domain must be on the same Cloudflare account.
-6. If the domain is ever different from `masra.sa`, change `site` in
-   `astro.config.mjs` so share cards use the right address.
+6. The site's address for share cards, search engines and the sitemap is
+   `site` in `astro.config.mjs` (`https://masra.sa`). Until masra.sa points
+   at this project, share-card images won't load. For a preview on another
+   address, build with that address:
+   `npx pnpm build -- --site https://<preview-address>`.
 
 From then on, every push to `master` publishes in about a minute. Pushes to
 other branches build preview versions, so you can check a change before it

@@ -96,8 +96,11 @@ Originals are never committed.
    list (or replace `lead:`) in `src/content/clients/<id>.yaml`, and write
    real alt text describing the photo.
 3. `npx pnpm check`, then preview the page.
-4. Commit the new files under `public/images/<id>/`, the updated
-   `src/generated/image-manifest.json` and the YAML.
+4. Commit everything it created: the files under `public/images/<id>/`,
+   the share card `public/images/og/<id>.jpg` (only with `--lead`), the
+   updated `src/generated/image-manifest.json` and the YAML.
+   Import **one photo at a time**. Running two imports at once is refused
+   on purpose.
 
 To remove a photo: delete it from the YAML first, then
 `npx pnpm media:remove <image-name>`. The command refuses while the photo

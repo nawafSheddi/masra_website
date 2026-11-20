@@ -30,7 +30,10 @@ if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 const { ctx, main } = boot({ home: true });
 
 const byId = (id: string) => document.getElementById(id);
-const hero = initHero(byId("hero")!, ctx);
+// The hero can be hidden (site.config sectionOrder); then the preloader
+// simply doesn't wait for its image.
+const heroEl = byId("hero");
+const hero = heroEl ? initHero(heroEl, ctx) : { imageReady: Promise.resolve(), enter: () => {} };
 const inits: Record<string, (el: HTMLElement, c: MotionContext) => void> = {
   about: initAbout,
   work: initWork,

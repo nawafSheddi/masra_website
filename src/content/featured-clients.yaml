@@ -7,27 +7,27 @@
 # and set `logo:` on that line. No logo = the name is shown as text.
 # Not shown yet (24-cell limit): Qishtya, Shawrma Albalad, Ablaze.
 
-- { id: peti, name: "PETI" }
-- { id: idmi, name: "IDMI", logo: /images/clients/idmi.webp }
-- { id: labonte, name: "La Bonté" }
-- { id: mamola, name: "Mamola" }
-- { id: shaya, name: "Shaya" }
-- { id: riyadh, name: "Riyadh" }
-- { id: maqsoud, name: "Maqsoud" }
-- { id: half-million, name: "1/2 M", logo: /images/clients/half-million.svg }
-- { id: beit-alshawarma, name: "بيت الشاورما", logo: /images/clients/beit-alshawarma.webp }
-- { id: unwan-alqahwa, name: "عنوان القهوة" }
-- { id: jan-burger, name: "Jan Burger" }
-- { id: nua, name: "Nua" }
-- { id: ronalos-pizza, name: "Ronalo's Pizza" }
-- { id: 4-twins, name: "4 Twins" }
-- { id: bloss, name: "Bloss" }
-- { id: cayk, name: "Cayk" }
-- { id: jayla, name: "Jayla" }
-- { id: sedar, name: "Sedar" }
-- { id: lets-pizza, name: "Let's Pizza" }
-- { id: levo, name: "LEVO" }
-- { id: the-chefz, name: "The Chefz" }
-- { id: musa-palm, name: "Musa & Palm", logo: /images/clients/musa-palm.svg }
-- { id: bab, name: "Bab" }
-- { id: chok, name: "Chok" }
+- { name: "PETI" }
+- { name: "IDMI", logo: /images/clients/idmi.webp }
+- { name: "La Bonté" }
+- { name: "Mamola" }
+- { name: "Shaya" }
+- { name: "Riyadh" }
+- { name: "Maqsoud" }
+- { name: "1/2 M", logo: /images/clients/half-million.svg }
+- { name: "بيت الشاورما", logo: /images/clients/beit-alshawarma.webp }
+- { name: "عنوان القهوة" }
+- { name: "Jan Burger" }
+- { name: "Nua" }
+- { name: "Ronalo's Pizza" }
+- { name: "4 Twins" }
+- { name: "Bloss" }
+- { name: "Cayk" }
+- { name: "Jayla" }
+- { name: "Sedar" }
+- { name: "Let's Pizza" }
+- { name: "LEVO" }
+- { name: "The Chefz" }
+- { name: "Musa & Palm", logo: /images/clients/musa-palm.svg }
+- { name: "Bab" }
+- { name: "Chok" }

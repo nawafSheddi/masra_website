@@ -32,9 +32,10 @@ export function widthsFor(role, sourceWidth) {
 
 /**
  * The next free slug for a client's new photo: "<client>-photo-<n>", with
- * n one higher than any existing "<client>-photo-*". Slugs are never
+ * n one higher than any "<client>-photo-*" that exists OR ever existed
+ * (pass the manifest's slugs plus the retired list). Slugs are never
  * reused, so a replaced photo always gets a new URL (the CDN caches image
- * URLs forever — reusing a name would show the old photo).
+ * URLs for a year — reusing a name would keep showing the old photo).
  */
 export function nextSlug(clientId, existingSlugs) {
   const prefix = `${clientId}-photo-`;

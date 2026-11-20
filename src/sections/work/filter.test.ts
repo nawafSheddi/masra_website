@@ -1,6 +1,6 @@
 /**
  * Tests for the Work-section category filter (pure, no DOM).
- * See client-route.test.ts for how these run (node --test, type stripping).
+ * Runs under `node --test` (Node strips the TypeScript types natively): npx pnpm test
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";

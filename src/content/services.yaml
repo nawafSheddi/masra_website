@@ -1,33 +1,27 @@
 # Services list on the home page, in display order.
-# Each entry: a unique id, the name, one line on what it includes, and the
-# photo previewed on hover (desktop). DRAFT descriptions — awaiting client approval.
+# Each entry: the name, one line on what it includes, and the photo
+# previewed on hover (desktop). Add / remove / reorder entries freely. DRAFT descriptions — awaiting client approval.
 
-- id: photography
-  name: "Photography"
+- name: "Photography"
   description: "Product, food and campaign shoots — concept, lighting, styling on set and fully retouched finals."
   thumb: peti-lead
 
-- id: videography
-  name: "Videography"
+- name: "Videography"
   description: "Short-form video and stop motion for launches, reels and ads — from storyboard to final edit."
   thumb: shaya-lead
 
-- id: phone-photography
-  name: "Phone Photography"
+- name: "Phone Photography"
   description: "Fast, native-feeling content shot on phone for social channels, delivered ready to post."
   thumb: maqsoud-lead
 
-- id: food-styling
-  name: "Food Styling"
+- name: "Food Styling"
   description: "Dishes and products prepared and styled for the camera so every frame looks the way it tastes."
   thumb: labonte-centerpiece
 
-- id: art-direction
-  name: "Art Direction"
+- name: "Art Direction"
   description: "Moodboards, set design, props and color direction that keep a shoot on-brand from first frame to last."
   thumb: mamola-lead
 
-- id: graphic-design
-  name: "Graphic Design"
+- name: "Graphic Design"
   description: "Menu layouts, social templates and campaign graphics built around your photography."
   thumb: riyadh-lead

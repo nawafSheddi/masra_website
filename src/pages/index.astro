@@ -32,7 +32,9 @@ const sections: Record<SectionName, typeof Hero> = {
   ogImage={ogImagePath()}
   ogImageAlt={strings.meta.ogImageAlt}
   home
-  preloadImage={{ srcset: imageSrcset(strings.heroImage.slug, "avif"), sizes: HERO_SIZES }}
+  preloadImage={sectionOrder.includes("hero")
+    ? { srcset: imageSrcset(strings.heroImage.slug, "avif"), sizes: HERO_SIZES }
+    : undefined}
 >
   <Preloader slot="before-header" />
   {

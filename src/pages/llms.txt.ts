@@ -7,6 +7,8 @@ import { getClients, getServices } from "../shared/content/clients";
 import { contact, links } from "../config/site.config";
 import { strings } from "../config/strings";
 
+// Machine-readable summary for AI crawlers (not shown to visitors); its
+// headings are part of the llms.txt format, not site copy.
 export const GET: APIRoute = async ({ site }) => {
   const base = (site ?? new URL("https://masra.sa")).origin;
   const clients = await getClients();

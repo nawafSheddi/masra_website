@@ -13,5 +13,7 @@ photo**). In short:
    text describing the photo.
 4. `npx pnpm check`, then preview `/work/<id>` at desktop and 390px width,
    and show the owner a screenshot.
-5. Ask before committing. Commit the new `public/images/<id>/` files, the
-   manifest and the YAML.
+5. Import one photo at a time (parallel runs are refused).
+6. Ask before committing. Commit the new `public/images/<id>/` files, the
+   share card `public/images/og/<id>.jpg` if you used `--lead`, the
+   manifest, and the YAML.

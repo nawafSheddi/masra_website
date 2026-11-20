@@ -9,7 +9,7 @@
  * takeover never targets it.
  */
 import CtaLink from "../../shared/ui/CtaLink.astro";
-import { navItems } from "../../config/site.config";
+import { navItems, sectionOrder } from "../../config/site.config";
 import { strings } from "../../config/strings";
 import { mediaUrl } from "../../shared/media/media";
 import "./header.css";
@@ -19,6 +19,8 @@ interface Props {
   home: boolean;
 }
 const { home } = Astro.props;
+// Hidden home sections (removed from sectionOrder) lose their link too.
+const links = navItems.filter((item) => sectionOrder.includes(item.anchor));
 ---
 
 <header class="site-header" data-home={home ? "true" : "false"}>
@@ -36,7 +38,7 @@ const { home } = Astro.props;
   <nav class="site-header__nav" id="site-nav" aria-label={strings.nav.label}>
     <ul class="site-header__links">
       {
-        navItems.map((item) => (
+        links.map((item) => (
           <li>
             <a class="site-header__link" href={home ? `#${item.anchor}` : `/#${item.anchor}`} data-anchor={item.anchor}>
               {strings.nav[item.label]}

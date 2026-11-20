@@ -30,10 +30,13 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { AVIF_OPTS, ID_PATTERN, OG_SIZE, WEBP_OPTS, nextSlug, parseArgs, widthsFor } from "./lib/media-core.mjs";
+import { acquireMediaLock } from "./lib/media-lock.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const IMAGES = join(ROOT, "public", "images");
 const MANIFEST = join(ROOT, "src", "generated", "image-manifest.json");
+/** Names of removed images — never handed out again (see nextSlug). */
+const RETIRED = join(ROOT, "src", "generated", "retired-images.json");
 
 /** Print a plain-English error and stop. */
 function fail(message) {
@@ -47,7 +50,10 @@ if (typeof client !== "string" || !ID_PATTERN.test(client)) {
   fail('Pass the client id, e.g. --client mamola (lowercase letters, digits, dashes).');
 }
 
+// Only one media command at a time (parallel runs would collide on names).
+acquireMediaLock(join(ROOT, "src", "generated", ".media.lock"));
 const manifest = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, "utf8")) : {};
+const retired = existsSync(RETIRED) ? JSON.parse(readFileSync(RETIRED, "utf8")) : [];
 
 /** Write the 1200×630 share card for a client from an image (file path or
  *  a manifest slug's largest WebP). JPEG: some link-preview crawlers still
@@ -87,11 +93,11 @@ if (!existsSync(src)) fail(`Photo not found: ${src}`);
 const role = args.lead ? "feature" : (args.role ?? "grid");
 if (role !== "grid" && role !== "feature") fail('--role must be "grid" or "feature".');
 
-const slug = typeof args.slug === "string" ? args.slug : nextSlug(client, Object.keys(manifest));
+const slug = typeof args.slug === "string" ? args.slug : nextSlug(client, [...Object.keys(manifest), ...retired]);
 if (!ID_PATTERN.test(slug)) fail(`Slug "${slug}" must be lowercase letters, digits and dashes.`);
-if (manifest[slug]) {
+if (manifest[slug] || retired.includes(slug)) {
   fail(
-    `An image called "${slug}" already exists. Image names are never reused (browsers ` +
+    `An image called "${slug}" exists or existed before. Image names are never reused (browsers ` +
       `cache them forever). Leave out --slug to get a new name automatically.`
   );
 }

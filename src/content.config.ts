@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
@@ -122,7 +123,7 @@ const clients = defineCollection({
     .object({
       /** Brand name as shown on the site. */
       name: z.string().min(1),
-      /** Arabic brand name (optional, shown as an accent). */
+      /** Arabic brand name (optional; stored for reference — not displayed yet). */
       nameAr: z.string().optional(),
       /** Position on the Work grid and in "Next project" order (1 = first). */
       order: z.number().int().min(1),
@@ -194,22 +195,31 @@ const clients = defineCollection({
 // ------------------------------------------------------------- list files
 
 /**
- * Read a YAML list file and remember each entry's position, so the page
- * shows entries in the same order as the file (Astro otherwise sorts
- * entries by id). `position` is added automatically — never write it.
+ * Read a YAML list file. Each entry gets its position as both its id and
+ * its sort key, so:
+ *   - the page shows entries in file order (Astro otherwise sorts by id);
+ *   - nobody has to invent unique ids (a duplicate or missing id used to
+ *     make an entry silently disappear).
+ * `id` and `position` are added automatically — never write them.
  */
 function orderedList(path: string) {
   return file(path, {
-    parser: (text) =>
-      (parseYaml(text) as Record<string, unknown>[]).map((entry, position) => ({ ...entry, position })),
+    parser: (text) => {
+      const list = parseYaml(text);
+      if (!Array.isArray(list)) throw new Error(`${path} must be a list (each entry starts with "- ").`);
+      return list.map((entry: Record<string, unknown>, position: number) => ({
+        ...entry,
+        id: String(position + 1).padStart(3, "0"),
+        position,
+      }));
+    },
   });
 }
 
 // ------------------------------------------------------------------ services
 
 const services = defineCollection({
-  // A list in one file; each entry needs a unique `id`. Order on the page
-  // = order in the file.
+  // A list in one file. Order on the page = order in the file.
   loader: orderedList("src/content/services.yaml"),
   schema: z.object({
     /** Added by the loader (file order). */
@@ -238,6 +248,9 @@ const featuredClients = defineCollection({
       .string()
       .regex(/^\/images\/clients\/[\w.-]+\.(svg|png|webp)$/, {
         error: 'Logo must be a file path like "/images/clients/idmi.svg".',
+      })
+      .refine((path) => existsSync(`public${path}`), {
+        error: (issue) => `Logo file public${String(issue.input)} doesn't exist. Add the file or fix the name.`,
       })
       .optional(),
   }),
