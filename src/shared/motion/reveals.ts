@@ -169,8 +169,17 @@ export function revealFade(ctx: MotionContext, el: HTMLElement, delay = 0): void
   );
 }
 
-/** Staggered rise for a list of siblings (grid tiles, service rows). */
-export function revealGroup(ctx: MotionContext, els: HTMLElement[], interval: number = staggers.items): void {
+/** Staggered rise for a list of siblings (grid tiles, service rows).
+ *  `amount` = fraction of the PARENT that must be visible to trigger.
+ *  Default 0.2 suits short lists; tall grids (Work: ~2,000px) need a small
+ *  value or their first row sits blank on screen until 400px+ of the grid
+ *  is visible. */
+export function revealGroup(
+  ctx: MotionContext,
+  els: HTMLElement[],
+  interval: number = staggers.items,
+  opts: { amount?: number } = {}
+): void {
   if (ctx.reducedMotion || !els.length) return;
 
   for (const el of els) {
@@ -187,7 +196,7 @@ export function revealGroup(ctx: MotionContext, els: HTMLElement[], interval: nu
         { duration: durations.base, delay: stagger(interval), ease: eases.outExpo }
       );
     },
-    { amount: 0.2 }
+    { amount: opts.amount ?? 0.2 }
   );
 }
 

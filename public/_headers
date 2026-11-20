@@ -9,3 +9,11 @@
   Cache-Control: public, max-age=31536000, immutable
 /video/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Client logos are swapped IN PLACE (same filename — see the how-to in
+# src/config/clients.config.ts), so they must not be cached immutable like
+# the rest of /images/*. "! Cache-Control" detaches the inherited
+# immutable header; a day's cache keeps them fast but updatable.
+/images/clients/*
+  ! Cache-Control
+  Cache-Control: public, max-age=86400

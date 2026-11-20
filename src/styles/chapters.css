@@ -1,5 +1,5 @@
 /**
- * "Seven Moods" chapter palettes.
+ * Per-client palettes (v2 "Seven Moods"; v3: one per /work/<id> page).
  *
  * The ONLY place campaign color values exist. Each palette is declared
  * once as :root --palette-<id>-* custom properties (so the between-chapter
@@ -17,7 +17,7 @@
  *   --chapter-accent       the campaign's signature color
  *
  * No data-chapter attribute (or data-chapter="base") = base darkroom
- * palette from tokens.css — hero, manifesto, services, clients, contact.
+ * palette from tokens.css — hero, about, work, services, clients, contact.
  */
 
 :root {

@@ -1,0 +1,13 @@
+# Cloudflare Pages — client pages (v3).
+# Every /work/<id> URL is served by the single client-page template; the
+# page reads <id> from the URL (src/work-main.ts). 200 = rewrite, so the
+# address bar keeps /work/<id>. Unknown ids render a friendly not-found
+# block inside the template.
+#
+# The target MUST be the extensionless "/work", not "/work.html":
+# Cloudflare normalises .html paths and answers "/work.html" with a 308 to
+# "/work" — every client page then landed on /work ("Project not found").
+# "/work" resolves to work.html internally with no redirect. Verify locally
+# with Cloudflare's real handler: `npx pnpm build && npx wrangler pages dev dist`
+# then `curl -sI localhost:8788/work/peti` → 200, no Location header.
+/work/*  /work  200

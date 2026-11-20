@@ -34,7 +34,7 @@ body {
 /* Palette takeover cross-fade. Custom properties don't interpolate — the
    consuming properties do, so every themed surface declares the same
    transition. `.themed` is the opt-in class for any element that paints
-   with --chapter-* tokens (chapter shells, curtains, index rows…). */
+   with --chapter-* tokens (chapter wrappers, client-page intro…). */
 body,
 .themed {
   transition:
@@ -137,6 +137,58 @@ button {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--chapter-ink-dim); /* adapts to the active chapter palette */
+}
+
+/* v3: anchored sections leave room for the fixed header, so native hash
+   jumps (reduced motion / no JS smooth scroll) land below the bar too. */
+main > section[id] {
+  scroll-margin-top: var(--header-h);
+}
+
+/* Shared primitive: pill button. `.btn--cta` is the brand-vermilion
+   "Start your project" call-to-action used by the header and contact
+   section; `.btn--xl` is the oversized contact variant. Fixed brand
+   colors (vermilion + darkroom text) — legible on dark AND light client
+   palettes, so it never needs the chapter roles. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-btn);
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out-expo);
+}
+/* Contrast: darkroom text on vermilion ≈ 6:1 (AA). Cream on vermilion is
+   only ≈ 2.8:1, so the light ink appears only on the deep hover fill
+   (≈ 8.9:1). */
+.btn--cta {
+  background: var(--color-brand);
+  color: var(--color-bg);
+}
+.btn--cta:hover {
+  background: var(--color-brand-deep);
+  color: var(--color-ink);
+}
+.btn--cta:active {
+  transform: scale(0.97);
+}
+.btn--xl {
+  font-size: var(--text-btn-xl);
+}
+/* Small arrow glyph after CTA labels (decorative, aria-hidden in markup) */
+.btn__arrow {
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.btn:hover .btn__arrow {
+  transform: translateX(0.2em);
 }
 
 /* Arabic wordmark spans — always rendered whole (never char-split) */

@@ -1,5 +1,5 @@
-/* Contact / footer — the closing frame: giant call-to-action, three
-   oversized magnetic links, and the calligraphic wordmark rising off
+/* Contact / footer — the closing frame: headline, the big "Start your
+   project" WhatsApp button, two oversized magnetic links, and the calligraphic wordmark rising off
    the page's bottom edge. */
 .contact {
   padding-top: var(--space-7);
@@ -11,8 +11,14 @@
   margin-top: var(--space-2);
 }
 
-.contact__title-accent {
-  color: var(--color-brand);
+/* v3 headline is a full sentence — narrower measure, tighter leading. */
+.contact__title {
+  max-width: 14ch;
+  line-height: 0.95;
+}
+
+.contact__cta {
+  margin-top: var(--space-5);
 }
 
 .contact__links {

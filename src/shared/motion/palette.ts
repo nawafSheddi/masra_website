@@ -1,7 +1,8 @@
 import type { Campaign } from "../../config/campaigns.config";
 
 /**
- * Chapter palette takeover — the keystone of the "Seven Moods" concept.
+ * Chapter palette takeover — each client page (and v2's chapter run) wears
+ * its campaign's color world.
  *
  * One IntersectionObserver watches every chapter's OUTER wrapper with a
  * rootMargin that collapses the observation band to the viewport's exact
@@ -27,7 +28,7 @@ export const BASE_CHAPTER = "base";
 
 /** Update the browser-chrome color alongside the page palette (mobile
  *  address bar tints with the chapter — small free win). */
-function syncThemeColor(): void {
+export function syncThemeColor(): void {
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   if (!meta) return;
   // Read the resolved token AFTER the data-chapter flip.

@@ -1,19 +1,25 @@
 import type { MotionContext } from "../../shared/motion/motion-context";
-import { campaigns, type Campaign, type ChapterLayout } from "../../config/campaigns.config";
+import type { Campaign, ChapterLayout } from "../../config/campaigns.config";
 import { strings } from "../../config/strings";
 import { buildPicture } from "../../shared/ui/picture";
 import { revealClip } from "../../shared/motion/reveals";
-import { buildChapterShell, type ChapterCopy } from "./chapter-shell";
-import { initCurtains } from "./curtain";
+import "./chapters.css"; // wrapper/stage + layout styles (was imported by v2 main.ts)
 
 /**
- * Chapters orchestrator — mounts the seven "Seven Moods" campaign worlds.
+ * Chapter mounting — v3.
  *
- * Every chapter is:
+ * In v2 all seven campaign "chapters" ran back-to-back on the home page
+ * (~20,000px of pinned scenes — the root cause of the slow-scroll
+ * feedback). In v3 each chapter is the gallery body of its own client page
+ * (/work/<id>), mounted once by `mountChapter`. The bespoke layout
+ * builders are unchanged; the old mood-title shell and between-chapter
+ * curtains are gone (the client page's intro block replaces the shell).
+ *
+ * A chapter is:
  *
  *   <article class="chapter themed" data-chapter-id="…">   ← palette target
  *     <div class="chapter__stage">                          ← sticky viewport
- *       (shell header + layout-built canvas)
+ *       (layout-built canvas)
  *     </div>
  *   </article>
  *
@@ -27,6 +33,15 @@ import { initCurtains } from "./curtain";
  * counts an element's own clip-path in its intersection area; a clipped
  * wrapper would deadlock the takeover). Clips stay on inner children.
  */
+
+/** The copy fields every chapter guarantees (strings.chapters.* entries
+ *  are structurally wider — some carry captions, strip labels, etc.). */
+export interface ChapterCopy {
+  name: string;
+  nameAr?: string;
+  tags: readonly string[];
+  description: string;
+}
 
 export interface ChapterBuildArgs {
   ctx: MotionContext;
@@ -75,35 +90,27 @@ const buildBasic: ChapterBuilder = ({ ctx, campaign, stage }) => {
   stage.appendChild(canvas);
 };
 
-export function initChapters(root: HTMLElement, ctx: MotionContext): void {
-  const section = document.createElement("section");
-  section.className = "chapters";
-  section.setAttribute("aria-label", strings.a11y.chapterListLabel);
+/**
+ * Mount one campaign's chapter (palette-observed wrapper + stage + bespoke
+ * layout) into `root`. Returns the wrapper so the caller can register it
+ * with the palette takeover.
+ */
+export function mountChapter(root: HTMLElement, ctx: MotionContext, campaign: Campaign): HTMLElement {
+  const copy = strings.chapters[campaign.id] as ChapterCopy;
 
-  for (const campaign of campaigns) {
-    const copy = strings.chapters[campaign.id] as ChapterCopy;
+  const wrapper = document.createElement("article");
+  const flows = campaign.layout === "documentary";
+  wrapper.className = `chapter themed${flows ? " chapter--flow" : ""}`;
+  wrapper.id = `chapter-${campaign.id}`;
+  wrapper.dataset.chapterId = campaign.id; // palette takeover hook
+  // Scroll runway for pinned scenes; flowing chapters size to content.
+  if (!flows) wrapper.style.setProperty("--scene-h", String(campaign.sceneHeight));
 
-    const wrapper = document.createElement("article");
-    const flows = campaign.layout === "documentary";
-    wrapper.className = `chapter themed${flows ? " chapter--flow" : ""}`;
-    wrapper.id = `chapter-${campaign.id}`;
-    wrapper.dataset.chapterId = campaign.id; // palette takeover hook
-    // Scroll runway for pinned scenes; flowing chapters size to content.
-    if (!flows) wrapper.style.setProperty("--scene-h", String(campaign.sceneHeight));
+  const stage = document.createElement("div");
+  stage.className = "chapter__stage";
+  (builders[campaign.layout] ?? buildBasic)({ ctx, campaign, copy, stage, wrapper });
 
-    const stage = document.createElement("div");
-    stage.className = "chapter__stage";
-
-    stage.appendChild(buildChapterShell(ctx, campaign, copy));
-    (builders[campaign.layout] ?? buildBasic)({ ctx, campaign, copy, stage, wrapper });
-
-    wrapper.appendChild(stage);
-    section.appendChild(wrapper);
-  }
-
-  root.appendChild(section);
-
-  // Between-chapter curtain wipes (no-op under reduced motion). Wired after
-  // all wrappers exist so each curtain can find its next chapter's palette.
-  initCurtains(ctx, section);
+  wrapper.appendChild(stage);
+  root.appendChild(wrapper);
+  return wrapper;
 }

@@ -10,13 +10,14 @@
   justify-content: center;
   overflow: clip;
   padding-inline: var(--gutter);
-  /* Clear the absolutely-positioned eyebrow at the top */
-  padding-top: clamp(3rem, 8svh, 5rem);
+  /* Clear the fixed site header (v3) + the eyebrow line beneath it */
+  padding-top: calc(var(--header-h) + clamp(2rem, 5svh, 3.5rem));
 }
 
 .hero__eyebrow {
   position: absolute;
-  top: calc(var(--gutter) * 0.75);
+  /* v3: sits just under the fixed header bar */
+  top: calc(var(--header-h) + var(--space-1));
   left: var(--gutter);
 }
 
@@ -102,22 +103,3 @@
   }
 }
 
-/* v2 concept line — "Seven moods" + Arabic twin under the tagline */
-.hero__moods {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin-top: var(--space-1);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-brand);
-}
-
-.hero__moods-ar {
-  font-family: var(--font-arabic);
-  font-size: 1.4em;
-  letter-spacing: 0;
-  text-transform: none;
-}

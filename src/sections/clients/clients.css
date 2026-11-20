@@ -1,68 +1,112 @@
-/* Client wall — three infinite marquee rows of client names.
-   Middle row runs reversed and outlined in brand vermilion. */
+/* Featured clients (v3) — fixed, balanced logo grid. Tokens only. */
 .clients {
-  padding-block: var(--space-7);
-  overflow: clip; /* marquee rows bleed past the viewport */
+  padding-block: var(--space-6) var(--space-7);
 }
 
 .clients__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
   margin-bottom: var(--space-5);
 }
-
-.clients__count {
-  font-family: var(--font-display);
-  font-weight: var(--weight-bold);
+.clients__title {
   font-size: var(--text-case);
-  text-transform: uppercase;
   margin-top: var(--space-2);
+  line-height: 0.95;
 }
-
+.clients__count {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--chapter-ink-dim);
+}
 .clients__count-number {
-  color: var(--color-mint); /* live counter = interactive highlight color */
+  color: var(--color-brand);
 }
 
-.clients__row {
-  display: flex;
-  white-space: nowrap;
-  will-change: transform;
-  margin-block: var(--space-2);
+/* ------------------------------------------------------------------ grid */
+/* 24 cells: 3 cols → 8 rows, 4 → 6, 6 → 4 — always full rows. Hairlines
+   come from the 1px gap over a hairline-colored grid background, so
+   borders never double up. */
+.logo-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-ink-faint);
+  border: 1px solid var(--color-ink-faint);
+}
+@media (min-width: 40rem) {
+  .logo-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 64rem) {
+  .logo-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  /* Wider cells on desktop → shorter 2:1 boxes keep the wall compact.
+     (Parent-qualified so it beats the base cell rule declared below.) */
+  .logo-grid .logo-grid__cell {
+    aspect-ratio: 2 / 1;
+  }
 }
 
-.clients__row-inner {
-  display: flex;
-  align-items: baseline;
-  flex-shrink: 0;
+.logo-grid__cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  padding: var(--space-2);
+  background: var(--chapter-bg);
 }
 
-.clients__name {
+/* Logos: contained to one max-height so wide and square marks carry
+   similar weight; always monochrome (light ink) so mixed brand colors —
+   and dark artwork — read as one wall on the dark cells. */
+.logo-grid__logo {
+  max-width: 80%;
+  max-height: var(--logo-max-h);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0) invert(0.92);
+  opacity: 0.85;
+  transition:
+    filter var(--dur-base) ease,
+    opacity var(--dur-base) ease;
+}
+/* Hover only brightens — it never removes the monochrome filter: logos
+   with black artwork (e.g. 1/2 M) would vanish on the dark cell, and on
+   touch screens :hover sticks after a tap. */
+.logo-grid__cell:hover .logo-grid__logo {
+  opacity: 1;
+}
+
+/* Text fallback — same cell, brand display type, balanced size. */
+.logo-grid__wordmark {
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  font-size: var(--text-row);
-  line-height: 1.15;
-  padding-inline: 0.45em;
+  font-size: var(--text-wordmark);
+  line-height: 1.1;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: var(--chapter-ink-dim);
+  transition: color var(--dur-fast) ease;
 }
-
-/* Arabic client names render in the brand's Arabic face, never transformed */
-.clients__name[lang="ar"] {
+.logo-grid__wordmark[lang="ar"] {
   font-family: var(--font-arabic);
-  text-transform: none;
+  letter-spacing: 0;
+}
+.logo-grid__cell:hover .logo-grid__wordmark {
+  color: var(--chapter-ink);
 }
 
-.clients__sep {
-  color: var(--color-brand);
-  font-size: var(--text-row);
-}
-
-/* Middle row: vermilion outline voice, reversed direction (JS) */
-.clients__row--outline .clients__name {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--color-brand);
-}
-
-/* Reduced motion / no-JS fallback: rows wrap as a static grid */
-.clients--static .clients__row {
-  white-space: normal;
-  flex-wrap: wrap;
-  will-change: auto;
+@media (prefers-reduced-motion: reduce) {
+  .logo-grid__logo,
+  .logo-grid__wordmark {
+    transition: none;
+  }
 }

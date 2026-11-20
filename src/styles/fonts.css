@@ -50,7 +50,7 @@
   text-transform: uppercase;
 }
 
-/* Light editorial voice — manifesto statement, long-form accents */
+/* Light editorial voice — About statement, long-form accents */
 .display-light {
   font-family: var(--font-display);
   font-weight: var(--weight-light);

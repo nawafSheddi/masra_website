@@ -1,14 +1,17 @@
 # MASRA Studio
 
-> MASRA is a Riyadh, Saudi Arabia photography studio specialising in food and
-> product photography, stop motion, food styling and art direction. The site
-> presents seven campaign chapters ("Seven Moods"), each with its own color
-> world: PETI, IDMI, La Bonté, Mamola, Shaya, Riyadh and Maqsoud.
+> MASRA is a visual production studio in Riyadh, Saudi Arabia, focused on
+> the professional execution of photography — from concept to final
+> delivery. Since 2023 it has worked with 200+ brands. Work is grouped into
+> three categories: Artistic, Lifestyle and Menu photography. Services:
+> photography, videography, phone photography, food styling, art direction
+> and graphic design.
 
 ## Site
 
-- [Home — Seven Moods one-pager](https://masra.sa/): campaign chapters, services, clients and contact
-- [Contact via WhatsApp](https://wa.me/966536267188): new project inquiries
+- [Home](https://masra.sa/): about, work (by category), services, featured clients and contact
+- [Client projects](https://masra.sa/work/peti): one page per client at /work/<id> — peti, idmi, labonte, mamola, shaya, riyadh, maqsoud
+- [Start a project via WhatsApp](https://wa.me/966536267188): new project inquiries
 - [Instagram](https://instagram.com/wemasra): latest work
 
 ## Contact

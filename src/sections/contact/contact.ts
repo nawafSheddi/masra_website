@@ -1,16 +1,19 @@
 import { animate, scroll } from "motion";
 import type { MotionContext } from "../../shared/motion/motion-context";
-import { revealBlock, revealChars, revealGroup } from "../../shared/motion/reveals";
+import { revealBlock, revealGroup, revealWords } from "../../shared/motion/reveals";
 import { makeMagnetic } from "../../shared/ui/magnetic";
 import { strings } from "../../config/strings";
 import { links } from "../../config/site.config";
+import { buildCtaLink } from "../header/header";
 import "./contact.css";
 
 /**
- * Contact / footer — the pitch's closing frame.
+ * Contact / footer — the closing frame (v3, client feedback item 6).
  *
- * Giant "LET'S SHOOT." springs in, three oversized links (WhatsApp deep
- * link with a prefilled message, mailto, Instagram) get magnetic hover,
+ * "Let's work on your project." rises word by word (word reveal, never
+ * glyph-split — safe if this copy is ever localized to Arabic), a large
+ * "Start your project" WhatsApp button (same builder as the header CTA),
+ * then email (click-to-copy) and Instagram as oversized magnetic links,
  * and the official calligraphic wordmark rises from the bottom edge as
  * the visitor reaches the end — the brand literally signs the page.
  */
@@ -25,16 +28,14 @@ export function initContact(root: HTMLElement, ctx: MotionContext): void {
 
   const title = document.createElement("h2");
   title.className = "contact__title display";
-  const titleMain = document.createElement("span");
-  titleMain.textContent = `${strings.contact.title} `;
-  const titleAccent = document.createElement("span");
-  titleAccent.className = "contact__title-accent";
-  titleAccent.textContent = strings.contact.titleAccent;
-  title.append(titleMain, titleAccent);
+  title.textContent = strings.contact.title;
 
-  // The three contact channels — endpoint URLs come from site.config.
+  // Primary CTA — the clearest action on the page.
+  const cta = buildCtaLink(strings.contact.cta);
+  cta.classList.add("btn--xl", "contact__cta");
+
+  // Secondary channels — endpoint URLs come from site.config.
   const linkDefs = [
-    { ...strings.contact.links.whatsapp, href: links.whatsapp },
     { ...strings.contact.links.email, href: links.email },
     { ...strings.contact.links.instagram, href: links.instagram },
   ];
@@ -105,16 +106,15 @@ export function initContact(root: HTMLElement, ctx: MotionContext): void {
   wordmark.decoding = "async";
 
   footer.append(meta, wordmark);
-  section.append(eyebrow, title, list, footer);
+  section.append(eyebrow, title, cta, list, footer);
   root.appendChild(section);
 
-  // Choreography. The two title spans split separately so the accent span
-  // keeps its vermilion color class through the character split.
+  // Choreography (all helpers no-op under reduced motion).
   revealBlock(ctx, eyebrow);
-  revealChars(ctx, titleMain);
-  revealChars(ctx, titleAccent, { delay: 0.2 });
+  revealWords(ctx, title);
+  revealBlock(ctx, cta, { delay: 0.25 });
   revealGroup(ctx, anchors);
-  for (const a of anchors) makeMagnetic(ctx, a);
+  for (const a of [cta, ...anchors]) makeMagnetic(ctx, a);
 
   if (ctx.reducedMotion) return;
 

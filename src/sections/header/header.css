@@ -1,0 +1,164 @@
+/**
+ * Site header (v3). Tokens only. Palette-aware: once solid it paints with
+ * the --chapter-* roles, so it follows each client page's palette (light
+ * or dark) without any per-page rules.
+ */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-inline: var(--gutter);
+  color: var(--chapter-ink);
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur-base) var(--ease-out-expo),
+    border-color var(--dur-base) var(--ease-out-expo),
+    color var(--dur-palette) var(--ease-in-out-cine);
+}
+
+/* Past the hero: solid bar in the active palette + hairline. */
+.site-header.is-scrolled {
+  background-color: var(--chapter-bg);
+  border-bottom-color: color-mix(in srgb, var(--chapter-ink) 12%, transparent);
+}
+
+.site-header__home {
+  display: block;
+  flex-shrink: 0;
+}
+.site-header__logo {
+  height: var(--header-logo-h);
+  width: auto;
+}
+
+/* Desktop: inline link row, centred between mark and actions. */
+.site-header__links {
+  display: flex;
+  gap: var(--space-4);
+  list-style: none;
+}
+.site-header__link {
+  position: relative;
+  font-size: var(--text-nav);
+  color: var(--chapter-ink-dim);
+  transition: color var(--dur-fast) ease;
+}
+/* Underline grows in on hover / current section. */
+.site-header__link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -0.35em 0;
+  height: 1px;
+  background: var(--chapter-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+.site-header__link:hover,
+.site-header__link[aria-current="true"] {
+  color: var(--chapter-ink);
+}
+.site-header__link:hover::after,
+.site-header__link[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Menu toggle: hidden on desktop. Two bars → X when open. */
+.site-header__toggle {
+  display: none;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  position: relative;
+}
+.site-header__bar {
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+.site-header__bar:first-child {
+  top: calc(50% - 4px);
+}
+.site-header__bar:last-child {
+  top: calc(50% + 3px);
+}
+.site-header.is-open .site-header__bar:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+.site-header.is-open .site-header__bar:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* ------------------------------------------------------------- mobile */
+@media (max-width: 767px) {
+  .site-header__toggle {
+    display: block;
+  }
+
+  /* The nav becomes a full-screen panel under the bar. */
+  .site-header__nav {
+    position: fixed;
+    inset: var(--header-h) 0 0 0;
+    padding: var(--space-5) var(--gutter);
+    background: var(--chapter-bg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition:
+      opacity var(--dur-base) var(--ease-out-expo),
+      transform var(--dur-base) var(--ease-out-expo),
+      visibility 0s linear var(--dur-base);
+  }
+  .site-header.is-open .site-header__nav {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity var(--dur-base) var(--ease-out-expo),
+      transform var(--dur-base) var(--ease-out-expo);
+  }
+  /* Open menu always has a solid bar behind the mark + toggle. */
+  .site-header.is-open {
+    background-color: var(--chapter-bg);
+  }
+
+  .site-header__links {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .site-header__link {
+    font-family: var(--font-display);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-menu);
+    line-height: 1.1;
+    color: var(--chapter-ink);
+  }
+
+  /* Compact CTA in the bar. */
+  .site-header__cta {
+    padding: 0.7em 1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .site-header__nav,
+  .site-header__bar,
+  .site-header__link::after {
+    transition: none;
+  }
+}

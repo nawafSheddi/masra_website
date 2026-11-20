@@ -21,7 +21,6 @@
   gap: var(--space-4);
   padding-block: var(--space-3);
   border-top: 1px solid var(--color-ink-faint);
-  cursor: pointer;
 }
 
 .services__list .services__row:last-child {
@@ -41,14 +40,38 @@
   font-weight: var(--weight-bold);
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  font-size: var(--text-row);
+  font-size: var(--text-service);
   line-height: 1.05;
   transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+
+/* v3: name + description stack; the description is capped to a readable
+   measure and dims so the display names keep the rhythm of the list. */
+.services__text {
+  display: grid;
+  gap: var(--space-1);
+  flex: 1;
+}
+/* Desktop: name and description side by side — keeps the six rows to
+   roughly one viewport instead of two (scroll length was client feedback). */
+@media (min-width: 56.25rem) {
+  .services__text {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-4);
+  }
+}
+.services__description {
+  max-width: 52ch;
+  color: var(--chapter-ink-dim);
+  font-size: var(--text-body);
+  line-height: 1.5;
 }
 
 /* Hover state: name slides right, index lights up in mint (the brand's
    interactive-highlight color) */
 .services__row:hover .services__name {
+  /* the description stays put; only the display name nudges */
   transform: translateX(0.35em);
 }
 .services__row:hover .services__index {

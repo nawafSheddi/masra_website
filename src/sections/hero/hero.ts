@@ -53,24 +53,12 @@ export function initHero(root: HTMLElement, ctx: MotionContext): { imageReady: P
   tagline.className = "hero__tagline";
   tagline.textContent = strings.hero.tagline;
 
-  // v2 concept line — "Seven moods" with its Arabic twin, the page's thesis.
-  const moods = document.createElement("p");
-  moods.className = "hero__moods";
-  const moodsEn = document.createElement("span");
-  moodsEn.textContent = strings.hero.moods;
-  const moodsAr = document.createElement("span");
-  moodsAr.className = "hero__moods-ar";
-  moodsAr.dir = "rtl";
-  moodsAr.lang = "ar";
-  moodsAr.textContent = strings.hero.moodsAr;
-  moods.append(moodsEn, moodsAr);
-
   const cue = document.createElement("p");
   cue.className = "hero__scroll-cue";
   cue.textContent = strings.hero.scrollCue;
   cue.setAttribute("aria-label", strings.a11y.scrollDown);
 
-  section.append(eyebrow, type, panel, tagline, moods, cue);
+  section.append(eyebrow, type, panel, tagline, cue);
   root.appendChild(section);
 
   // Promise the preloader gates on: hero pixels decoded (or errored — never block).
@@ -102,8 +90,7 @@ export function initHero(root: HTMLElement, ctx: MotionContext): { imageReady: P
     // Supporting copy rises after the type lands.
     revealBlock(ctx, eyebrow, { immediate: true, delay: 0.5 });
     revealBlock(ctx, tagline, { immediate: true, delay: 0.6 });
-    revealBlock(ctx, moods, { immediate: true, delay: 0.7 });
-    revealBlock(ctx, cue, { immediate: true, delay: 0.8 });
+    revealBlock(ctx, cue, { immediate: true, delay: 0.7 });
 
     // Scroll-out camera move: image settles to scale 1, type lifts away,
     // scroll cue fades within the first fifth of the exit.

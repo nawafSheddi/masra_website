@@ -9,7 +9,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs",
-    "videos": "node scripts/optimize-videos.mjs"
+    "videos": "node scripts/optimize-videos.mjs",
+    "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@fontsource/space-mono": "^5.2.0",

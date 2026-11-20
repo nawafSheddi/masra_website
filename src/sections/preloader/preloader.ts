@@ -13,10 +13,20 @@ import "./preloader.css";
  * image has decoded — with a 3s hard timeout so a slow network can never
  * trap the visitor. Scroll is locked while it is on screen.
  *
+ * `opts.skip` bypasses it (section deep links).
+ *
  * Returns a promise resolving when the curtain has fully left — the hero
  * entrance chains off it (starting slightly before it finishes, for overlap).
  */
-export function runPreloader(ctx: MotionContext, heroImageReady: Promise<unknown>): Promise<void> {
+export function runPreloader(
+  ctx: MotionContext,
+  heroImageReady: Promise<unknown>,
+  opts: { skip?: boolean } = {}
+): Promise<void> {
+  // v3: deep links into a section (e.g. "/#work" from a client page's nav)
+  // skip the curtain entirely — the visitor asked for specific content.
+  if (opts.skip) return Promise.resolve();
+
   const el = document.createElement("div");
   el.className = "preloader";
   el.setAttribute("role", "status");

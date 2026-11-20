@@ -8,7 +8,8 @@ import { springs, staggers } from "../../config/motion.config";
 import "./services.css";
 
 /**
- * Services — six disciplines as full-width index rows.
+ * Services — six disciplines as full-width index rows, each with a short
+ * description of what the service includes (v3).
  *
  * Reveal: rows rise with a stagger as the list enters the viewport.
  * Desktop hover: a floating 3:4 thumbnail (one photo mapped per service in
@@ -40,11 +41,20 @@ export function initServices(root: HTMLElement, ctx: MotionContext): void {
     index.className = "services__index";
     index.textContent = String(i + 1).padStart(2, "0");
 
-    const name = document.createElement("span");
+    // v3: name + one-line "what it includes" description (client feedback
+    // item 4). Descriptions are drafts pending client sign-off — see
+    // strings.services.
+    const text = document.createElement("div");
+    text.className = "services__text";
+    const name = document.createElement("h3");
     name.className = "services__name";
-    name.textContent = service;
+    name.textContent = service.name;
+    const description = document.createElement("p");
+    description.className = "services__description";
+    description.textContent = service.description;
+    text.append(name, description);
 
-    row.append(index, name);
+    row.append(index, text);
     list.appendChild(row);
     rows.push(row);
   });

@@ -1,9 +1,11 @@
-# MASRA Studio — Portfolio Site (v2 "Seven Moods")
+# MASRA Studio — Portfolio Site (v3)
 
-Dark cinematic one-pager for [MASRA Studio](https://masra.sa), a Riyadh food
-& product photography studio. Seven brand campaigns, each a bilingual
-(AR/EN) mood-world that takes over the entire site palette as you scroll.
-Static site built with Vite + vanilla TypeScript, animated with
+Dark cinematic site for [MASRA Studio](https://masra.sa), a Riyadh visual
+production studio. Home: About · Work (Artistic / Lifestyle / Menu) ·
+Services · Featured clients · Contact, with a fixed header and a "Start
+your project" WhatsApp CTA. Every client also has its own page at
+`/work/<id>`, where that campaign's bespoke layout and color world play
+out. Static site built with Vite + vanilla TypeScript, animated with
 [motion.dev](https://motion.dev), smooth scrolling by
 [Lenis](https://lenis.darkroom.engineering/). No frameworks, no WebGL.
 
@@ -12,6 +14,7 @@ Static site built with Vite + vanilla TypeScript, animated with
 ```bash
 npx pnpm install       # install dependencies
 npx pnpm dev           # dev server at http://localhost:5173
+npx pnpm test          # unit tests (node --test; routing, filter, client roster)
 npx pnpm build         # typecheck + production build → dist/
 npx pnpm preview       # serve the production build locally
 npx pnpm images        # regenerate optimized images from assets/ (needs the raw photo folders)
@@ -29,20 +32,43 @@ scripts/
 public/images/         optimized AVIF/WebP derivatives + the Shaya scrub frame sequence
 public/video/          stop-motion loops (AV1/WebM + H.264) with AVIF/WebP posters
 public/fonts/          Ambit + TheYearofHandicrafts woff2
+index.html · work.html  two Vite entries: home, and the /work/<id> client-page template
 src/
-├─ config/             strings.ts (ALL copy + alt text) · campaigns.config.ts (the Campaign[] roster)
-│                      site.config.ts (links, section order) · motion.config.ts (motion vocabulary)
-├─ styles/             tokens.css (design tokens) · chapters.css (the 7 campaign palettes)
-│                      base.css (incl. the palette cross-fade) · fonts.css
-├─ shared/motion/      motion-context · Lenis wrapper · reveals · splitter · palette takeover · FLIP
+├─ main.ts · work-main.ts   entry scripts (both start with shared/boot.ts)
+├─ config/             strings.ts (ALL copy + alt text) · campaigns.config.ts (client roster:
+│                      category, template, layout, images) · clients.config.ts (24-logo wall)
+│                      site.config.ts (links, section order, nav) · motion.config.ts
+├─ styles/             tokens.css (design tokens) · chapters.css (per-client palettes)
+│                      base.css (buttons, palette cross-fade) · fonts.css
+├─ shared/boot.ts      shared shell: styles, Lenis, skip link, header, <main>, cursor
+├─ shared/routing/     client-route.ts — the tested /work/<id> rules
+├─ shared/motion/      motion-context · Lenis wrapper · reveals · splitter · palette takeover
 ├─ shared/ui/          picture builder · video loop builder · cursor · magnetic
 ├─ shared/media/       frame-sequence.ts (scroll-scrubbed stop-motion canvas)
-└─ sections/           preloader · hero · manifesto · index-nav (Overview⇄Index) · chapters
-                       (orchestrator + 7 layout builders + curtains) · numbers · services
-                       · clients · contact
+├─ pages/client/       client-page template registry ("standard")
+└─ sections/           header · preloader · hero · about · work (tabs + cards) · services
+                       · clients (logo grid) · contact · chapters (7 bespoke gallery layouts)
 ```
 
-### How the "Seven Moods" system works
+### Everyday edits
+
+- **Copy:** `src/config/strings.ts` only.
+- **Move a client to another category:** change `category` in
+  `campaigns.config.ts` (`artistic` | `lifestyle` | `menu`).
+- **Logos:** drop `public/images/clients/<slug>.svg` and set `logo` on that
+  line in `clients.config.ts` (instructions at the top of the file). Keep 24
+  entries — `npx pnpm test` checks it.
+- **Add a client page template:** add a member to `ClientTemplate` in
+  `campaigns.config.ts` and a builder to `TEMPLATES` in
+  `src/pages/client/client-page.ts`.
+
+### Client pages (`/work/<id>`)
+
+- `public/_redirects` rewrites `/work/*` to `work.html` on Cloudflare; a
+  Vite middleware (vite.config.ts) does the same in dev/preview.
+  `work-main.ts` validates the id; unknown ids get a not-found block.
+
+### How the palette system works
 
 - `campaigns.config.ts` is the single roster; sections map over it.
 - `styles/chapters.css` holds every campaign color as `:root
@@ -57,8 +83,7 @@ src/
 - Arabic display type animates by whole word only (`revealWords`) —
   connected script must never be glyph-split.
 - Reduced motion: palettes snap, loops become posters, the film-strip
-  becomes a native swipe, curtains/tickers disappear, everything stays
-  readable.
+  becomes a native swipe, everything stays readable.
 
 Every section builds its DOM from the config files — no copy or image
 assignments live inside section code.
@@ -68,7 +93,8 @@ assignments live inside section code.
 - Build command: `npx pnpm build`
 - Output directory: `dist`
 - No environment variables or functions needed. `public/_headers` sets
-  immutable caching for images, video, fonts and hashed assets.
+  immutable caching for images, video, fonts and hashed assets;
+  `public/_redirects` serves the client-page template for `/work/*`.
 
 ## Swapping imagery / video
 

@@ -5,7 +5,7 @@
  * open-source package (verified against motion@12.43), so this is our own
  * minimal splitter tuned for the two effects the site needs:
  *   - char split → spring-staggered type entrances inside overflow masks
- *   - word split → the manifesto scroll-highlight
+ *   - word split → the About scroll-highlight
  *
  * Accessibility: the original text is preserved in a visually-hidden
  * .sr-only span (aria-label is prohibited on generic span/p roles) and the

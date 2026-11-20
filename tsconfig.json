@@ -19,5 +19,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  /* Test files run under node --test and import node: built-ins; they are
+     not part of the browser bundle, so the app typecheck skips them. */
+  "exclude": ["src/**/*.test.ts"]
 }

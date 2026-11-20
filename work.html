@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Client-page template (v3). Served for every /work/<id> URL:
+      Cloudflare Pages rewrites /work/* here (public/_redirects) and Vite's
+      dev/preview servers do the same (vite.config.ts). src/work-main.ts
+      reads <id> from the URL and builds the page from config; it also sets
+      the per-client <title> and description. The tags below are the
+      generic fallback that link-preview crawlers (which don't run JS) see.
+      Asset URLs are root-absolute so they resolve under /work/<id>.
+    -->
+    <title>Work — MASRA Studio</title>
+    <meta
+      name="description"
+      content="A MASRA Studio client project — artistic, lifestyle and menu photography from Riyadh, from concept to final delivery."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MASRA Studio — Visual Production & Photography, Riyadh" />
+    <meta
+      property="og:description"
+      content="Artistic, lifestyle and menu photography — from concept to final delivery, for 200+ brands since 2023."
+    />
+    <meta property="og:image" content="/images/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0b0a09" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Ambit-Bold.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/Ambit-Light.woff2" crossorigin />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/work-main.ts"></script>
+  </body>
+</html>

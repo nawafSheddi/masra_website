@@ -1,0 +1,137 @@
+/* Work (v3) — category tabs over a grid of client cards. Tokens only. */
+.work {
+  padding-block: var(--space-5) var(--space-7);
+}
+
+.work__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.work__title {
+  font-size: var(--text-giant);
+  margin-top: var(--space-2);
+  line-height: 0.9;
+}
+
+/* ---------------------------------------------------------------- tabs */
+.work__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.work__tab {
+  min-height: var(--touch-target);
+  padding: 0 var(--btn-pad-x);
+  border: 1px solid var(--color-ink-faint);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-btn);
+  color: var(--chapter-ink-dim);
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+.work__tab:hover {
+  color: var(--chapter-ink);
+  border-color: var(--chapter-ink-dim);
+}
+/* Selected tab: solid ink pill (state is aria-pressed — one source). */
+.work__tab[aria-pressed="true"] {
+  background: var(--chapter-ink);
+  border-color: var(--chapter-ink);
+  color: var(--chapter-bg);
+}
+
+/* ---------------------------------------------------------------- grid */
+.work__grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5) var(--space-3);
+}
+@media (min-width: 37.5rem) {
+  .work__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 56.25rem) {
+  .work__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* `hidden` must win over the grid item's display. */
+.work__item[hidden] {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- card */
+.work-card {
+  display: block;
+}
+/* Uniform 4:5 frame — every lead image is cropped the same so the grid
+   reads as one contact sheet regardless of each photo's native aspect. */
+.work-card__media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+}
+.work-card__media .pic,
+.work-card__media img {
+  width: 100%;
+  height: 100%;
+}
+.work-card__media img {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+.work-card:hover .work-card__media img,
+.work-card:focus-visible .work-card__media img {
+  transform: scale(1.04);
+}
+
+.work-card__body {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: var(--space-2);
+}
+.work-card__name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-row);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.work-card__cta {
+  font-size: var(--text-btn);
+  color: var(--chapter-accent);
+  opacity: 0;
+  transform: translateX(-0.4em);
+  transition:
+    opacity var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out-expo);
+}
+.work-card:hover .work-card__cta,
+.work-card:focus-visible .work-card__cta {
+  opacity: 1;
+  transform: none;
+}
+/* Touch screens have no hover — keep the affordance visible. */
+@media (hover: none) {
+  .work-card__cta {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-card__media img,
+  .work-card__cta {
+    transition: none;
+  }
+}

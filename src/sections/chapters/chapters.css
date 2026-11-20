@@ -1,5 +1,6 @@
 /**
- * Chapters — shared shell + stage styles for the seven mood-worlds.
+ * Chapters — wrapper + stage styles for each client page's gallery (v3:
+ * one chapter per /work/<id> page; the old mood-title shell is gone).
  * All colors come from the --chapter-* roles (repointed per campaign by
  * styles/chapters.css); the page background itself is painted by <body>,
  * so chapter surfaces stay transparent and the whole viewport cross-fades.
@@ -29,7 +30,9 @@
   justify-content: center;
   gap: var(--space-3);
   overflow: hidden; /* stage choreography must never leak scrollbars */
-  padding-block: var(--space-4);
+  /* v3: the fixed site header overlays the top of every pinned stage —
+     clear it so layouts never tuck imagery under the bar. */
+  padding-block: calc(var(--header-h) + var(--space-2)) var(--space-4);
 }
 
 .chapter--flow .chapter__stage {
@@ -37,66 +40,6 @@
   height: auto;
   overflow: visible;
   padding-block: var(--space-6);
-}
-
-/* ------------------------------------------------------------ header */
-.chapter__header {
-  position: relative;
-  z-index: var(--z-type-front);
-}
-
-.chapter__meta {
-  margin-bottom: var(--space-2);
-}
-
-/* Giant bilingual mood title: Latin display + Arabic accent side by side,
-   wrapping to stacked lines on narrow screens. */
-.chapter__title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 var(--space-3);
-  font-size: var(--text-case);
-  line-height: 0.95;
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-}
-
-/* Arabic display sizes ~15% up at the same optical weight (connected
-   script reads smaller at equal em size) and takes the chapter accent. */
-.chapter__mood-ar {
-  font-family: var(--font-arabic);
-  font-size: 1.15em;
-  font-weight: var(--weight-regular);
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--chapter-accent);
-}
-
-.chapter__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-2);
-  margin-top: var(--space-2);
-  list-style: none;
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--chapter-ink-dim);
-}
-
-.chapter__tags li:not(:last-child)::after {
-  content: "·";
-  margin-inline-start: var(--space-2);
-  color: var(--chapter-accent);
-}
-
-.chapter__description {
-  max-width: 44ch;
-  margin-top: var(--space-2);
-  color: var(--chapter-ink-dim);
 }
 
 /* --------------------------------------------- basic fallback layout */
@@ -469,15 +412,3 @@
   color: var(--chapter-ink-dim);
 }
 
-/* ======================================================== curtains */
-/* Next-chapter color panel rising over the stage in the final stretch
-   of a chapter's runway. Decorative (aria-hidden); JS drives transform. */
-.curtain {
-  position: absolute;
-  inset: -2% -2% 0 -2%;
-  z-index: var(--z-curtain);
-  transform: translateY(103%); /* parked below the stage until driven */
-  border-radius: 42% 42% 0 0 / 7vh; /* soft page-turn arc on the top edge */
-  will-change: transform;
-  pointer-events: none;
-}
