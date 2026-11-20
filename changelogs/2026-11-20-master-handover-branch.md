@@ -26,9 +26,13 @@
   unchanged since the deploy. Sampled `public/` files matched the live site
   byte-for-byte, and the live JS/CSS contained all of the working tree's
   copy strings, design tokens and chapter classes.
-- After committing: built `master` from a clean worktree with a frozen
-  lockfile and compared the output with the live deployment (see the
-  session notes for hash results).
+- After committing: built `master` (0d478d0) from a clean worktree with
+  `npx pnpm install --frozen-lockfile && npx pnpm build`. tsc passed; the
+  build reproduced the live hashed bundles exactly (`index-4urrjg3L.js`
+  56.23 KB gz, `index-B76IIeZS.css` 5.48 KB gz). SHA-256 of all 377 served
+  build files matched the live site 377/377 (`index.html` compared
+  against `/`, since Pages redirects `/index.html` there; `_headers` is
+  Cloudflare config and is never served).
 
 ## Notes
 
